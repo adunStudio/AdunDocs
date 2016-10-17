@@ -1,0 +1,25 @@
+{
+  "name": "fucking",
+  "version": "0.0.1",
+  "description": "fuck Evernote",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adunStudio/fuckingEvernote.git"
+  },
+  "author": "adunstudio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adunStudio/fuckingEvernote/issues"
+  },
+  "homepage": "https://github.com/adunStudio/fuckingEvernote#readme",
+  "dependencies": {
+    "connect-rest": "^1.9.5",
+    "express": "^4.14.0",
+    "express3-handlebars": "^0.5.2",
+    "fs-file-tree": "^1.0.2"
+  }
+}
