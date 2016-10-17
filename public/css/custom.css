@@ -1,14 +1,31 @@
-html, body {
+html {
     height: 100%;
+    font-size: 100%;
+    background: #f9f9f9;
+}
+body {
+    height: 100%;
+    margin: 0;
+    overflow: auto;
+    color: #333;
+    overflow-wrap: break-word;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 
 .black {
     color: rgb(51, 51, 51);
 }
 
-.navbar-default {
+.navbar-default-plus  {
     background: #f0f0f0;
     border-bottom: 1px solid #d9d9d9;
+}
+
+.navbar-default .navbar-brand, .navbar-default .navbar-brand,  .navbar a, .sidebar a {
+    color: rgb(51, 51, 51);
 }
 
 .custom-form-control {
@@ -16,12 +33,19 @@ html, body {
     padding: .5rem 0 .5rem .5rem;
 }
 
+.custom-navbar {
+    background-color: #f9f9f9
+}
 
+.idfdn {
+    color: #fff;
+    background: #398df0;
+    box-shadow: inset -1px 0 #196fc2;
+}
 @media (min-width: 768px) {
     .navbar-form {
-        width: 170% !important;
-        padding-top: 0;
-        padding-bottom: 0;
+        width: 18rem !important;
+        padding:  0 0  0 .5rem;
         margin-right: 0;
         margin-left: 0;
         border: 0;
@@ -29,13 +53,67 @@ html, body {
         box-shadow: none;
     }
 
-    .sidebar {
-        z-index: 1;
-        position: absolute;
-        width: 288px;
-        margin-top: 51px;
-        height: 100%;
-    ;
+    .navbar-form .input-group {
+        width: 100%;
     }
+    .sidebar {
+        position: absolute;
+        z-index: 2;
+        top: 3rem;
+        bottom: 0;
+        left: 0;
+        margin-top: 1px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        background: #f9f9f9;
+        background-clip: content-box;
+        width: 288px;
+    }
+    .sidebar::-webkit-scrollbar-track {
+        background: #fff;
+    }
+    .sidebar::-webkit-scrollbar-thumb {
+        min-height: 2rem;
+        background: #d2d2d2;
+        background-clip: padding-box;
+        border: 3px solid #fff;
+        border-radius: 5px;
+    }
+    .sidebar::-webkit-scrollbar-button {
+        display: none;
+    }
+
+    .sidebar::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 10px;
+    }
+
+    .nav > li > a {
+        height: 32px;
+        padding: 4px 15px;
+        line-height: 32px;
+    }
+
+}
+.sidebar ul li {
+     border-bottom: none;
+ }
+
+.sidebar {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: #f9f9f9;
+    height: auto;
+}
+
+
+#wrap {
+    height: 100%;
+}
+
+.nav-in .active {
+    color: #fff;
+    background: #398df0;
+    box-shadow: inset -1px 0 #196fc2;
 }
 
