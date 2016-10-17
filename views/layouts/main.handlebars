@@ -3,10 +3,21 @@
 <head>
     <title>AdunDocs</title>
     <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/css/metisMenu.css"/>
+    <link rel="stylesheet" href="/css/sb-admin-2.css"/>
+    <link rel="stylesheet" href="/css/custom.css"/>
     <script src="/js/lib/angular.min.js"></script>
-    <script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
+    <script src="/js/lib/jquery.min.js"></script>
 </head>
 <body>
+<div id="wrapper">
 {{{body}}}
+</div>
 </body>
 </html>
+<script>
+    $.getJSON('/article/list', function(data){
+        console.dir(data);
+    });
+</script>

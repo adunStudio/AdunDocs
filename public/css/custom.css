@@ -1,0 +1,13 @@
+.black {
+    color: rgb(51, 51, 51);
+}
+
+.navbar-default {
+    background: #f0f0f0;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.custom-form-control {
+    float: left;
+    padding: .5rem 0 .5rem .5rem;
+}
