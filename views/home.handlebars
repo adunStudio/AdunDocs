@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-default-plus navbar-static-top" style="margin-bottom: 0;">
+<nav class="navbar navbar-default navbar-default-plus navbar-static-top" id="top" style="margin-bottom: 0;">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -18,7 +18,7 @@
         <div class="pull-left">
             <form class="navbar-form" role="search">
                 <div class="input-group">
-                    <input type="search" class="form-control custom-form-control" placeholder="Search..." >
+                    <input type="search"  id="doc_search" class="form-control custom-form-control" placeholder="Search..." >
                 </div>
             </form>
         </div>
@@ -26,114 +26,50 @@
         <a class="navbar-brand" rel="home" href="/" title="">AdunDocs</a>
     </div>
 </nav>
+
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav in" id="side-menu">
-            <li>
-                <a href="index.html" class=""><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li>
-                        <a href="flot.html">Flot Charts</a>
-                    </li>
-                    <li>
-                        <a href="morris.html">Morris.js Charts</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-            </li>
-            <li>
-                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li>
-                        <a href="panels-wells.html">Panels and Wells</a>
-                    </li>
-                    <li>
-                        <a href="buttons.html">Buttons</a>
-                    </li>
-                    <li>
-                        <a href="notifications.html">Notifications</a>
-                    </li>
-                    <li>
-                        <a href="typography.html">Typography</a>
-                    </li>
-                    <li>
-                        <a href="icons.html"> Icons</a>
-                    </li>
-                    <li>
-                        <a href="grid.html">Grid</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li class="">
-                <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
-                    <li>
-                        <a href="#">Second Level Item</a>
-                    </li>
-                    <li>
-                        <a href="#">Second Level Item</a>
-                    </li>
-                    <li>
-                        <a href="#">Third Level <span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level collapse">
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-third-level -->
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
 </div>
+<div class="_container">d
+    <main class="_content" role="main">
+        <div>
+            <div class="_splash-title" id="title" style="display: none;">AdunDocs</div>
+        </div>
+        <div class="_page markdown-body markdown-preview" id="main" style=""></div>
+    </main>
+</div>
 
 <script id="level1" type="text/x-jquery-tml">
-    <li>
-        <a href="#/${name}"><img src="/img/icon/${name}.png"> ${name} <span class="fa arrow"></span></a>
+    <li class="level1">
+        <a href="#/${name}"><span class="_list-arrow"></span> <img src="/img/icon/${name}.png" class="iconn"> ${name} <span class="fa arrow"></span></a>
          <ul class="nav nav-second-level collapse" id="${id}">
          </ul>
     </li>
 </script>
 <script id="level2" type="text/x-jquery-tml">
-    <li>
-        <a href="#/${name}">${name}<span class='fa arrow'></span></a>
+    <li class="level2">
+        <a href="#/${name}" ><span class="_list-arrow"></span> ${name}<span class='fa arrow'></span></a>
          <ul class="nav nav-second-level collapse" id="${id}">
          </ul>
     </li>
 </script>
 <script id="level3" type="text/x-jquery-tml">
-    <li>
-        <a href="#/${link}"  class="level3" >${name}</a>
+    <li class="level3">
+        <a href="#/${link}" class="level4">${name}</a>
     </li>
 </script>
 <script>
+    var converter = new showdown.Converter();
+
     var App = (function() {
         function App() {
             this.jsonData = null;
             this.fileData = [];
+            this.$current = null;
             this.init();
 
         }
@@ -143,32 +79,60 @@
             var id1, id2, id3;
             var link = '';
             $.getJSON('article/list', function(data) {
-                $.each(data, function(dirName, value) {
-                    id1 = 'level1-' + (l1++);
-                    $.tmpl($('#level1'), {name: dirName, id: id1}).appendTo('#side-menu');
-
-                    $.each(value, function(subName, value) {
-                        id2 =  'level2-' + (l2++);
-                        $.tmpl($('#level2'), {name: subName, id: id2}).appendTo('#' + id1);
-
-                        $.each(value, function(fileName, value) {
-                            link = self.replaceSpacing(dirName + '/' +subName + '/' + fileName);
-                            value.name = fileName;
-                            value.link = link;
-                            self.fileData.push({link: link ,data: value})
-                            $.tmpl($('#level3'), value, link).appendTo('#' + id2);
-                        });
-
-                    });
-                });
-                self.metisMenu();
-                console.dir(self.fileData);
+                self.jsonData = data;
+                self.makeSide(data);
             });
+
 
             $('#side-menu').on('click', '.level3', function() {
+                self.$current ? self.$current.removeClass('active2') : '';
+                $(this).addClass('active2');
+                self.$current = $(this);
+                var url = self.replaceURL($(this).find('a').attr('href'));
 
+                $.get(url, function(data) {
+                    var html = converter.makeHtml(data);
+                    $('#main').html(html);
+                })
             });
 
+            $('#doc_search').on('keyup', function() {
+                var searchVal = $(this).val();
+                if(!searchVal) {
+                    $('#side-menu').empty();
+                    self.makeSide(self.jsonData);
+                } else {
+                    $('#side-menu').empty();
+
+                }
+            })
+
+        };
+        App.prototype.makeSide = function(data) {
+            var self = this;
+            var l1 = 1, l2 = 1, l3 = 1;
+            var id1, id2, id3;
+            var link = '';
+
+            $.each(data, function(dirName, value) {
+                id1 = 'level1-' + (l1++);
+                $.tmpl($('#level1'), {name: dirName, id: id1}).appendTo('#side-menu');
+
+                $.each(value, function(subName, value) {
+                    id2 =  'level2-' + (l2++);
+                    $.tmpl($('#level2'), {name: subName, id: id2}).appendTo('#' + id1);
+
+                    $.each(value, function(fileName, value) {
+                        link = self.replaceSpacing(dirName + '/' +subName + '/' + fileName);
+                        value.name = fileName;
+                        value.link = link;
+                        self.fileData.push({link: link ,data: value});
+                        $.tmpl($('#level3'), value, link).appendTo('#' + id2);
+                    });
+
+                });
+            });
+            self.metisMenu();
         };
         App.prototype.metisMenu = function() {
             $('#side-menu').metisMenu();
@@ -176,7 +140,9 @@
         App.prototype.replaceSpacing = function(str) {
             return str.replace(/\s/g, '_');
         };
-
+        App.prototype.replaceURL = function(str) {
+            return encodeURI('/article' +str.replace(/_/g, ' ').substring(1));
+        };
         return App;
     })();
 
