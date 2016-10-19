@@ -3,6 +3,7 @@ html {
     font-size: 100%;
     background: #f9f9f9;
 }
+
 body {
     height: 100%;
     margin: 0;
@@ -19,12 +20,12 @@ body {
     color: rgb(51, 51, 51);
 }
 
-.navbar-default-plus  {
+.navbar-default-plus {
     background: #f0f0f0;
     border-bottom: 1px solid #d9d9d9;
 }
 
-.navbar-default .navbar-brand, .navbar-default .navbar-brand,  .navbar a, .sidebar a {
+.navbar-default .navbar-brand, .navbar-default .navbar-brand, .navbar a, .sidebar a {
     color: rgb(51, 51, 51);
 }
 
@@ -42,17 +43,17 @@ body {
     background: #398df0;
     box-shadow: inset -1px 0 #196fc2;
 }
+
 @media (min-width: 768px) {
     .navbar-form {
         width: 18rem !important;
-        padding:  0 0  0 .5rem;
+        padding: 0 0 0 .5rem;
         margin-right: 0;
         margin-left: 0;
         border: 0;
         -webkit-box-shadow: none;
         box-shadow: none;
     }
-
     .navbar-form .input-group {
         width: 100%;
     }
@@ -82,22 +83,20 @@ body {
     .sidebar::-webkit-scrollbar-button {
         display: none;
     }
-
     .sidebar::-webkit-scrollbar {
         -webkit-appearance: none;
         width: 10px;
     }
-
-    .nav > li > a {
+    .nav>li>a {
         height: 32px;
         padding: 4px 15px;
         line-height: 32px;
     }
-
 }
+
 .sidebar ul li {
-     border-bottom: none;
- }
+    border-bottom: none;
+}
 
 .sidebar {
     overflow-x: hidden;
@@ -105,7 +104,6 @@ body {
     background-color: #f9f9f9;
     height: auto;
 }
-
 
 #wrap {
     height: 100%;
@@ -117,3 +115,6 @@ body {
     box-shadow: inset -1px 0 #196fc2;
 }
 
+.custom-form-control {
+    border-radius: 12px;
+}

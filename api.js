@@ -18,21 +18,18 @@ module.exports = function(app) {
     });
     /*----------------------------------------------------------------------------------------------------------------*/
 
-
     /*----------------------------------------------------------------------------------------------------------------*/
     // READ
     app.get('/article/:dir/:sub/:file', function(req, res) {
         var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
 
         fs.stat(path, function(err, stats) {
-            if( err )
-            {
+            if (err) {
                 res.status(404);
                 res.send(RESULT_TRUE);
                 return;
             }
-            if( stats.isFile() )
-            {
+            if (stats.isFile()) {
                 res.sendfile(path);
             }
         });
@@ -61,8 +58,8 @@ module.exports = function(app) {
 
     app.get('/article/list', function(req, res) {
         var file = __dirname + '/public/article.json';
-        fs.readFile(file, 'utf8', function(error, fd){
-            if(error) {
+        fs.readFile(file, 'utf8', function(error, fd) {
+            if (error) {
                 res.send(RESULT_FALSE);
                 return;
             }
@@ -73,10 +70,11 @@ module.exports = function(app) {
     app.get('/article/renew', function(req, res) {
         fsFileTree(ARTICLE_PATH, function(err, tree) {
             fs.open(ARTICLE_JSON, 'w', function(err, fd) {
-                if(err) {
+                if (err) {
                     res.send(RESULT_FALSE);
                 }
-                fs.writeFile(ARTICLE_JSON, JSON.stringify(tree), 'utf8', function(error){
+
+                fs.writeFile(ARTICLE_JSON, JSON.stringify(tree), 'utf8', function(error) {
                     res.send(RESULT_TRUE);
                 });
             });
@@ -88,4 +86,3 @@ module.exports = function(app) {
 function makeFilePath(dir, sub, file) {
     return ARTICLE_PATH + '/' + dir + '/' + sub + '/' + file;
 }
-

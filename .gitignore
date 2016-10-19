@@ -1,6 +1,8 @@
 #################
 ## Eclipse
 #################
+node_modules
+.idea
 
 *.pydevproject
 .project
