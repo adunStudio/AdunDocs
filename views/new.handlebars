@@ -9,6 +9,9 @@
     <!-- jQuery -->
     <script src="/js/lib/jquery.min.js"></script>
     <script src="/js/lib/jquery-tmpl.js"></script>
+
+    <!-- ShowDown-->
+    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.4.3/dist/showdown.min.js"> </script>
 </head>
 <body>
 <div class="_app" role="application">
@@ -86,7 +89,10 @@
 <a href="#/${link}" class="_list-item _list-hover" data-link="${data_link}" tabindex="-1">${name}</a>
 </script>
 <script>
+
+
     function App() {
+        this.converter = new showdown.Converter();
         this.getJSON();
         this.eventClick();
     }
@@ -136,7 +142,8 @@
         $('#list').on('click', '._list-hover', function() {
             var link = $(this).data('link');
             $.get('/article/' + link, function(data) {
-                alert(data);
+                var html = converter.makeHtml(data);
+                $('#main').html(html);
             });
         });
     };
