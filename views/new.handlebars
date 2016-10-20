@@ -1,0 +1,150 @@
+<!doctype html>
+<html class="_mobile1">
+<head>
+    <title>AdunDocs</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="/css/style.css"/>
+
+    <!-- jQuery -->
+    <script src="/js/lib/jquery.min.js"></script>
+    <script src="/js/lib/jquery-tmpl.js"></script>
+</head>
+<body>
+<div class="_app" role="application">
+    <!-- 배너 -->
+    <header class="_header" role="banner">
+        <button type="button" class="_mobile-btn _back-btn">Back</button>
+        <button type="button" class="_mobile-btn _forward-btn">Forward</button>
+        <button type="button" class="_mobile-btn _menu-btn">Menu</button>
+        <button type="button" class="_mobile-btn _home-btn">Home</button>
+        <form class="_search" role="search">
+            <input type="search" class="_search-input" placeholder="Search…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="30" aria-label="Search">
+            <button type="reset" class="_search-clear" title="Clear search">Clear search</button>
+            <div class="_search-tag"></div>
+        </form>
+        <h1 class="_logo">
+            <a href="/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs</a>
+        </h1>
+        <nav class="_nav" role="navigation">
+            <a href="/offline" class="_nav-link">Offline</a>
+            <a href="/about" class="_nav-link">About</a>
+            <a href="/news" class="_nav-link">News</a>
+            <a href="/help" class="_nav-link">Tips</a>
+        </nav>
+    </header>
+    <!-- 배너 -->
+
+    <!-- 네비게이션 -->
+    <section class="_sidebar" tabindex="-1">
+        <div role="navigation" class="_list" id="list">
+            <!--<a href="#/css/" class="_list-item _icon-css _list-dir" data-slug="css" title="CSS" tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">CSS</span></a>
+            <a href="#/dom/" class="_list-item _icon-dom _list-dir open" data-slug="dom" title="DOM" tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">DOM</span></a>
+            <div class="_list _list-sub">
+                <a href="/dom-animation/" class="_list-item _list-dir open" data-slug="animation" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">69</span><span class="_list-text">Animation</span></a>
+                <div class="_list _list-sub">
+                    <a href="/dom/broadcast_channel_api" class="_list-item _list-hover" tabindex="-1">Broadcast Channel API</a>
+                    <a href="/dom/broadcastchannel" class="_list-item _list-hover" tabindex="-1">BroadcastChannel</a>
+                    <a href="/dom/broadcastchannel/close" class="_list-item _list-hover" tabindex="-1">BroadcastChannel.close</a>
+                </div>
+                <a href="/dom-battery-status/" class="_list-item _list-dir" data-slug="battery-status" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">10</span><span class="_list-text">Battery Status</span></a>
+            </div>-->
+            <h6 class="_list-title open-title"><span class="_list-arrow"></span>휴지통 (173)</h6>
+        </div>
+        <div class="_sidebar-footer">
+            <button type="button" class="_sidebar-footer-link _sidebar-footer-edit" data-pick-docs="">
+                Select documentation
+            </button>
+            <button type="button" class="_sidebar-footer-link _sidebar-footer-light" title="Toggle light" data-light="">Toggle light</button>
+        <button type="button" class="_sidebar-footer-link _sidebar-footer-layout" title="Toggle layout" data-layout="">Toggle layout</button></div>
+    </section>
+    <!-- 네비게이션 -->
+
+    <!-- 문서 -->
+    <div class="_container" role="document">
+        <main class="_content" role="main" tabindex="1">
+            <div>
+                <div class="_splash-title">AdunDocs</div>
+            </div>
+        </main>
+    </div>
+    <!-- 문서 -->
+</div>
+
+</body>
+</html>
+<script id="sub" type="text/x-jquery-tml">
+<div class="_list _list-sub"></div>
+</script>
+<script id="level1" type="text/x-jquery-tml">
+<a href="#/${link}" class="_list-item _icon-css _list-dir" data-slug="css" title="CSS" tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">${name}</span></a>
+</script>
+<script id="level2" type="text/x-jquery-tml">
+<a href="#/${link}" class="_list-item _list-dir" data-slug="animation" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">${length}</span><span class="_list-text">${name}</span></a>
+</script>
+<script id="level3" type="text/x-jquery-tml">
+<a href="#/${link}" class="_list-item _list-hover" data-link="${data_link}" tabindex="-1">${name}</a>
+</script>
+<script>
+    function App() {
+        this.getJSON();
+        this.eventClick();
+    }
+    App.prototype.getJSON = function() {
+        var self = this;
+        $.getJSON('/article/list', function(data) {
+            self.data = data;
+            $.each(data, function(dirName, value) {
+                var link = self.replaceSpacing(dirName);
+                $.tmpl($('#level1'), {name: dirName, link: link}).appendTo('#list');
+                var level1 = $.tmpl($('#sub')).appendTo('#list');
+
+                $.each(value, function(subName, value) {
+                    var link2 = link + '/' + self.replaceSpacing(subName);
+                    $.tmpl($('#level2'), {name: subName, length: Object.keys(value).length, link: link2}).appendTo(level1);
+                    var level2 = $.tmpl($('#sub')).appendTo(level1);
+
+                    $.each(value, function(fileName, value) {
+                        var link3 = link2 + '/' + self.replaceSpacing(fileName);
+                        var data_link = encodeURI(dirName + '/' + subName + '/' + fileName);
+                        $.tmpl($('#level3'),{name: fileName, data_link: data_link, link: link3}).appendTo(level2);
+                    });
+                });
+            });
+        });
+    };
+    App.prototype.eventClick = function() {
+        var $prev = null;
+        $('#list').on('click', '._list-item', function() {
+            var $this = $(this);
+            if($prev) {
+                $prev.removeClass('active');
+            }
+            $this.toggleClass('open');
+            $this.addClass('active');
+            $prev = $this;
+            if($this.hasClass('open')) {
+                $this.next().slideDown();
+            }
+            else {
+                $this.next().slideUp();
+                $this.next().find('a').each(function(idx, element){ $(element).removeClass('open') });
+                $this.next().find('._list-sub').each(function(idx, element){ $(element).slideUp(); });
+            }
+        });
+
+        $('#list').on('click', '._list-hover', function() {
+            var link = $(this).data('link');
+            $.get('/article/' + link, function(data) {
+                alert(data);
+            });
+        });
+    };
+    App.prototype.replaceSpacing = function(str) {
+        return str.replace(/\s/g, '_');
+    };
+    var app = new App();
+
+</script>
+
+
