@@ -12,9 +12,6 @@ app.set('port', 3311);
 
 
 app.get('/', function(req, res) {
-    res.render('home');
-});
-app.get('/new', function(req, res) {
     res.render('new', {layout:  false});
 });
 

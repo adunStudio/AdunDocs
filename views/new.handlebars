@@ -4,17 +4,25 @@
     <title>AdunDocs</title>
 
     <!-- style -->
-    <link rel="stylesheet" href="/css/style.css"/>
+    <link id="theme" rel="stylesheet" href="/css/style.css"/>
+    <!-- simplemde -->
+    <link rel="stylesheet" href="/css/simplemde.min.css"/>
 
     <!-- jQuery -->
-    <script src="/js/lib/jquery.min.js"></script>
-    <script src="/js/lib/jquery-tmpl.js"></script>
-
-    <!-- ShowDown-->
-    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.4.3/dist/showdown.min.js"> </script>
+    <script src="/js/jquery.min.js"></script>
+    <!-- jquery-tmpl -->
+    <script src="/js/jquery-tmpl.js"></script>
+    <!-- ShowDown -->
+    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.4.3/dist/showdown.min.js"></script>
+    <!-- MathJax -->
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- highlight -->
+    <script  src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+    <!-- simplemde -->
+    <script src="/js/simplemde.min.js"></script>
 </head>
 <body>
-<div class="_app" role="application">
+<div class="_app" role="application" id="app">
     <!-- 배너 -->
     <header class="_header" role="banner">
         <button type="button" class="_mobile-btn _back-btn">Back</button>
@@ -41,25 +49,14 @@
     <!-- 네비게이션 -->
     <section class="_sidebar" tabindex="-1">
         <div role="navigation" class="_list" id="list">
-            <!--<a href="#/css/" class="_list-item _icon-css _list-dir" data-slug="css" title="CSS" tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">CSS</span></a>
-            <a href="#/dom/" class="_list-item _icon-dom _list-dir open" data-slug="dom" title="DOM" tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">DOM</span></a>
-            <div class="_list _list-sub">
-                <a href="/dom-animation/" class="_list-item _list-dir open" data-slug="animation" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">69</span><span class="_list-text">Animation</span></a>
-                <div class="_list _list-sub">
-                    <a href="/dom/broadcast_channel_api" class="_list-item _list-hover" tabindex="-1">Broadcast Channel API</a>
-                    <a href="/dom/broadcastchannel" class="_list-item _list-hover" tabindex="-1">BroadcastChannel</a>
-                    <a href="/dom/broadcastchannel/close" class="_list-item _list-hover" tabindex="-1">BroadcastChannel.close</a>
-                </div>
-                <a href="/dom-battery-status/" class="_list-item _list-dir" data-slug="battery-status" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">10</span><span class="_list-text">Battery Status</span></a>
-            </div>-->
             <h6 class="_list-title open-title"><span class="_list-arrow"></span>휴지통 (173)</h6>
         </div>
         <div class="_sidebar-footer">
             <button type="button" class="_sidebar-footer-link _sidebar-footer-edit" data-pick-docs="">
                 Select documentation
             </button>
-            <button type="button" class="_sidebar-footer-link _sidebar-footer-light" title="Toggle light" data-light="">Toggle light</button>
-        <button type="button" class="_sidebar-footer-link _sidebar-footer-layout" title="Toggle layout" data-layout="">Toggle layout</button></div>
+            <button type="button" class="_sidebar-footer-link _sidebar-footer-light" title="Toggle light" data-light="" id="themeChangeButton">Toggle light</button>
+        <button type="button" class="_sidebar-footer-link _sidebar-footer-layout" title="Toggle layout" onclick="$('#app').toggleClass('_max-width');">Toggle layout</button></div>
     </section>
     <!-- 네비게이션 -->
 
@@ -68,6 +65,25 @@
         <main class="_content" role="main" tabindex="1">
             <div>
                 <div class="_splash-title">AdunDocs</div>
+
+                <div id="write_page">
+
+                </div>
+                <div class="_page _mdn" id="main">
+                    <textarea id="write_area" data-provide="markdown" style="z-index: 200;"></textarea>
+                    <script>
+                        var simplemde = new SimpleMDE({
+                            element: $("#write_area")[0],
+                            spellChecker: false,
+                            tabSize: 4,
+                            styleSelectedText: false,
+                            renderingConfig: {
+                                singleLineBreaks: false,
+                                codeSyntaxHighlighting: true,
+                            },
+                        });
+                    </script>
+                </div>
             </div>
         </main>
     </div>
@@ -80,7 +96,7 @@
 <div class="_list _list-sub"></div>
 </script>
 <script id="level1" type="text/x-jquery-tml">
-<a href="#/${link}" class="_list-item _icon-css _list-dir" data-slug="css" title="CSS" tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">${name}</span></a>
+<a href="#/${link}" class="_list-item _icon-${name} _list-dir" data-slug="css" title="CSS" tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">${name}</span></a>
 </script>
 <script id="level2" type="text/x-jquery-tml">
 <a href="#/${link}" class="_list-item _list-dir" data-slug="animation" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">${length}</span><span class="_list-text">${name}</span></a>
@@ -90,11 +106,12 @@
 </script>
 <script>
 
-
+var converter = new showdown.Converter();
     function App() {
         this.converter = new showdown.Converter();
         this.getJSON();
         this.eventClick();
+        this.themeChange();
     }
     App.prototype.getJSON = function() {
         var self = this;
@@ -120,6 +137,7 @@
         });
     };
     App.prototype.eventClick = function() {
+        var self = this;
         var $prev = null;
         $('#list').on('click', '._list-item', function() {
             var $this = $(this);
@@ -142,14 +160,26 @@
         $('#list').on('click', '._list-hover', function() {
             var link = $(this).data('link');
             $.get('/article/' + link, function(data) {
-                var html = converter.makeHtml(data);
+                var html = self.converter.makeHtml(data);
                 $('#main').html(html);
+                hljs.initHighlightingOnLoad();
             });
         });
+
+
     };
     App.prototype.replaceSpacing = function(str) {
         return str.replace(/\s/g, '_');
     };
+    App.prototype.themeChange = function() {
+        $('#themeChangeButton').on('click', function() {
+            var white = '/css/style.css';
+            var black = '/css/style_black.css';
+            var current = $('#theme').attr('href');
+            $('#theme').attr('href', current == white ? black : white);
+        });
+    };
+
     var app = new App();
 
 </script>
