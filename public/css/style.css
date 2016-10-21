@@ -1594,9 +1594,11 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 /* custom */
-/*.open + ._list-sub {
+/*
+.open + ._list-sub {
     display: block
-}*/
+}
+*/
 
 ._list-sub > ._list-item {
     padding-left: 2.375rem

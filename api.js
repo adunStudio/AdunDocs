@@ -30,7 +30,7 @@ module.exports = function(app) {
                 return;
             }
             if (stats.isFile()) {
-                res.sendfile(path);
+                res.sendFile(path);
             }
         });
     });

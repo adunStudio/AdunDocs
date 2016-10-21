@@ -6,14 +6,7 @@ var handlebars = require('express3-handlebars').create({
     defaultLayout: 'main'
 });
 var app = express();
-app.engine('handlebars', handlebars.engine);
-app.set('view engine', 'handlebars');
 app.set('port', 3311);
-
-
-app.get('/', function(req, res) {
-    res.render('new', {layout:  false});
-});
 
 // API
 require("./api")(app);
