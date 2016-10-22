@@ -19,7 +19,7 @@
 (function(factory) {
     if (typeof define === "function" && define.amd) {
         //RequireJS
-        define(["jquery"], factory);
+        define(["jquery.min"], factory);
     } else if (typeof exports === 'object') {
         //Backbone.js
         factory(require('jquery'));

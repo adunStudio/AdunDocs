@@ -4,16 +4,16 @@
     <title>AdunDocs</title>
 
     <!-- style -->
-    <link id="theme" rel="stylesheet" href="/css/style.css"/>
+    <link id="theme" rel="stylesheet" href="/css/style_white.css"/>
     <!-- simplemde -->
     <link rel="stylesheet" href="/css/simplemde.min.css"/>
 
-    <!-- Angular 1 -->
-    <script src="/js/angular.min.js"></script>
+    <!-- Angular -->
+    <script src="/js/lib/angular.min.js"></script>
+    <!-- Angular-router -->
+    <script src="/js/lib/angular-route.min.js"></script>
     <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
-    <!-- jquery-tmpl -->
-    <script src="/js/jquery-tmpl.js"></script>
+    <script src="/js/lib/jquery.min.js"></script>
     <!-- ShowDown -->
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.4.3/dist/showdown.min.js"></script>
     <!-- MathJax -->
@@ -21,7 +21,7 @@
     <!-- highlight -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
     <!-- simplemde -->
-    <script src="/js/simplemde.min.js"></script>
+    <script src="/js/lib/simplemde.min.js"></script>
 </head>
 <body ng-controller="DocsCtrl">
 <div class="_app" role="application" id="app" >
@@ -32,18 +32,18 @@
         <button type="button" class="_mobile-btn _menu-btn">Menu</button>
         <button type="button" class="_mobile-btn _home-btn">Home</button>
         <form class="_search" role="search">
-            <input ng-model="search" type="search" class="_search-input" placeholder="Search…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="30" aria-label="Search">
+            <input ng-model="search" ng-change="searchDoc();" type="search" class="_search-input" placeholder="Search…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="30" aria-label="Search">
             <button type="reset" class="_search-clear" title="Clear search">Clear search</button>
             <div class="_search-tag"></div>
         </form>
         <h1 class="_logo">
-            <a href="/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs {{search}}</a>
+            <a href="/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs</a>
         </h1>
         <nav class="_nav" role="navigation">
-            <a href="/offline" class="_nav-link">Offline</a>
-            <a href="/about" class="_nav-link">About</a>
-            <a href="/news" class="_nav-link">News</a>
-            <a href="/help" class="_nav-link">Tips</a>
+            <a href="#offline" class="_nav-link">Offline</a>
+            <a href="#about" class="_nav-link">About</a>
+            <a href="#news" class="_nav-link">News</a>
+            <a href="#tips" class="_nav-link">Tips</a>
         </nav>
     </header>
     <!-- 배너 -->
@@ -53,7 +53,7 @@
         <div  role="navigation" class="_list" >
 
             <div ng-show="search" class="_list" >
-                <a ng-repeat="s in searchResult" ng-click="view($event, s.file)" data-link="/{{s.dirName}}/{{s.subName}}/{{s.name}}" href="/#/{{s.dirName}}/{{s.subName}}/{{s.nameame}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span class="_list-reveal" data-reset-list="" title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>
+                <a ng-repeat="s in searchResult" ng-click="view($event, s.file)" data-link="/{{s.dirName}}/{{s.subName}}/{{s.name}}" href="/#/{{s.dirName}}/{{s.subName}}/{{s.fileName}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span class="_list-reveal" data-reset-list="" title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>
             </div>
 
             <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" href="/#/{{dir}}"  class="_list-item _icon-{{dir}} _list-dir"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
@@ -79,68 +79,8 @@
     <!-- 문서 -->
     <div class="_container" role="document">
         <main class="_content" role="main" tabindex="1">
-            <!--<div class="_intro">
-                <div class="_intro-message">
-                    <a href="#" class="_intro-hide" data-hide-intro="">Stop showing this message</a>
+            <div ng-view>
 
-                    <h2 class="_intro-title">안녕하세요우!</h2>
-
-                    <p>AdunDocs는..
-                    </p>
-                    <ol class="_intro-list">
-                        <li>To enable more docs, click <a class="_intro-link" data-pick-docs="">Select documentation</a>
-                            in the bottom left corner
-                        </li>
-                        <li>You don't have to use your mouse — see the list of <a href="/help#shortcuts">keyboard
-                            shortcuts</a>
-                        </li>
-                        <li>The search supports fuzzy matching (e.g. "bgcp" brings up "background-clip")
-                        </li>
-                        <li>To search a specific documentation, type its name (or an abbreviation), then Tab
-                        </li>
-                        <li>You can search using your browser's address bar — <a href="/help#browser_search">learn
-                            how</a>
-                        </li>
-                        <li>DevDocs works <a href="/offline">offline</a>, on mobile, and can be installed on <a
-                                href="https://chrome.google.com/webstore/detail/devdocs/mnfehgbmkapmjnhcnbodoamcioleeooe">Chrome</a>.
-                        </li>
-                        <li>For the latest news, follow <a href="https://twitter.com/DevDocs">@DevDocs</a>
-                        </li>
-                        <li>DevDocs is free and <a href="https://github.com/Thibaut/devdocs">open source</a>
-                            <iframe class="_github-btn"
-                                    src="//ghbtns.com/github-btn.html?user=Thibaut&amp;repo=devdocs&amp;type=watch&amp;count=true"
-                                    allowtransparency="true" frameborder="0" scrolling="0" width="100"
-                                    height="20"></iframe>
-                        </li>
-                        <li>If you like the app, please consider supporting the project on <a
-                                href="https://gratipay.com/devdocs/">Gratipay</a>. Thanks!
-                        </li>
-                    </ol>
-                    <p>Happy coding!
-                    </p></div>
-            </div>-->
-
-            <div>
-                <div class="_splash-title">AdunDocs</div>
-
-                <div id="write_page">
-
-                </div>
-                <div class="_page _mdn" id="main" >
-                    <!--<textarea id="write_area" data-provide="markdown" style="z-index: 200;"></textarea>
-                    <script>
-                        var simplemde = new SimpleMDE({
-                            element: $("#write_area")[0],
-                            spellChecker: false,
-                            tabSize: 4,
-                            styleSelectedText: false,
-                            renderingConfig: {
-                                singleLineBreaks: false,
-                                codeSyntaxHighlighting: true,
-                            },
-                        });
-                    </script>-->
-                </div>
             </div>
         </main>
     </div>
@@ -149,146 +89,6 @@
 
 </body>
 </html>
-<script>
-    var converter = new showdown.Converter();
-
-    var AdunDocs = angular.module('AdunDocs', []);
-
-    AdunDocs.controller('DocsCtrl', function DocsCtrl($scope, $http) {
-
-        $scope.active = $();
-        $scope.focus  = $();
-        $scope.isOpen = false;
-        $scope.search = "";
-        $scope.searchResult = [];
-        $scope.contents = '<div>2</div>';
-
-        $http.get('/article.json').then(function(response) {
-            $scope.docs = response.data;
-        });
-
-        $scope.toggleTheme = function(obj) {
-            var white = '/css/style.css';
-            var black = '/css/style_black.css';
-            var current = $('#theme').attr('href');
-            $('#theme').attr('href', current == white ? black : white);
-        };
-
-        $scope.getLength = function(obj) {
-            if(!obj) {return;}
-
-            return Object.keys(obj).length
-        };
-
-        $scope.getDeepLength = function(obj) {
-            if(!obj) {return;}
-
-            var length = 0;
-
-            angular.forEach(obj, function(value, key) {
-               length += $scope.getLength(value);
-            });
-
-            return length;
-        };
-
-        $scope.toggleDir = function(event) {
-            var element = angular.element(event.target);
-            var $element = $(element);
-
-            $scope.active.removeClass('active');
-            $element.addClass('active');
-            $scope.active = $element;
-
-            if(element.hasClass('open')) {
-                element.removeClass('open');
-                $element.next().slideUp();
-                $element.next().find('a').each(function(idx, el){ $(el).removeClass('open') });
-                $element.next().find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
-            }
-            else {
-                element.addClass('open');
-                $element.next().slideDown();
-            }
-        };
-
-        $scope.toggleSub = function(event) {
-            var element = angular.element(event.target);
-            var $element = $(element);
-
-            $scope.active.removeClass('active');
-            $element.addClass('active');
-            $scope.active = $element;
-
-            if(element.hasClass('open')) {
-                element.removeClass('open');
-                $element.next().slideUp();
-            }
-            else {
-                element.addClass('open');
-                $element.next().slideDown();
-            }
-        };
-
-        $scope.view = function(event, file) {
-            var element = angular.element(event.target);
-            var $element = $(element);
-
-            if(!$scope.search) {
-                $scope.focus.removeClass('focus');
-                $element.addClass('focus');
-                $scope.focus = $element;
-            }
-
-            $scope.active.removeClass('active');
-            $element.addClass('active');
-            $scope.active = $element;
-
-            var url = $scope.toURL($element.data('link'));
-
-
-            $http.get('/article' + url).then(function(response) {
-                var html = converter.makeHtml(response.data);
-                $('#main').html(html);
-
-            });
-
-        };
-
-        $scope.replaceSpacing = function(str) {
-            return str.replace(/\s/g, '_');
-        };
-
-        $scope.toURL = function(str) {
-            //return encodeURI($scope.replaceSpacing(str));
-            return encodeURI(str);
-        };
-
-
-        $scope.$watch('search', function(){
-            var text = $scope.search;
-            if( !text ) { return; }
-
-            var result = [];
-
-            angular.forEach($scope.docs, function(dir, dirName) {
-                angular.forEach(dir, function(sub, subName) {
-                    angular.forEach(sub, function(file, fileName) {
-                        if(fileName.toLowerCase().indexOf(text.toLowerCase()) >= 0) {
-                            result.push({
-                                dirName: dirName,
-                                subName: subName,
-                                name: fileName,
-                                file: file,
-                            });
-                        }
-                    })
-                })
-            });
-
-            $scope.searchResult = result;
-        });
-    });
-</script>
+<script src="/js/adundocs.js"></script>
 
 
