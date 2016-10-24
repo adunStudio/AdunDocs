@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="_mobile1" ng-app="AdunDocs">
+<html class="_mobile1" ng-app="AdunDocs" ng-controller="DocsCtrl">
 <head>
     <title>AdunDocs</title>
 
@@ -23,15 +23,24 @@
     <!-- simplemde -->
     <script src="/js/lib/simplemde.min.js"></script>
 </head>
-<body ng-controller="DocsCtrl">
+<body >
 <div class="_app" role="application" id="app" >
+
+    <div role="complementary" class="_path" >
+        <a ng-show="dirName" href="#/{{dirName}}" class="_path-item _icon-{{dirName}}">{{dirName}}</a>
+        <a ng-show="subName" href="#/{{dirName}}/{{subName}}" class="_path-item">{{subName}}</a>
+        <span ng-show="fileName" class="_path-item">{{fileName}}</span>
+        <span style="float: right;" class="_path-item">최종 수정 날짜: {{stat.mtime | date: "y-MM-dd"}} </small></span>
+        <span style="float: right;" class="_path-item">작성 날짜: {{stat.btime | date: "y-MM-dd"}} </small></span>
+    </div>
+
     <!-- 배너 -->
     <header class="_header" role="banner">
         <button type="button" class="_mobile-btn _back-btn">Back</button>
         <button type="button" class="_mobile-btn _forward-btn">Forward</button>
         <button type="button" class="_mobile-btn _menu-btn">Menu</button>
         <button type="button" class="_mobile-btn _home-btn">Home</button>
-        <form class="_search" role="search">
+        <form  class="_search" role="search">
             <input ng-model="search" ng-change="searchDoc();" type="search" class="_search-input" placeholder="Search…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="30" aria-label="Search">
             <button type="reset" class="_search-clear" title="Clear search">Clear search</button>
             <div class="_search-tag"></div>
@@ -53,25 +62,25 @@
         <div  role="navigation" class="_list" >
 
             <div ng-show="search" class="_list" >
-                <a ng-repeat="s in searchResult" ng-click="view($event, s.file)" data-link="/{{s.dirName}}/{{s.subName}}/{{s.name}}" href="/#/{{s.dirName}}/{{s.subName}}/{{s.fileName}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span class="_list-reveal" data-reset-list="" title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>
+                <a ng-repeat="s in searchResult" ng-click="searchToggle($event);"  href="/#/search/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>
             </div>
 
-            <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" href="/#/{{dir}}"  class="_list-item _icon-{{dir}} _list-dir"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
+            <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" id="_{{dir}}" href="/#/{{dir}}"  class="_list-item _icon-{{dir}} _list-dir"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
             <div ng-repeat-end="" class="_list _list-sub" >
-                <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)"  href="/#/{{dir}}/{{sub}}" class="_list-item _list-dir" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
+                <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)" id="_{{dir}}_{{sub}}" href="/#/{{dir}}/{{sub}}" class="_list-item _list-dir" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
                 <div ng-repeat-end="" class="_list _list-sub">
-                    <a ng-show="!search" ng-repeat="(name, file) in docs[dir][sub]" ng-click="view($event, file)" data-link="/{{dir}}/{{sub}}/{{name}}" href="/#/{{dir}}/{{sub}}/{{name}}" class="_list-item _list-hover" title="{{name}}" tabindex="-1">{{name}}</a>
+                    <a ng-show="!search" ng-repeat="(name, file) in docs[dir][sub]" ng-click="toggleFile($event)" id="_{{dir}}_{{sub}}_{{name}}" href="/#/{{dir}}/{{sub}}/{{name}}" class="_list-item _list-hover" title="{{name}}" tabindex="-1">{{name}}</a>
                 </div>
             </div>
 
             <h6 class="_list-title open-title"><span class="_list-arrow"></span>휴지통 (0)</h6>
         </div>
-        <div class="_sidebar-footer">
+        <div class="_sidebar-footer" ng-controller="ThemeCtrl">
             <button type="button" class="_sidebar-footer-link _sidebar-footer-edit" data-pick-docs="">
                 Setting
             </button>
-            <button type="button" class="_sidebar-footer-link _sidebar-footer-light" title="Toggle light" ng-click="toggleTheme()" id="themeChangeButton">Toggle light</button>
-            <button type="button" class="_sidebar-footer-link _sidebar-footer-layout" title="Toggle layout" onclick="$('#app').toggleClass('_max-width');">Toggle layout</button>
+            <button type="button" class="_sidebar-footer-link _sidebar-footer-light" title="Toggle light" ng-click="toggleTheme();" id="themeChangeButton">Toggle light</button>
+            <button type="button" class="_sidebar-footer-link _sidebar-footer-layout" title="Toggle layout" ng-click="toggleWidth();">Toggle layout</button>
         </div>
     </section>
     <!-- 네비게이션 -->
@@ -79,9 +88,11 @@
     <!-- 문서 -->
     <div class="_container" role="document">
         <main class="_content" role="main" tabindex="1">
+            <!-- 뷰 -->
             <div ng-view>
 
             </div>
+            <!-- 뷰 -->
         </main>
     </div>
     <!-- 문서 -->
@@ -89,6 +100,10 @@
 
 </body>
 </html>
-<script src="/js/adundocs.js"></script>
+<script src="/js/adundocs_Basic.js"></script>
+<script src="/js/adundocs_DocsCtrl.js"></script>
+<script src="/js/adundocs_ViewCtrl.js"></script>
+<script src="/js/adundocs_SearchCtrl.js"></script>
+<script src="/js/adundocs_ThemeCtrl.js"></script>
 
 
