@@ -14,6 +14,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
     $scope.subName = '';
     $scope.fileName = '';
 
+    $scope.isToggleCheck  = false;// <- 임시방편 ... 수정해야함 toggle에서 쓰임
+
     $scope.init = function() {
         $http.get('/article.json').then(function(response) {
             $scope.docs = response.data;
@@ -54,6 +56,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
     };
 
     $scope.toggleDir = function(event, el) {
+        $scope.isToggleCheck = true;
+
         var element = el || angular.element(event.target);
         var $element = $(element);
 
@@ -74,6 +78,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
     };
 
     $scope.toggleSub = function(event, el) {
+        $scope.isToggleCheck = true;
+
         var element = el || angular.element(event.target);
         var $element = $(element);
 
@@ -92,6 +98,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
     };
 
     $scope.toggleFile = function(event, el) {
+        $scope.isToggleCheck = true;
+
         var element = el || angular.element(event.target);
         var $element = $(element);
 
@@ -106,11 +114,26 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
         $scope.active = $element;
     };
 
+
+
     $scope.toggleCheck = function(dirEl, subEl, fileEl) {
+
+        var $dirEl  = $(dirEl);
+        var $subEl  = $(subEl);
+        var $fileEl = $(fileEl);
+
 
         if( dirEl && !dirEl.hasClass('open') ) {
             dirEl.addClass('open');
             $(dirEl).next().slideDown();
+        }
+
+        if(!subEl) {
+            var $dirElement = $(dirEl);
+            $dirElement.addClass('active');
+            $scope.active.removeClass('active');
+            $scope.active = $dirElement;
+            return;
         }
 
         if( subEl && !subEl.hasClass('open') ) {
@@ -118,16 +141,23 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
             $(subEl).next().slideDown();
         }
 
-        if( !fileEl.hasClass('active') ) {
-            var $element = $(fileEl);
+        if(!fileEl) {
+            $subEl.addClass('active');
+            $scope.active = $subEl;
+            return;
+        }
 
-            $element.addClass('focus');
-            $scope.focus = $element;
+        if( fileEl && !fileEl.hasClass('active') ) {
 
-            $element.addClass('active');
-            $scope.active = $element;
+            $fileEl.addClass('focus');
+            $scope.focus = $fileEl;
+
+            $scope.active.removeClass('active');
+            $fileEl.addClass('active');
+            $scope.active = $fileEl;
         }
     };
+
 
     $scope.searchToggle = function(event) {
         var element = angular.element(event.target);

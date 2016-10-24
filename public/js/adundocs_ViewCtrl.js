@@ -25,5 +25,7 @@ AdunDocs.controller('viewCtrl', ['$scope', '$http', '$routeParams', '$timeout', 
     var subEl =  angular.element(document.getElementById('_' + dirName + "_" + subName));
     var fileEl = angular.element(document.getElementById('_' + dirName + "_" + subName + "_" + fileName));
 
-    $scope.toggleCheck(dirEl, subEl, fileEl);
+    if( $scope.isToggleCheck == false ) {
+        $scope.toggleCheck(dirEl, subEl, fileEl);
+    }
 }]);
