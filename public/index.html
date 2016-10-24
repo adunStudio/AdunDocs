@@ -27,11 +27,11 @@
 <div class="_app" role="application" id="app" >
 
     <div role="complementary" class="_path" >
-        <a ng-show="dirName" href="#/{{dirName}}" class="_path-item _icon-{{dirName}}">{{dirName}}</a>
-        <a ng-show="subName" href="#/{{dirName}}/{{subName}}" class="_path-item">{{subName}}</a>
+        <a ng-show="dirName" href="#/{{dirName}}?check=1" class="_path-item _icon-{{dirName}}">{{dirName}}</a>
+        <a ng-show="subName" href="#/{{dirName}}/{{subName}}?check=1" class="_path-item">{{subName}}</a>
         <span ng-show="fileName" class="_path-item">{{fileName}}</span>
-        <span style="float: right;" class="_path-item">최종 수정 날짜: {{stat.mtime | date: "y-MM-dd"}} </small></span>
-        <span style="float: right;" class="_path-item">작성 날짜: {{stat.btime | date: "y-MM-dd"}} </small></span>
+        <span ng-show="stat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: {{stat.mtime | date: "y-MM-dd"}} </small></span>
+        <span ng-show="stat.btime" style="float: right;" class="_path-item">작성 날짜: {{stat.btime | date: "y-MM-dd"}} </small></span>
     </div>
 
     <!-- 배너 -->
@@ -46,7 +46,7 @@
             <div class="_search-tag"></div>
         </form>
         <h1 class="_logo">
-            <a href="/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs</a>
+            <a ng-click="initialize();" href="/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs</a>
         </h1>
         <nav class="_nav" role="navigation">
             <a href="#offline" class="_nav-link">Offline</a>
@@ -59,7 +59,7 @@
 
     <!-- 네비게이션 -->
     <section class="_sidebar" tabindex="-1">
-        <div  role="navigation" class="_list" >
+        <div  role="navigation" class="_list" id="list">
 
             <div ng-show="search" class="_list" >
                 <a ng-repeat="s in searchResult" ng-click="searchToggle($event);"  href="/#/search/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>

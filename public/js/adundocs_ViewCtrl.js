@@ -4,13 +4,9 @@ AdunDocs.controller('viewCtrl', ['$scope', '$http', '$routeParams', '$timeout', 
     var dirName  = $routeParams.dirName;
     var subName  = $routeParams.subName;
     var fileName = $routeParams.fileName;
-
-
-
+    var check  =  $routeParams.check;
 
     $scope.makeStat(fileName, $scope.docs[dirName][subName][fileName].stat);
-
-
 
     var url = $scope.toURL('/' + dirName + '/' + subName + '/' + fileName);
 
@@ -25,7 +21,7 @@ AdunDocs.controller('viewCtrl', ['$scope', '$http', '$routeParams', '$timeout', 
     var subEl =  angular.element(document.getElementById('_' + dirName + "_" + subName));
     var fileEl = angular.element(document.getElementById('_' + dirName + "_" + subName + "_" + fileName));
 
-    if( $scope.isToggleCheck == false ) {
+    if( $scope.isToggleCheck == false || check) {
         $scope.toggleCheck(dirEl, subEl, fileEl);
     }
 }]);

@@ -131,6 +131,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
         if(!subEl) {
             var $dirElement = $(dirEl);
             $dirElement.addClass('active');
+            $scope.focus.removeClass('focus');
             $scope.active.removeClass('active');
             $scope.active = $dirElement;
             return;
@@ -142,6 +143,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
         }
 
         if(!fileEl) {
+            $scope.focus.removeClass('focus');
+            $scope.active.removeClass('active');
             $subEl.addClass('active');
             $scope.active = $subEl;
             return;
@@ -174,7 +177,11 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
     };
 
     $scope.makeStat = function(name, stat) {
-        $scope.stat.name = name;
+        $scope.stat.name = name || '';
+        if(!stat) {
+            $scope.stat = {};
+            return;
+        }
         $scope.stat.btime = stat.birthtime;
         $scope.stat.mtime = stat.mtime;
     };
@@ -201,5 +208,19 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
         });
 
         $scope.searchResult = result;
+    };
+
+    $scope.initialize = function() {
+        $scope.dirName = "";
+        $scope.subName = "";
+        $scope.fileName = "";
+        $scope.active = $();
+        $scope.focus  = $();
+        $scope.search = "";
+        $scope.searchResult = [];
+        $scope.stat = {};
+
+        $('#list').find('a').each(function(idx, el){ $(el).removeClass('open') });
+        $('#list').find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
     };
 }]);

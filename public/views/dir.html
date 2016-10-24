@@ -6,7 +6,7 @@
         <div class="index">
             <span ng-repeat-start="(sub, subValue) in docs[dirName]">{{sub}}</span>
             <ul ng-repeat-end="">
-                <li ng-repeat="(name, file) in docs[dirName][sub]"><a href="/#/{{dirName}}/{{sub}}/{{name}}?is=1"><code>{{name}}</code></a></li>
+                <li ng-repeat="(name, file) in docs[dirName][sub]"><a href="/#/{{dirName}}/{{sub}}/{{name}}?check=1"><code>{{name}}</code></a></li>
             </ul>
          </div>
     </div>
