@@ -48,7 +48,7 @@
 
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
     ._list-link:after, ._page a[href^="http:"]:after, ._page a[href^="https:"]:after, ._search:before, ._search-clear:before, ._notif-close:before, ._list-arrow:before, ._sidebar-footer-link:before, ._pre-clip:before, ._path-item + ._path-item:after, ._mobile-btn:before {
-        background-image: url(/img/icons2.png);
+        background-image: url(/img/icons2.png)
     }
 }
 
@@ -57,7 +57,7 @@
     display: block;
     width: 1rem;
     height: 1rem;
-    background-image: url(/img/docs.png)
+    background-image: url(/img/docs.png);
     background-size: 10rem 12rem
 }
 
@@ -67,9 +67,28 @@
     }
 }
 
-._menu-btn:before, ._home-btn:before, ._back-btn:before, ._forward-btn:before, ._icon-http:before, ._icon-jquery:before, ._icon-underscore:before, ._icon-backbone:before, ._icon-coffeescript:before, ._icon-moment:before, ._icon-rust:before, ._icon-sinon:before, ._icon-markdown:before, ._icon-nokogiri:before, ._icon-fish:before, ._icon-lua:before, ._icon-meteor:before, ._icon-webpack:before, ._icon-crystal:before, ._icon-julia:before, ._icon-redux:before, ._icon-elixir:before, ._icon-ramda:before, ._icon-codeigniter:before, ._icon-influxdata:before, ._icon-ansible:before {
-    filter: invert(100%) grayscale(100%);
-    -webkit-filter: invert(100%) grayscale(100%)
+._list-arrow:before {
+    background-position: 0 0
+}
+
+._search:before {
+    background-position: -1rem 0
+}
+
+._list-link:after, ._page a[href^="http:"]:after, ._page a[href^="https:"]:after {
+    background-position: -2.25rem -.25rem
+}
+
+._search-clear:before {
+    background-position: -3rem 0
+}
+
+._sidebar-footer-edit:before {
+    background-position: 0 -1rem
+}
+
+._sidebar-footer-save:before {
+    background-position: -1rem -1rem
 }
 
 ._menu-btn:before {
@@ -84,43 +103,23 @@
     background-position: 0 -2rem
 }
 
-._search:before {
-    background-position: -1rem -2rem
-}
-
-._list-arrow:before {
-    background-position: -2rem -2rem
-}
-
-._list-link:after, ._page a[href^="http:"]:after, ._page a[href^="https:"]:after {
-    background-position: -3.25rem -2.25rem
-}
-
-._sidebar-footer-edit:before {
-    background-position: 0 -3rem
-}
-
-._sidebar-footer-save:before {
-    background-position: -1rem -3rem
-}
-
 ._sidebar-footer-light:before {
-    background-position: -3rem -3rem
+    background-position: -2rem -3rem
 }
 
 ._sidebar-footer-layout:before {
-    background-position: -2rem -4rem
+    background-position: 0 -4rem
 }
 
 ._max-width ._sidebar-footer-layout:before {
-    background-position: -3rem -4rem
+    background-position: -1rem -4rem
 }
 
 ._pre-clip:before {
-    background-position: -1rem -5rem
+    background-position: 0 -5rem
 }
 
-._search-clear:before, ._notif-close:before {
+._notif-close:before {
     background-position: -2rem -5rem
 }
 
@@ -571,6 +570,7 @@
 ._icon-love:before {
     background-position: -9rem -11rem
 }
+
 ._icon-codesafer:before {
     background-position: -9rem -11rem
 }
@@ -595,15 +595,15 @@ input, button, ._app, ._search, ._notif, ._list, ._list-hover.clone, ._sidebar-f
 }
 
 pre, ._angular .filetree, ._redis > .example, ._toc, ._docs-links, ._mobile-nav, ._bootstrap a.thumbnail {
-    background: #24282a;
-    border: 1px solid #000;
+    background: #fafafa;
+    border: 1px solid #d8d8d8;
     border-radius: 3px
 }
 
 ._apache_pig h2, ._bower h2, ._chai h2, ._docker h2, ._fish h2, ._gnu h2, ._grunt h2, ._haxe h2, ._influxdata h2, ._less h2, ._lodash h2, ._marionette h2, ._markdown h2, ._mocha h2, ._mongoose h2, ._redux h2, ._sinon h2, ._typescript h2, ._webpack h2, ._apache h2, ._bootstrap h2, ._cakephp h2, ._coffeescript h2, ._cordova h2, ._crystal h2, ._dojo h2, ._elixir h2, ._ember h2, ._erlang h2, ._express h2, ._github h2, ._go h2, ._love h2, ._lua h2, ._meteor h2, ._npm h2, ._perl h2, ._phalcon h2, ._phaser h2, ._phpunit h2, ._ramda h2, ._requirejs h2, ._rethinkdb h2, ._rubydoc h2, ._rust h2, ._sphinx_simple h2, ._tcl_tk h2, ._tensorflow h2, ._vagrant h2, ._vue h2, ._angular h2, ._angularjs h2, ._c > h2, ._c > h3, ._clojure h2:not([id]), ._d3 > h2, ._drupal h3, ._git > h2, ._haskell > h2, ._jquery .section-title, ._jquery .entry-wrapper > h3, ._jquery .underline, ._knockout > h2, ._kotlin h2, ._laravel h2, ._mdn > h2, ._modernizr h2, ._moment > h2, ._nginx h4, ._node > h2, ._php h2, ._php h3.title, ._postgres h2, ._rdoc > .description > h2, ._rdoc header > h3, ._rdoc > h2, ._react > h2, ._redis > h2, ._rfc-pre > h2, ._socketio > h2, ._sphinx h2, ._support_tables h2, ._underscore > h2, ._yard > h2, ._yii h2, ._angular .code-example > h4, ._angular .pre-title, ._bootstrap div.bs-example, ._ember .pre-title, th, ._bootstrap p.bs-example {
-    color: #dbe4e4;
-    background: #24282a;
-    border: 1px solid #000;
+    color: #333;
+    background: #f5f5f5;
+    border: 1px solid #d8d8d8;
     border-radius: 3px
 }
 
@@ -635,15 +635,15 @@ pre, ._angular .filetree, ._redis > .example, ._toc, ._docs-links, ._mobile-nav,
 ._intro-message, ._note, ._apache_pig blockquote, ._bower blockquote, ._chai blockquote, ._docker blockquote, ._fish blockquote, ._gnu blockquote, ._grunt blockquote, ._haxe blockquote, ._influxdata blockquote, ._less blockquote, ._lodash blockquote, ._marionette blockquote, ._markdown blockquote, ._mocha blockquote, ._mongoose blockquote, ._redux blockquote, ._sinon blockquote, ._typescript blockquote, ._webpack blockquote, ._apache blockquote, ._bootstrap blockquote, ._cakephp blockquote, ._coffeescript blockquote, ._cordova blockquote, ._crystal blockquote, ._dojo blockquote, ._elixir blockquote, ._ember blockquote, ._erlang blockquote, ._express blockquote, ._github blockquote, ._go blockquote, ._love blockquote, ._lua blockquote, ._meteor blockquote, ._npm blockquote, ._perl blockquote, ._phalcon blockquote, ._phaser blockquote, ._phpunit blockquote, ._ramda blockquote, ._requirejs blockquote, ._rethinkdb blockquote, ._rubydoc blockquote, ._rust blockquote, ._sphinx_simple blockquote, ._tcl_tk blockquote, ._tensorflow blockquote, ._vagrant blockquote, ._vue blockquote, ._angular .l-sub-section, ._angular .alert, ._angular .banner, ._angularjs .alert, ._apache .note, ._apache .warning, ._bootstrap .bs-callout, ._c .fmbox, ._cakephp .info, ._cordova .alert, ._d3 blockquote, ._drupal .signature, ._erlang .note, ._erlang .warning, ._express .doc-box, ._git > .callout, ._git > h1 + .sectionbody, ._haskell .warning, ._jquery #quick-nav, ._jquery .warning, ._knockout .liveExample, ._knockout blockquote, ._kotlin .api-docs-breadcrumbs, ._laravel blockquote, ._love .note, ._mdn > .note, ._mdn .notice, ._mdn .warning, ._mdn .overheadIndicator, ._mdn .syntaxbox, ._mdn .twopartsyntaxbox, ._mdn .inheritsbox, ._mdn .eval:first-of-type, ._mdn .htmlelt, ._mdn .cssprop, ._meteor .note, ._meteor .warning, ._meteor .subtitle-page, ._modernizr blockquote, ._nginx .note, ._node .api_stability_0, ._node .api_stability_1, ._node .api_stability_2, ._node .api_stability_3, ._node .api_stability_4, ._node .api_stability_5, ._phaser .deprecated-notice, ._php .classsynopsis, ._php .description > .constructorsynopsis, ._php .description > .methodsynopsis, ._php .description > .fieldsynopsis, ._php blockquote.note, ._php div.warning, ._php div.tip, ._phpunit .warning, ._phpunit .alert, ._postgres blockquote.NOTE, ._postgres blockquote.IMPORTANT, ._postgres blockquote.TIP, ._postgres blockquote.CAUTION, ._rdoc > .meta, ._react blockquote, ._redis > .metadata, ._rubydoc p.note, ._sphinx .note, ._sphinx .admonition, ._sphinx div.versionadded, ._sphinx div.versionchanged, ._sphinx .deprecated-removed, ._sphinx .deprecated, ._sphinx .topic, ._sphinx_simple .admonition, ._vagrant .alert, ._vue p.tip, ._yii blockquote {
     margin: 1.5rem 0;
     padding: .5rem .875rem;
-    background: #45474b;
-    border: 1px solid #000;
+    background: #f8f8dd;
+    border: 1px solid #d3d952;
     border-radius: 3px
 }
 
 ._apache_pig h3, ._bower h3, ._chai h3, ._docker h3, ._fish h3, ._gnu h3, ._grunt h3, ._haxe h3, ._influxdata h3, ._less h3, ._lodash h3, ._marionette h3, ._markdown h3, ._mocha h3, ._mongoose h3, ._redux h3, ._sinon h3, ._typescript h3, ._webpack h3, ._apache h3, ._bootstrap h3, ._cakephp h3, ._coffeescript h3, ._cordova h3, ._crystal h3, ._dojo h3, ._elixir h3, ._ember h3, ._erlang h3, ._express h3, ._github h3, ._go h3, ._love h3, ._lua h3, ._meteor h3, ._npm h3, ._perl h3, ._phalcon h3, ._phaser h3, ._phpunit h3, ._ramda h3, ._requirejs h3, ._rethinkdb h3, ._rubydoc h3, ._rust h3, ._sphinx_simple h3, ._tcl_tk h3, ._tensorflow h3, ._vagrant h3, ._vue h3, ._angular > h3, ._angularjs .defs > li > h3:first-child, ._c > h4, ._cakephp h4, ._clojure h2[id], ._clojure h3, ._d3 > h3, ._d3 > h6, ._github h4, ._haskell > h3, ._haskell p.src, ._jquery .signature > .name, ._jquery .api-item > h3, ._knockout > h3, ._kotlin h3, ._laravel h3, ._mdn > h3, ._modernizr h3, ._moment > h3, ._node > h3, ._node > h4, ._perl > h4, ._postgres .VARIABLELIST dt, ._rdoc .method-heading, ._react > h3, ._react > h4, ._rfc-pre > h3, ._rfc-pre > h4, ._rust h4, ._socketio > h3, ._sphinx h3, ._sphinx > dl:not(.docutils) > dt, ._sphinx dd > dl:not(.docutils) > dt, ._tensorflow h4, ._yard .signature, ._yii h3, ._shortcut-code, ._label, ._apache_pig p > code, ._bower p > code, ._chai p > code, ._docker p > code, ._fish p > code, ._gnu p > code, ._grunt p > code, ._haxe p > code, ._influxdata p > code, ._less p > code, ._lodash p > code, ._marionette p > code, ._markdown p > code, ._mocha p > code, ._mongoose p > code, ._redux p > code, ._sinon p > code, ._typescript p > code, ._webpack p > code, ._apache p > code, ._bootstrap p > code, ._cakephp p > code, ._coffeescript p > code, ._cordova p > code, ._crystal p > code, ._dojo p > code, ._elixir p > code, ._ember p > code, ._erlang p > code, ._express p > code, ._github p > code, ._go p > code, ._love p > code, ._lua p > code, ._meteor p > code, ._npm p > code, ._perl p > code, ._phalcon p > code, ._phaser p > code, ._phpunit p > code, ._ramda p > code, ._requirejs p > code, ._rethinkdb p > code, ._rubydoc p > code, ._rust p > code, ._sphinx_simple p > code, ._tcl_tk p > code, ._tensorflow p > code, ._vagrant p > code, ._vue p > code, ._apache_pig li > code, ._bower li > code, ._chai li > code, ._docker li > code, ._fish li > code, ._gnu li > code, ._grunt li > code, ._haxe li > code, ._influxdata li > code, ._less li > code, ._lodash li > code, ._marionette li > code, ._markdown li > code, ._mocha li > code, ._mongoose li > code, ._redux li > code, ._sinon li > code, ._typescript li > code, ._webpack li > code, ._apache li > code, ._bootstrap li > code, ._cakephp li > code, ._coffeescript li > code, ._cordova li > code, ._crystal li > code, ._dojo li > code, ._elixir li > code, ._ember li > code, ._erlang li > code, ._express li > code, ._github li > code, ._go li > code, ._love li > code, ._lua li > code, ._meteor li > code, ._npm li > code, ._perl li > code, ._phalcon li > code, ._phaser li > code, ._phpunit li > code, ._ramda li > code, ._requirejs li > code, ._rethinkdb li > code, ._rubydoc li > code, ._rust li > code, ._sphinx_simple li > code, ._tcl_tk li > code, ._tensorflow li > code, ._vagrant li > code, ._vue li > code, ._apache_pig td > code, ._bower td > code, ._chai td > code, ._docker td > code, ._fish td > code, ._gnu td > code, ._grunt td > code, ._haxe td > code, ._influxdata td > code, ._less td > code, ._lodash td > code, ._marionette td > code, ._markdown td > code, ._mocha td > code, ._mongoose td > code, ._redux td > code, ._sinon td > code, ._typescript td > code, ._webpack td > code, ._apache td > code, ._bootstrap td > code, ._cakephp td > code, ._coffeescript td > code, ._cordova td > code, ._crystal td > code, ._dojo td > code, ._elixir td > code, ._ember td > code, ._erlang td > code, ._express td > code, ._github td > code, ._go td > code, ._love td > code, ._lua td > code, ._meteor td > code, ._npm td > code, ._perl td > code, ._phalcon td > code, ._phaser td > code, ._phpunit td > code, ._ramda td > code, ._requirejs td > code, ._rethinkdb td > code, ._rubydoc td > code, ._rust td > code, ._sphinx_simple td > code, ._tcl_tk td > code, ._tensorflow td > code, ._vagrant td > code, ._vue td > code, ._angular p > code, ._angular .status-badge, ._angularjs p > code, ._angularjs li > code, ._angularjs td > code, ._bootstrap h4 > code, ._bootstrap h5 > code, ._bootstrap strong > code, ._bootstrap .text-danger, ._c code, ._c .t-mark, ._c .t-mark-rev, ._cakephp code, ._cakephp p > .label, ._cakephp dt > .label, ._cakephp div > .label, ._crystal a.signature, ._crystal .superclass > a, ._d3 code, ._drupal span.api-deprecated, ._ember dt > code, ._erlang code.code, ._git code, ._haskell dt > code, ._haskell .complexity, ._haskell .version, ._jquery p > code, ._jquery li > code, ._knockout p > code, ._kotlin code, ._laravel p > code, ._laravel h4 > code, ._love .label, ._love dt > code, ._mdn .inlineIndicator, ._meteor dt > code, ._modernizr code, ._moment code, ._nginx dt > code, ._node p > code, ._node li > code, ._node .type, ._node .api_metadata, ._php strong > code, ._php dt > code, ._postgres p > code, ._react p code, ._react li code, ._redis p > code, ._rubydoc span.note, ._rust em.stab, ._rust span.stab, ._socketio code, ._sphinx p > code, ._sphinx li > code, ._sphinx dd > code, ._sphinx .docutils > dt > code, ._sphinx_simple code, ._support_tables code, ._underscore .header + code {
     margin: 0 1px;
     padding: 1px 4px 2px;
-    background: #24282a;
+    background: #f4f4f4;
     border-radius: 3px
 }
 
@@ -655,34 +655,34 @@ pre, ._angular .filetree, ._redis > .example, ._toc, ._docs-links, ._mobile-nav,
     padding-right: .5em;
     overflow: hidden;
     font-size: inherit;
-    color: #dbe4e4;
-    border: 1px solid #000;
+    color: #333;
+    border: 1px solid #d8d8d8;
     border-radius: 2px
 }
 
 ._cakephp p > .label, ._cakephp dt > .label, ._cakephp div > .label {
-    background: #45474b;
-    border-color: #000
+    background: #f8f8dd;
+    border-color: #d3d952
 }
 
 ._intro-message, ._note-green, ._angular .banner, ._angularjs .alert-success, ._git > .callout, ._git > h1 + .sectionbody, ._love .note-green, ._node .api_stability_3, ._node .api_stability_4, ._php div.tip, ._postgres blockquote.TIP, ._redis > .metadata, ._c .t-mark, ._c .t-mark-rev, ._haskell .complexity, ._haskell .version, ._love .label-green {
-    background: #284a2a;
-    border-color: #000
+    background: #e7f8e1;
+    border-color: #89da70
 }
 
 ._angular .alert.is-helpful, ._bootstrap .bs-callout-info, ._d3 blockquote, ._drupal .signature, ._ember blockquote.class-info, ._jquery #quick-nav, ._laravel blockquote.tip, ._mdn .htmlelt, ._mdn .cssprop, ._meteor .subtitle-page, ._node .api_stability_5, ._php .classsynopsis, ._php .description > .constructorsynopsis, ._php .description > .methodsynopsis, ._php .description > .fieldsynopsis, ._rdoc > .meta, ._apache_pig h3, ._bower h3, ._chai h3, ._docker h3, ._fish h3, ._gnu h3, ._grunt h3, ._haxe h3, ._influxdata h3, ._less h3, ._lodash h3, ._marionette h3, ._markdown h3, ._mocha h3, ._mongoose h3, ._redux h3, ._sinon h3, ._typescript h3, ._webpack h3, ._apache h3, ._bootstrap h3, ._cakephp h3, ._coffeescript h3, ._cordova h3, ._crystal h3, ._dojo h3, ._elixir h3, ._ember h3, ._erlang h3, ._express h3, ._github h3, ._go h3, ._love h3, ._lua h3, ._meteor h3, ._npm h3, ._perl h3, ._phalcon h3, ._phaser h3, ._phpunit h3, ._ramda h3, ._requirejs h3, ._rethinkdb h3, ._rubydoc h3, ._rust h3, ._sphinx_simple h3, ._tcl_tk h3, ._tensorflow h3, ._vagrant h3, ._vue h3, ._angular > h3, ._angularjs .defs > li > h3:first-child, ._c > h4, ._clojure h2[id], ._clojure h3, ._d3 > h6, ._haskell p.src, ._jquery .signature > .name, ._jquery .api-item > h3, ._knockout > h3, ._kotlin h3, ._laravel h3, ._mdn > h3, ._modernizr h3, ._moment > h3, ._node > h3, ._postgres .VARIABLELIST dt, ._rdoc .method-heading, ._react > h3, ._rfc-pre > h3, ._socketio > h3, ._sphinx > dl:not(.docutils) > dt, ._yard .signature, ._yii h3 {
-    background: #2a4151;
-    border-color: #000
+    background: #d4f3fd;
+    border-color: #94bbeb
 }
 
 ._postgres blockquote.CAUTION, ._rethinkdb .infobox-alert, ._sphinx .important, ._sphinx_simple .admonition.warning, ._mdn .nonStandard, ._mdn .projectSpecific, ._mdn .experimental, ._rust em.stab.unstable, ._rust span.stab.unstable {
-    background: #563322;
-    border-color: #000
+    background: #fbe6d1;
+    border-color: #ec8b01
 }
 
 ._angular .alert.is-important, ._angularjs .alert-error, ._apache .warning, ._bootstrap .bs-callout-danger, ._erlang .warning, ._express .doc-warn, ._love .note-red, ._mdn .warning, ._meteor .warning, ._node .api_stability_0, ._node .api_stability_1, ._php div.warning, ._phpunit .alert-danger, ._sphinx .warning, ._sphinx .deprecated-removed, ._sphinx .deprecated, ._bootstrap .text-danger, ._drupal span.api-deprecated, ._love .label-red, ._mdn .deprecated, ._mdn .obsolete, ._rubydoc span.note.private {
-    background: #603033;
-    border-color: #000
+    background: #fed5d3;
+    border-color: #dc7874
 }
 
 ._list-link:after, ._page a[href^="http:"]:after, ._page a[href^="https:"]:after {
@@ -700,7 +700,7 @@ pre, ._angular .filetree, ._redis > .example, ._toc, ._docs-links, ._mobile-nav,
 html {
     height: 100%;
     font-size: 100%;
-    background: #33373a
+    background: #fafafa
 }
 
 @media (max-width: 800px) {
@@ -714,7 +714,7 @@ body {
     margin: 0;
     overflow: auto;
     font: normal 1em/1.7 "Open Sans", Helvetica, Arial, sans-serif;
-    color: #cbd0d0;
+    color: #333;
     word-wrap: break-word;
     overflow-wrap: break-word;
     -webkit-tap-highlight-color: transparent;
@@ -724,12 +724,12 @@ body {
 }
 
 a {
-    color: #cbd0d0;
-    text-decoration: underline
+    color: #3377c0;
+    text-decoration: none
 }
 
 a:hover {
-    color: white;
+    color: #2f6cb6;
     text-decoration: underline
 }
 
@@ -838,7 +838,7 @@ dfn, var {
 
 abbr, acronym, dfn {
     cursor: help;
-    border-bottom: 1px dotted #cbd0d0
+    border-bottom: 1px dotted #333
 }
 
 pre, code, samp, ._angular .filetree, ._redis > .example, ._abbreviations td, ._crystal .signature, ._dojo .functionIcon, ._dojo .parameters, ._erlang h3.code, ._haskell .src, ._ramda code, ._rfc-pre {
@@ -846,7 +846,7 @@ pre, code, samp, ._angular .filetree, ._redis > .example, ._abbreviations td, ._
     font-weight: normal;
     font-style: normal;
     font-size: .9em;
-    color: #cbd0d0;
+    color: #333;
     white-space: pre-wrap;
     direction: ltr;
     -moz-tab-size: 2;
@@ -869,7 +869,7 @@ a > code {
 table {
     margin: 1.5em 0;
     background: none;
-    border: 1px solid #000;
+    border: 1px solid #d8d8d8;
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 3px
@@ -885,7 +885,7 @@ th, td {
 
 th {
     border: 0;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #d8d8d8;
     border-radius: 0
 }
 
@@ -894,7 +894,7 @@ th:empty {
 }
 
 th + th, th + td {
-    border-left: 1px solid #000
+    border-left: 1px solid #d8d8d8
 }
 
 tr:first-child > th:first-child {
@@ -922,11 +922,11 @@ thead > tr:last-child > th {
 }
 
 td {
-    border-bottom: 1px solid #000
+    border-bottom: 1px solid #e5e5e5
 }
 
 td + td {
-    border-left: 1px solid #000
+    border-left: 1px solid #e5e5e5
 }
 
 tr:last-child > td {
@@ -954,7 +954,7 @@ input, button {
     margin: 0;
     font-family: inherit;
     font-size: 100%;
-    color: #cbd0d0;
+    color: #333;
     line-height: normal
 }
 
@@ -989,27 +989,25 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ::-webkit-input-placeholder {
-    color: #77787a
+    color: #888
 }
 
 ::-moz-placeholder {
-    color: #77787a;
+    color: #888;
     opacity: 1
 }
 
 :-ms-input-placeholder {
-    color: #77787a
+    color: #888
 }
 
 ._app {
     position: relative;
-    /*
     z-index: 1;
-    */
     height: 100%;
     padding-top: 3rem;
     overflow: hidden;
-    background: #33373a;
+    background: #fff;
     -webkit-transition: opacity .2s;
     transition: opacity .2s
 }
@@ -1025,7 +1023,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 ._app._max-width {
     margin: 0 auto;
     max-width: 80rem;
-    box-shadow: 1px 0 #000, -1px 0 #000
+    box-shadow: 1px 0 #d9d9d9, -1px 0 #d9d9d9
 }
 
 ._booting {
@@ -1045,7 +1043,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     line-height: 1;
     margin-top: -.75em;
     font-size: 4rem;
-    color: #5d6164;
+    color: #ccc;
     text-align: center;
     letter-spacing: -.125rem;
     opacity: 0;
@@ -1059,23 +1057,21 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 
 ._header {
     position: absolute;
-    /*
     z-index: 3;
-    */
     top: 0;
     left: 0;
     right: 0;
     height: 3rem;
     line-height: 3rem;
-    background: #1e1e1e;
-    border-bottom: 1px solid #000
+    background: #f0f0f0;
+    border-bottom: 1px solid #d9d9d9
 }
 
 ._nav {
     float: right;
     margin-right: .5rem;
     font-size: .875rem;
-    color: #cbd0d0
+    color: #333
 }
 
 ._nav-link, ._nav-link:hover {
@@ -1100,12 +1096,12 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     height: 0;
     margin-left: -.375rem;
     border: .375rem solid transparent;
-    border-bottom-color: black
+    border-bottom-color: #d4d4d4
 }
 
 ._nav-link:after {
     bottom: -1px;
-    border-bottom-color: #33373a
+    border-bottom-color: #fff
 }
 
 ._nav-current {
@@ -1159,18 +1155,20 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     height: 100%;
     padding: 0 .75rem 1px 1.75rem;
     font-size: .875rem;
-    background: #33373a;
+    background: #fff;
     border: 1px solid;
-    border-color: black;
+    border-color: #d4d4d4;
     border-radius: 3px
 }
 
 ._search-input:focus {
-    outline: 0
+    outline: 0;
+    border-color: #35b5f4;
+    box-shadow: 0 0 1px #35b5f4
 }
 
 ._search-input[disabled] {
-    background: #24282a;
+    background: #f9f9f9;
     cursor: not-allowed
 }
 
@@ -1206,16 +1204,14 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     padding: 0 .5rem;
     line-height: 1.25rem;
     font-size: .875rem;
-    color: #9da5ad;
-    background: #111111;
+    color: #666;
+    background: #e3e3e3;
     border-radius: 2px
 }
 
 ._notif {
     position: absolute;
-    /*
     z-index: 2;
-    */
     top: 1rem;
     right: 1rem;
     width: 25rem;
@@ -1223,8 +1219,8 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     padding: .625rem 1rem;
     font-size: .75rem;
     color: #fff;
-    background: rgba(85, 85, 85, 0.95);
-    border: 1px solid #000;
+    background: rgba(51, 51, 51, 0.85);
+    border: none;
     border-radius: .25rem;
     transition: opacity .2s;
     opacity: 0;
@@ -1292,19 +1288,19 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._notif-content::-webkit-scrollbar-track {
-    background: rgba(85, 85, 85, 0.95)
+    background: rgba(51, 51, 51, 0.85)
 }
 
 ._notif-content::-webkit-scrollbar-thumb {
     min-height: 2rem;
-    background: #6c6c6f;
+    background: #d2d2d2;
     background-clip: padding-box;
-    border: 3px solid rgba(85, 85, 85, 0.95);
+    border: 3px solid rgba(51, 51, 51, 0.85);
     border-radius: 5px
 }
 
 ._notif-content::-webkit-scrollbar-thumb:active {
-    background-color: #949697;
+    background-color: #aaa;
     border-width: 2px
 }
 
@@ -1355,27 +1351,25 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._notif-tip {
-    color: #cbd0d0;
-    background: rgba(85, 85, 85, 0.95);
-    border: 1px solid #000
+    color: #333;
+    background: rgba(255, 253, 205, 0.95);
+    border: 1px solid #e7dca9
 }
 
 ._notif-tip ._notif-info {
-    color: #9da5ad
+    color: #666
 }
 
 ._sidebar {
     position: absolute;
-    /*
     z-index: 2;
-    */
     top: 3rem;
     bottom: 0;
     left: 0;
     margin-top: 1px;
     overflow-x: hidden;
     overflow-y: scroll;
-    background: #24282a;
+    background: #f9f9f9;
     background-clip: content-box;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none
@@ -1391,19 +1385,19 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._sidebar::-webkit-scrollbar-track {
-    background: #33373a
+    background: #fff
 }
 
 ._sidebar::-webkit-scrollbar-thumb {
     min-height: 2rem;
-    background: #6c6c6f;
+    background: #d2d2d2;
     background-clip: padding-box;
-    border: 3px solid #33373a;
+    border: 3px solid #fff;
     border-radius: 5px
 }
 
 ._sidebar::-webkit-scrollbar-thumb:active {
-    background-color: #949697;
+    background-color: #aaa;
     border-width: 2px
 }
 
@@ -1413,9 +1407,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 
 ._resizer {
     position: absolute;
-    /*
     z-index: 3;
-    */
     top: 3rem;
     bottom: 0;
     left: 18rem;
@@ -1427,8 +1419,8 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 ._sidebar-hidden ._resizer {
     left: 0;
     margin-left: 0;
-    background: #1e1e1e;
-    border-right: 1px solid #000;
+    background: #f0f0f0;
+    border-right: 1px solid #d9d9d9;
     width: 8px;
     cursor: pointer
 }
@@ -1441,8 +1433,8 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     margin-top: -.5rem;
     width: 1px;
     height: 1rem;
-    border-left: 1px solid #77787a;
-    border-right: 1px solid #77787a
+    border-left: 1px solid #888;
+    border-right: 1px solid #888
 }
 
 ._list {
@@ -1450,7 +1442,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     padding: 0;
     list-style: none;
     width: 18rem;
-    box-shadow: inset -1px 0 #000
+    box-shadow: inset -1px 0 #e3e3e3
 }
 
 @media (max-width: 800px) {
@@ -1474,7 +1466,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     padding-left: 2.25rem;
     line-height: 2rem;
     font-size: .75rem;
-    color: #9da5ad;
+    color: #666;
     text-transform: uppercase;
     cursor: default
 }
@@ -1486,8 +1478,8 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     line-height: 1.5rem;
     font-size: .875rem;
     cursor: default;
-    background: #24282a;
-    box-shadow: inset -1px 0 #000
+    background: #f9f9f9;
+    box-shadow: inset -1px 0 #e3e3e3
 }
 
 ._list-item, ._list-item:hover {
@@ -1496,15 +1488,15 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._list-item.focus, ._list-item.focus:hover, ._list-item.active, ._list-item.active:hover {
-    color: #f7f2f2;
-    background: #3f4042;
-    box-shadow: inset -1px 0 #000
+    color: #000;
+    background: #e5e5e5;
+    box-shadow: inset -1px 0 #d4d4d4
 }
 
 ._list-item.active, ._list-item.active:hover {
     color: #fff;
-    background: #007acc;
-    box-shadow: inset -1px 0 #000
+    background: #398df0;
+    box-shadow: inset -1px 0 #196fc2
 }
 
 ._list-item:before {
@@ -1536,7 +1528,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._list-count {
-    color: #77787a;
+    color: #888;
     pointer-events: none
 }
 
@@ -1546,7 +1538,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 
 ._list-enable {
     display: none;
-    color: #cbd0d0;
+    color: #3377c0;
     cursor: pointer
 }
 
@@ -1567,7 +1559,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._list-disabled, ._list-disabled:hover {
-    color: #9da5ad
+    color: #666
 }
 
 ._list-disabled:before {
@@ -1632,12 +1624,12 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._list-pagelink {
-    color: #cbd0d0;
+    color: #3377c0;
     cursor: pointer
 }
 
 ._list-pagelink:hover {
-    color: white;
+    color: #2f6cb6;
     text-decoration: underline
 }
 
@@ -1678,7 +1670,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     padding: .5rem .75rem;
     line-height: 1.25rem;
     font-size: .8125rem;
-    color: #9da5ad
+    color: #666
 }
 
 ._list-note + ._list-note {
@@ -1692,9 +1684,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 ._list-hover.clone {
     position: fixed;
     overflow: visible;
-    /*
     z-index: 5;
-    */
     left: 0;
     min-width: 18rem;
     padding: .25rem .75rem;
@@ -1772,8 +1762,8 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     bottom: 0;
     left: 0;
     width: 18rem;
-    background: #24282a;
-    box-shadow: inset -1px 0 #000;
+    background: #f9f9f9;
+    box-shadow: inset -1px 0 #e3e3e3;
     -webkit-transform: translateZ(0);
     transform: translateZ(0)
 }
@@ -1801,8 +1791,8 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     left: 0;
     right: 1px;
     height: 1em;
-    background-image: -webkit-linear-gradient(top, rgba(36, 40, 42, 0), rgba(36, 40, 42, 0.95));
-    background-image: linear-gradient(to bottom, rgba(36, 40, 42, 0), rgba(36, 40, 42, 0.95));
+    background-image: -webkit-linear-gradient(top, rgba(249, 249, 249, 0), rgba(249, 249, 249, 0.95));
+    background-image: linear-gradient(to bottom, rgba(249, 249, 249, 0), rgba(249, 249, 249, 0.95));
     pointer-events: none
 }
 
@@ -1868,15 +1858,13 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 ._sidebar-footer-save {
     margin-right: 1px;
     font-weight: bold;
-    background: #284a2a;
-    box-shadow: inset 0 1px #000, 1px 0 #000
+    background: #e7f8e1;
+    box-shadow: inset 0 1px #89da70, 1px 0 #89da70
 }
 
 ._container {
     position: relative;
-    /*
     z-index: 1;
-    */
     height: 100%;
     margin-left: 18rem;
     pointer-events: none
@@ -1940,19 +1928,19 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._content::-webkit-scrollbar-track {
-    background: #33373a
+    background: #fff
 }
 
 ._content::-webkit-scrollbar-thumb {
     min-height: 2rem;
-    background: #6c6c6f;
+    background: #d2d2d2;
     background-clip: padding-box;
-    border: 5px solid #33373a;
+    border: 5px solid #fff;
     border-radius: 10px
 }
 
 ._content::-webkit-scrollbar-thumb:active {
-    background-color: #949697;
+    background-color: #aaa;
     border-width: 4px
 }
 
@@ -1961,7 +1949,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._splash-title {
-    color: #5d6164;
+    color: #ccc;
     cursor: default;
     opacity: 1
 }
@@ -2018,7 +2006,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 
 ._error-text {
     margin: 0 0 1rem;
-    color: #9da5ad
+    color: #666
 }
 
 ._error-links {
@@ -2045,7 +2033,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     height: 1px;
     line-height: 0;
     margin-left: 1rem;
-    background: #000
+    background: #e5e5e5
 }
 
 ._heading-links {
@@ -2150,7 +2138,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._docs-link._show ~ ._docs-link._show {
-    border-left: 1px solid #000
+    border-left: 1px solid #d8d8d8
 }
 
 ._docs-label {
@@ -2172,7 +2160,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     position: relative;
     padding-left: 10em;
     font-size: .8125rem;
-    color: #9da5ad
+    color: #666
 }
 
 ._content ._news-row + ._news-row {
@@ -2182,7 +2170,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 ._content ._news-title {
     display: block;
     font-size: .875rem;
-    color: #cbd0d0
+    color: #333
 }
 
 ._content ._news-date {
@@ -2228,7 +2216,7 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 ._highlight {
-    background: #64675f !important
+    background: #fffdcd !important
 }
 
 ._pre-clip {
@@ -2290,7 +2278,7 @@ pre:hover > ._pre-clip {
     display: block;
     margin-bottom: 1em;
     padding: 1px;
-    border: 1px dotted #000;
+    border: 1px dotted #d8d8d8;
     border-radius: 3px
 }
 
@@ -2317,7 +2305,7 @@ pre:hover > ._pre-clip {
     display: inline-block;
     vertical-align: top;
     padding: 0 .5rem;
-    background: #33373a
+    background: #fff
 }
 
 ._links-link + ._links-link {
@@ -2336,7 +2324,7 @@ pre:hover > ._pre-clip {
     clear: both;
     margin: 2rem 0 1.5rem;
     font-size: .75rem;
-    color: #9da5ad;
+    color: #666;
     text-align: center;
     -webkit-font-smoothing: subpixel-antialiased
 }
@@ -2353,7 +2341,7 @@ pre:hover > ._pre-clip {
     display: inline-block;
     margin: 0;
     padding: .25rem .75rem;
-    background: #24282a;
+    background: #f4f4f4;
     border-radius: 3px
 }
 
@@ -2404,7 +2392,7 @@ pre:hover > ._pre-clip {
 
 ._path {
     position: absolute;
-    z-index: 1;
+    z-index: 3;
     bottom: 0;
     left: 18rem;
     right: 0;
@@ -2412,8 +2400,8 @@ pre:hover > ._pre-clip {
     line-height: 2rem;
     padding: 0 .375rem;
     font-size: .875rem;
-    background: #1e1e1e;
-    box-shadow: inset 0 1px #000
+    background: #f9f9f9;
+    box-shadow: inset 0 1px #e3e3e3
 }
 
 @media (max-width: 800px) {
@@ -2440,7 +2428,7 @@ pre:hover > ._pre-clip {
     vertical-align: top;
     margin: 0 1rem 0 0;
     padding: 0 .375rem;
-    color: #cbd0d0;
+    color: #333;
     text-decoration: none
 }
 
@@ -2465,14 +2453,14 @@ pre:hover > ._pre-clip {
 
 ._notice {
     position: absolute;
-    z-index: 1;
+    z-index: 4;
     bottom: 0;
     left: 18rem;
     right: 0;
     height: 2.5rem;
     padding: 0 1.25rem;
-    background: #24282a;
-    box-shadow: inset 0 1px #000
+    background: #faf9e2;
+    box-shadow: inset 0 1px #e2e2c1
 }
 
 @media (max-width: 800px) {
@@ -2493,7 +2481,7 @@ pre:hover > ._pre-clip {
     bottom: auto;
     top: 3rem;
     margin-top: 1px;
-    box-shadow: inset 0 -1px #000
+    box-shadow: inset 0 -1px #e2e2c1
 }
 
 ._notice._top ~ ._container {
@@ -2514,7 +2502,7 @@ pre:hover > ._pre-clip {
 }
 
 .token.comment, .token.prolog, .token.doctype, .token.cdata, .token.punctuation {
-    color: #9da5ad
+    color: #666
 }
 
 .namespace {
@@ -2522,27 +2510,27 @@ pre:hover > ._pre-clip {
 }
 
 .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted {
-    color: #eb8160
+    color: #905
 }
 
 .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted {
-    color: #ddcf88
+    color: #5e8e01
 }
 
 .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string {
-    color: #b1c676
+    color: #a67f59
 }
 
 .token.atrule, .token.attr-value, .token.keyword {
-    color: #91b3ed
+    color: #0070a3
 }
 
 .token.function {
-    color: #c79e6b
+    color: #dd4a68
 }
 
 .token.regex, .token.important, .token.variable {
-    color: #e9c062
+    color: #e90
 }
 
 .token.important {
@@ -2551,7 +2539,7 @@ pre:hover > ._pre-clip {
 
 ._mobile {
     font-size: 100%;
-    background: #33373a
+    background: #fff
 }
 
 ._mobile body {
@@ -2645,7 +2633,7 @@ pre:hover > ._pre-clip {
 
 ._mobile ._sidebar-footer-save {
     margin: 0;
-    box-shadow: 0 1px #000, 0 -1px #000
+    box-shadow: 0 1px #89da70, 0 -1px #89da70
 }
 
 ._mobile ._splash-sponsors {
@@ -2862,7 +2850,7 @@ pre:hover > ._pre-clip {
     line-height: 1.7rem;
     padding-left: 1em;
     font-size: .875rem;
-    background: #33373a
+    background: #fff
 }
 
 ._angularjs .defs {
@@ -2888,7 +2876,7 @@ pre:hover > ._pre-clip {
 }
 
 ._bootstrap h2 > small {
-    color: #9da5ad;
+    color: #666;
     float: right
 }
 
@@ -2959,7 +2947,7 @@ pre:hover > ._pre-clip {
 
 ._c .t-spar {
     font-style: italic;
-    color: #9da5ad
+    color: #666
 }
 
 ._c .t-sdsc-nopad dl, ._c .t-sdsc-nopad dd {
@@ -3000,7 +2988,7 @@ pre:hover > ._pre-clip {
     margin: 1rem 0;
     padding: .375rem;
     font-size: .75rem;
-    border: 1px solid #000;
+    border: 1px solid #d8d8d8;
     border-radius: 2px
 }
 
@@ -3027,7 +3015,7 @@ pre:hover > ._pre-clip {
 ._clojure .type {
     float: right;
     font-size: .9em;
-    color: #9da5ad
+    color: #666
 }
 
 ._coffeescript > .code {
@@ -3092,7 +3080,7 @@ pre:hover > ._pre-clip {
 }
 
 ._dojo .jsdoc-inheritance {
-    color: #9da5ad
+    color: #666
 }
 
 ._elixir .type-detail {
@@ -3113,7 +3101,7 @@ pre:hover > ._pre-clip {
 
 ._ember h2 > .flag, ._ember h2 > .type {
     margin-left: .5em;
-    color: #9da5ad;
+    color: #666;
     font-weight: normal
 }
 
@@ -3122,7 +3110,7 @@ pre:hover > ._pre-clip {
 }
 
 ._ember .meta {
-    color: #9da5ad
+    color: #666
 }
 
 ._ember dl {
@@ -3323,11 +3311,11 @@ pre:hover > ._pre-clip {
 }
 
 ._love .cell-green {
-    background: #284a2a
+    background: #e7f8e1
 }
 
 ._love .cell-red {
-    background: #603033
+    background: #fed5d3
 }
 
 ._lua .apii {
@@ -3455,7 +3443,7 @@ pre:hover > ._pre-clip {
 }
 
 ._meteor .locus, ._meteor .type {
-    color: #9da5ad
+    color: #666
 }
 
 ._modernizr h4 {
@@ -3502,7 +3490,7 @@ pre:hover > ._pre-clip {
 
 ._npm .faint.heading {
     font-size: .9em;
-    color: #9da5ad
+    color: #666
 }
 
 ._npm .youtube-video iframe {
@@ -3512,7 +3500,7 @@ pre:hover > ._pre-clip {
 
 ._phalcon h3 > small {
     float: right;
-    color: #9da5ad
+    color: #666
 }
 
 ._phaser .type-signature, ._phaser dt.tag-source {
@@ -3530,7 +3518,7 @@ pre:hover > ._pre-clip {
 }
 
 ._php .classsynopsisinfo_comment {
-    color: #9da5ad
+    color: #666
 }
 
 ._php .classsynopsisinfo_comment, ._php .classsynopsis > .constructorsynopsis, ._php .classsynopsis > .methodsynopsis, ._php .classsynopsis > .fieldsynopsis {
@@ -3613,7 +3601,7 @@ pre:hover > ._pre-clip {
 ._rdoc a.method-click-advice {
     float: right;
     font-size: .75rem;
-    color: #cbd0d0;
+    color: #3377c0;
     cursor: pointer
 }
 
@@ -3628,14 +3616,12 @@ pre:hover > ._pre-clip {
 ._rdoc .method-source-code {
     display: none;
     position: absolute;
-    /*
     z-index: 1;
-    */
     top: 0;
     left: -1em;
     right: 0;
-    background: rgba(51, 55, 58, 0.95);
-    box-shadow: 0 1em 1em 1em #33373a
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 1em 1em 1em #fff
 }
 
 ._rdoc .method-source-code > pre {
@@ -3669,7 +3655,7 @@ pre:hover > ._pre-clip {
 
 ._redis .args {
     font-size: .75rem;
-    color: #9da5ad
+    color: #666
 }
 
 ._redis > h1, ._redis > h2, ._redis > .metadata, ._redis > h1 ~ p, ._redis > h1 + pre {
@@ -3691,7 +3677,7 @@ pre:hover > ._pre-clip {
 ._redis > .example > .prompt {
     float: left;
     margin-right: .5em;
-    color: #9da5ad
+    color: #666
 }
 
 ._redis > .example > code {
@@ -3970,7 +3956,7 @@ pre:hover > ._pre-clip {
 
 ._yii .detail-header-tag, ._yii .detailHeaderTag {
     float: right;
-    color: #9da5ad
+    color: #666
 }
 
 ._yii .param-type-col {

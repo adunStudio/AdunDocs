@@ -121,6 +121,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
 
     $scope.toggleCheck = function(dirEl, subEl, fileEl) {
 
+        $scope.search = "";
+
         var $dirEl  = $(dirEl);
         var $subEl  = $(subEl);
         var $fileEl = $(fileEl);

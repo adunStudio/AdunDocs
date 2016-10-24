@@ -25,6 +25,10 @@
 </head>
 <body >
 <div class="_app" role="application" id="app" >
+    <div role="alert" class="_notice _top">
+        <p class="_notice-text"><strong> AdunDocs는 현재 개발중에 있습니다.</strong></p>
+    </div>
+
 
     <div role="complementary" class="_path" >
         <a ng-show="dirName" href="#/{{dirName}}?check=1" class="_path-item _icon-{{dirName}}">{{dirName}}</a>
@@ -52,7 +56,7 @@
             <a href="#offline" class="_nav-link">Offline</a>
             <a href="#about" class="_nav-link">About</a>
             <a href="#news" class="_nav-link">News</a>
-            <a href="#tips" class="_nav-link">Tips</a>
+            <a href="#write" class="_nav-link">Write</a>
         </nav>
     </header>
     <!-- 배너 -->
@@ -108,5 +112,6 @@
 <script src="/js/adundocs_DirCtrl.js"></script>
 <script src="/js/adundocs_SubCtrl.js"></script>
 <script src="/js/adundocs_NewsCtrl.js"></script>
+<script src="/js/adundocs_WriteCtrl.js"></script>
 
 
