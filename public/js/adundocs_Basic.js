@@ -7,7 +7,7 @@ AdunDocs.config(function($routeProvider) {
     $routeProvider
         .when('/',      {templateUrl: 'views/intro.html'})
         .when('/about', {templateUrl: 'views/about.html'})
-        .when('/news',  {templateUrl: 'views/news.html'})
+        .when('/news',  {templateUrl: 'views/news.html', controller: 'newsCtrl'})
         .when('/tips',  {templateUrl: 'views/tips.html'})
         .when('/search/:dirName/:subName/:fileName', {templateUrl: 'views/view.html', controller: 'searchCtrl'})
         .when('/:dirName', {templateUrl: 'views/dir.html', controller: 'dirCtrl'})

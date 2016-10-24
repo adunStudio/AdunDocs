@@ -1,1 +1,18 @@
-news
+<div class="_static">
+    <h1 class="_lined-heading">News</h1>
+
+    <p class="_note">
+        For the latest news, follow <a href="http://oppacoding.com/" target="_blank">@OppaCoding</a>.<br>
+        For development updates, follow the project on <a href="https://github.com/adunStudio/AdunDocs" target="_blank">GitHub</a>.
+    </p>
+    <div class="_news">
+        <h4>2016</h4>
+        <div ng-repeat="file in fileArray" class="_news-row" >
+            <span class="_news-date">{{file.stat.birthtime | date: "MM. dd h:mm"}}</span>
+            <span class="_news-title">New documentations: <a href="/scikit_learn/">{{file.name}}</a></span>
+        </div>
+
+        <!--<div class="_news-row"><span class="_news-date">June 18</span> <span class="_news-title">Initial release</span>-->
+        </div>
+    </div>
+</div>

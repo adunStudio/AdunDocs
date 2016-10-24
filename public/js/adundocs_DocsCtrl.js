@@ -9,6 +9,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
     $scope.searchResult = [];
     $scope.docs = null;
     $scope.stat = {};
+    $scope.fileArray = null;
 
     $scope.dirName = '';
     $scope.subName = '';
@@ -61,6 +62,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
         var element = el || angular.element(event.target);
         var $element = $(element);
 
+        $scope.focus.removeClass('focus');
         $scope.active.removeClass('active');
         $element.addClass('active');
         $scope.active = $element;
@@ -83,6 +85,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
         var element = el || angular.element(event.target);
         var $element = $(element);
 
+        $scope.focus.removeClass('focus');
         $scope.active.removeClass('active');
         $element.addClass('active');
         $scope.active = $element;
@@ -223,4 +226,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
         $('#list').find('a').each(function(idx, el){ $(el).removeClass('open') });
         $('#list').find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
     };
+
+    $scope.setFileArray = function(arr) {
+        $scope.fileArray = arr;
+    }
 }]);
