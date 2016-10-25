@@ -1,8 +1,7 @@
 ## AdunDocs
 
-<img src="http://dcimg2.dcinside.com/viewimage.php?id=3dafdf21f7d335ab67b1d1&amp;no=29bcc427b28077a16fb3dab004c86b6f2de39bc5b73a49ebeb3225670394e99084cd90d432fbf5183cb99eebff38a62c5d47d762d012c761f95a9750b69c9be6d6">
-
-<img src="http://dcimg2.dcinside.com/viewimage.php?id=3dafdf21f7d335ab67b1d1&amp;no=29bcc427b28077a16fb3dab004c86b6f2de39bc5b73a49ebeb3225670394e99084cd90d432fbf5183cb99eebff38a62c5d47d762d01d9560ad0bc400ba9c9be663">
+![](http://dcimg2.dcinside.com/viewimage.php?id=3dafdf21f7d335ab67b1d1&no=29bcc427b28077a16fb3dab004c86b6f2de39bc5b73a49ebeb3225670394e99084cd90d432fbf5183cb99eebff38a62c5d47d762d012c761f95a9750b69c9be6d6)
+![](http://dcimg2.dcinside.com/viewimage.php?id=3dafdf21f7d335ab67b1d1&no=29bcc427b28077a16fb3dab004c86b6f2de39bc5b73a49ebeb3225670394e99084cd90d432fbf5183cb99eebff38a62c5d47d762d01d9560ad0bc400ba9c9be663)
 
 AdunDocs는 에버노트를 대신하며, 티스토리와 연동할 수 있게 만들어지고 있습니다.
 
