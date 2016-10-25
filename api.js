@@ -17,6 +17,7 @@ module.exports = function(app) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
+
     // 이미지 업로드
     app.post('/image/upload', function(req, res) {
         res.setHeader('Content-Type', 'application/json');
@@ -82,7 +83,7 @@ module.exports = function(app) {
 
             fs.open(path, 'w', function(err, fd) {
                 if (err) {
-                    res.send(JSON.stringify({result: false, msg: '경로가 잘못되었습니다.'}));
+                    return res.send(JSON.stringify({result: false, msg: '경로가 잘못되었습니다.'}));
                 }
 
                 fs.writeFile(path, fileData, 'utf8', function(error) {
