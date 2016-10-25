@@ -17,11 +17,9 @@
   },
   "homepage": "https://github.com/adunStudio/fuckingEvernote#readme",
   "dependencies": {
-    "connect-rest": "^1.9.5",
     "express": "^4.14.0",
-    "express3-handlebars": "^0.5.2",
+    "formidable": "^1.0.17",
     "fs-file-tree": "^1.0.2",
-    "multer": "^1.2.0",
     "simplemde": "^1.11.2"
   }
 }

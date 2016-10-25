@@ -3,28 +3,68 @@
 var fs = require('fs');
 var path = require('path');
 var fsFileTree = require("fs-file-tree");
-var multer = require('multer');
+var formidable = require('formidable');
 
-const ARTICLE_PATH = path.normalize(__dirname + '/article');
-const ARTICLE_JSON = path.normalize(__dirname + '/public/article.json');
+
+
+const ARTICLE_PATH = path.normalize('./article');
+const ARTICLE_JSON = path.normalize('./public/article.json');
 const RESULT_TRUE = {result: true};
 const RESULT_FALSE = {result: false};
 
 module.exports = function(app) {
 
-    //
-   /* app.post('/image/upload', multer({dest: 'public/upload'}), function(req, res) {
+
+    // 이미지 업로드
+    app.post('/image/upload', function(req, res) {
+        res.setHeader('Content-Type', 'application/json');
+
         var json = {
             success: 0,
             message: 'ddddd',
             url: 'http://www.exampler.com'
-        }
+        };
+        var json2 = {
+            success: 1,
+            message: 'ddddd',
+            url: 'http://www.exampler.com'
+        };
 
-        console.log(req.body);
-        console.log(req.file);
+        var form = new formidable.IncomingForm();
+        var now = String(Date.now()).slice(-4);
+        var dir = "public/upload/";
 
-        res.send(json);
-    });*/
+        fs.existsSync(dir) || fs.mkdirSync(dir);
+
+        form.parse(req, function(err, fields, files) {
+            if( err ) {
+                res.send(JSON.stringify(json));
+                return;
+            }
+            var tmpPath = files['editormd-image-file'].path;
+            var fileName = files['editormd-image-file'].name;
+            var dest = dir + now + "_" + fileName;
+
+            fs.readFile(tmpPath, function(err, data) {
+                if (err) {
+                    res.send(JSON.stringify(json));
+                    return;
+                }
+
+                fs.writeFile(dest, data, function(err) {
+
+                    if (err) {
+                        res.send(JSON.stringify(json));
+                        return;
+                    }
+
+                    json2.url = "http://localhost:3311/upload/" +  now + '_' + fileName;
+                    res.send(JSON.stringify(json2));
+                });
+            });
+
+        });
+    });
 
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -100,5 +140,5 @@ module.exports = function(app) {
 
 
 function makeFilePath(dir, sub, file) {
-    return ARTICLE_PATH + '/' + dir + '/' + sub + '/' + file;
+    return process.cwd() + '/article/' + dir + '/' + sub + '/' + file;
 }

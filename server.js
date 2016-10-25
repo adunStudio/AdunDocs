@@ -2,22 +2,21 @@
 
 var express = require('express');
 
-var handlebars = require('express3-handlebars').create({
-    defaultLayout: 'main'
-});
 var app = express();
+
+app.set('view engine', 'html');
 app.set('port', 3311);
 
 // API
 require("./api")(app);
 
 // PUBLIC
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('./public'));
 
 // 404 PAGE
 app.use(function(req, res) {
     res.status(404);
-    res.render('404');
+    //res.render('404');
 });
 
 app.listen(app.get('port'), function() {

@@ -11,10 +11,10 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', function wr
         theme: $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
         editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
         previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
-
+        placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
         imageUpload    : true,
         imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
-        imageUploadURL : "/article/image",
+        imageUploadURL : "/image/upload",
     });
 
     $scope.$watch('theme', function() {
