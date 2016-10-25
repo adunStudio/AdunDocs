@@ -1,27 +1,23 @@
 
-
 <div class="_static">
 
     <h2 class="_lined-heading">Write</h2>
-    <div id="write_page">
-        <form method="post" action="/article/write">
-            <select name="dirName">
-                <option>선택해주세요.</option>
-            </select>
-            <select name="subName">
-                <option>선택해주세요.</option>
-            </select>
 
-            <div id="contents" style="height: 100%;" >
-                d
-                d
-                d
-                d
-<!--
-            <textarea  name="contents" data-provide="markdown" style="z-index: 200;"></textarea>
--->
+    <div id="write_page">
+        <form name="writeForm">
+            <p><span>*</span> Directory</p>
+            <!--<select ng-model="inputDir" ng-options="dir as dir for (dir, dirValue) in docs" name="inputDir">
+            </select>
+            <p><span>*</span> SubDirectory</p>
+            <select ng-model="inputSub" ng-options="sub as sub for (sub, subValue) in docs[inputDir]" name="inputSub">
+            </select>-->
+            <input ng-model="inputName" type="text" name="inputName">
+            <div id="contents" >
             </div>
-            <button>Submit</button>
+            <button ng-click="write($event);">Submit</button>
         </form>
     </div>
 </div>
+<!--
+<option ng-repeat="(dir, dirValue) in docs" value="{{dir}}">{{dir}}</option>
+-->

@@ -3,25 +3,80 @@ var converter = converter || new showdown.Converter();
 AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', function writeCtrl($scope, $http, $routeParams) {
     var editor = editormd("contents", {
         path : "/editor.md/lib/",
-        flowChart: true,
+
         width: '100%',
-        height: 520,
+        height: '43rem',
+
         tex: true,
         sequenceDiagram: true,
+        flowChart: true,
+
+        placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
+
+
         theme: $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
         editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
         previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
-        placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
+
         imageUpload    : true,
         imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
         imageUploadURL : "/image/upload",
+
+        onfullscreen : function() {
+            $('._container').css('z-index', '100');
+        },
+        onfullscreenExit : function() {
+            $('._container').css('z-index', '1');
+        }
     });
 
+    editor.setToolbarAutoFixed(true);
+
     $scope.$watch('theme', function() {
-        editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
-        editor.setEditorTheme($scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark');
-        editor.setPreviewTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
+       // editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
+       // editor.setEditorTheme($scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark');
+      //  editor.setPreviewTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
     });
+
+    $scope.inputDir = "";
+    $scope.inputSub = "";
+    $scope.inputName = "";
+
+    $scope.write = function(event) {
+        event.preventDefault();
+
+        var contents = editor.getMarkdown();
+
+        /*if( $scope.inputDir && $scope.inputSub && $scope.inputName && contents ) {
+            $http({
+                method  : 'POST',
+                url     : '/article/write',
+                data    : {
+                    dirName: $scope.inputDir,
+                    subName: $scope.inputSub,
+                    fileName: $scope.inputName,
+                    fileData: contents
+                },
+                headers : {'Content-Type': 'application/json'}
+            }).then(function(response) {
+                var result = response.data;
+                if( result.result )
+                {
+                    $http.get('/article/renew').then(function(response) {
+                        alert(response.data.result);
+                        $scope.init();
+                    });
+                }
+                else
+                {
+                    alert(result.msg);
+                }
+            })
+        } else {
+            alert(2);
+        }*/
+
+    }
 
 
 }]);
