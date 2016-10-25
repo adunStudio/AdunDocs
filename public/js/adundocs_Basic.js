@@ -3,7 +3,7 @@ var converter = new showdown.Converter();
 var AdunDocs = angular.module('AdunDocs', ['ngRoute']);
 
 
-AdunDocs.config(function($routeProvider) {
+AdunDocs.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/',      {templateUrl: 'views/intro.html'})
         .when('/about', {templateUrl: 'views/about.html'})
@@ -15,4 +15,6 @@ AdunDocs.config(function($routeProvider) {
         .when('/:dirName/:subName',                  {templateUrl: 'views/sub.html',  controller: 'subCtrl'})
         .when('/:dirName/:subName/:fileName',        {templateUrl: 'views/view.html', controller: 'viewCtrl'})
         .otherwise({redirectTo: '/'});
-});
+
+}]);
+

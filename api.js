@@ -3,6 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var fsFileTree = require("fs-file-tree");
+var multer = require('multer');
 
 const ARTICLE_PATH = path.normalize(__dirname + '/article');
 const ARTICLE_JSON = path.normalize(__dirname + '/public/article.json');
@@ -10,6 +11,21 @@ const RESULT_TRUE = {result: true};
 const RESULT_FALSE = {result: false};
 
 module.exports = function(app) {
+
+    //
+   /* app.post('/image/upload', multer({dest: 'public/upload'}), function(req, res) {
+        var json = {
+            success: 0,
+            message: 'ddddd',
+            url: 'http://www.exampler.com'
+        }
+
+        console.log(req.body);
+        console.log(req.file);
+
+        res.send(json);
+    });*/
+
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // CREATE

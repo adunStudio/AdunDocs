@@ -21,6 +21,7 @@
     "express": "^4.14.0",
     "express3-handlebars": "^0.5.2",
     "fs-file-tree": "^1.0.2",
+    "multer": "^1.2.0",
     "simplemde": "^1.11.2"
   }
 }

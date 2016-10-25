@@ -4,19 +4,24 @@
 
     <h2 class="_lined-heading">Write</h2>
     <div id="write_page">
-        <form>
-            <select class="form-control">
-                <option>Large select</option>
+        <form method="post" action="/article/write">
+            <select name="dirName">
+                <option>선택해주세요.</option>
             </select>
-            <select  class="form-control">
-                <option>Default select</option>
+            <select name="subName">
+                <option>선택해주세요.</option>
             </select>
 
-            <textarea id="write_area" data-provide="markdown" style="z-index: 200;"></textarea>
+            <div id="contents" style="height: 100%;" >
+                d
+                d
+                d
+                d
+<!--
+            <textarea  name="contents" data-provide="markdown" style="z-index: 200;"></textarea>
+-->
+            </div>
+            <button>Submit</button>
         </form>
     </div>
-    <script>
-
-        alert(1);
-    </script>
 </div>

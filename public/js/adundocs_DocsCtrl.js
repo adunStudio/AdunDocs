@@ -15,6 +15,9 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
     $scope.subName = '';
     $scope.fileName = '';
 
+
+    $scope.theme = '';
+
     $scope.isToggleCheck  = false;// <- 임시방편 ... 수정해야함 toggle에서 쓰임
 
     $scope.init = function() {
@@ -231,5 +234,9 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
 
     $scope.setFileArray = function(arr) {
         $scope.fileArray = arr;
-    }
+    };
+
+    $scope.setTheme = function(theme) {
+        $scope.theme = theme;
+    };
 }]);

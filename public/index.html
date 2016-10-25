@@ -6,7 +6,7 @@
     <!-- style -->
     <link id="theme" rel="stylesheet" href="/css/style_white.css"/>
     <!-- simplemde -->
-    <link rel="stylesheet" href="/css/simplemde.min.css"/>
+    <link rel="stylesheet" href="/editor.md/css/editormd.css"/>
 
     <!-- Angular -->
     <script src="/js/lib/angular.min.js"></script>
@@ -20,8 +20,10 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     <!-- highlight -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
-    <!-- simplemde -->
-    <script src="/js/lib/simplemde.min.js"></script>
+    <!-- editor.md -->
+    <script src="/editor.md/editormd.js"></script>
+    <script src="/editor.md/languages/en.js"></script>
+
 </head>
 <body >
 <div class="_app" role="application" id="app" >
@@ -91,7 +93,10 @@
 
     <!-- 문서 -->
     <div class="_container" role="document">
-        <main class="_content" role="main" tabindex="1">
+        <main class="_content " role="main" tabindex="1">
+<!--
+            _content-loading
+-->
             <!-- 뷰 -->
             <div ng-view>
 
