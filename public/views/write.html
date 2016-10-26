@@ -1,19 +1,32 @@
-
+<style>
+    input.ng-invalid, select.ng-invalid {
+        border: 1px solid red;
+    }
+</style>
 <div class="_static">
 
     <h2 class="_lined-heading">Write</h2>
 
     <div id="write_page">
         <form name="writeForm">
-            <p><span>*</span> Directory</p>
-            <select ng-model="inputDir"  name="inputDir">
+
+            <label for="inputDir"><span>*</span> Directory</label>
+            <select ng-model="inputDir" ng-required="true" name="inputDir" >
                 <option ng-repeat="(dirName, dirValue) in dirTree" value="{{dirName}}">{{dirName}}</option>
             </select>
-            <p><span>*</span> SubDirectory</p>
-            <select ng-model="inputSub" name="inputSub">
+            <div style="margin-bottom: 20px;"></div>
+
+
+            <label for="inputSub"><span>*</span>  SubDirectory</label>
+            <select ng-model="inputSub" ng-required="true" name="inputSub">
                 <option ng-repeat="subName in dirTree[inputDir]" value="{{subName}}">{{subName}}</option>
             </select>
-            <input ng-model="inputName" type="text" name="inputName">
+            <div style="margin-bottom: 20px;"></div>
+
+            <label for="inputName"><span>*</span>  Title</label>
+            <input ng-model="inputName" ng-required="true" ng-pattern='nameRegExp' ng-maxlength="17" maxlength="17" type="text" name="inputName">
+            <div style="margin-bottom: 20px;"></div>
+
             <div id="contents" >
             </div>
             <button ng-click="write($event);">Submit</button>

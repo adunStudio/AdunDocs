@@ -1,8 +1,10 @@
 var converter = converter || new showdown.Converter();
 
-AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', function writeCtrl($scope, $http, $routeParams) {
+AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location', function writeCtrl($scope, $http, $routeParams, $location) {
     $scope.initStat();
     $scope.setName();
+
+    $scope.nameRegExp = /^[^\\/:^.\*\?"<>\|]+$/;
 
     var editor = editormd("contents", {
         path : "/editor.md/lib/",
@@ -65,8 +67,9 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', function wr
                 if( result.result )
                 {
                     $http.get('/article/renew').then(function(response) {
-                        $scope.init();
-                        location.href="/";
+                        $scope.init(function() {
+                            $location.url($scope.inputDir +'/' + $scope.inputSub + '/' + $scope.inputName + '.md?check=1');
+                        });
                     });
                 }
                 else

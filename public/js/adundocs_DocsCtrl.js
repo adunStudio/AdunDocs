@@ -5,7 +5,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
 
     $scope.theme = '';
 
-    $scope.init = function() {
+    $scope.init = function(fn) {
 
         $scope.active = $();
         $scope.focus  = $();
@@ -25,6 +25,11 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
         $http.get('/article.json').then(function(response) {
             $scope.docs = response.data;
             $scope.makeTreeAndArray();
+
+            if( typeof fn === 'function') {
+                fn();
+            }
+
         });
 
     };

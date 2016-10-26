@@ -6,7 +6,6 @@ AdunDocs.controller('viewCtrl', ['$scope', '$http', '$routeParams', '$timeout', 
     var fileName = $routeParams.fileName;
     var check  =  $routeParams.check;
 
-
     var url = $scope.toURL('/' + dirName + '/' + subName + '/' + fileName);
 
     $http.get('/article' + url).then(function (response) {

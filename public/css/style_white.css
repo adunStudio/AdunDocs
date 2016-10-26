@@ -1911,6 +1911,14 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     margin-bottom: 1.25rem
 }
 
+._content::after {
+    content: '';
+    display: block;
+    margin-bottom: 1.25rem
+}
+
+
+
 ._content::-webkit-scrollbar {
     -webkit-appearance: none
 }
