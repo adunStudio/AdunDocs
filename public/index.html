@@ -7,6 +7,8 @@
     <link id="theme" rel="stylesheet" href="/css/style_white.css"/>
     <!-- simplemde -->
     <link rel="stylesheet" href="/editor.md/css/editormd.css"/>
+    <!-- patternLock -->
+    <link rel="stylesheet" href="/css/patternLock.css"/>
 
     <!-- Angular -->
     <script src="/js/lib/angular.min.js"></script>
@@ -16,6 +18,8 @@
     <script src="/js/lib/angular-cookies.min.js"></script>
     <!-- jQuery -->
     <script src="/js/lib/jquery.min.js"></script>
+    <!-- PatternLock -->
+    <script src="/js/lib/patternLock.min.js"></script>
     <!-- ShowDown -->
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.4.3/dist/showdown.min.js"></script>
     <!-- MathJax -->
@@ -57,10 +61,12 @@
             <a ng-click="initialize();" href="#/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs</a>
         </h1>
         <nav class="_nav" role="navigation">
-            <a href="#offline" class="_nav-link">Offline</a>
+            <a href="#tistory" class="_nav-link">Tistory</a>
             <a href="#about" class="_nav-link">About</a>
             <a href="#news" class="_nav-link">News</a>
             <a href="#write" class="_nav-link">Write</a>
+            <a href="#login" class="_nav-link"><i class="fa fa-user" aria-hidden="true"></i></a>
+            <a href="#logout" class="_nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
         </nav>
     </header>
     <!-- 배너 -->
@@ -120,5 +126,6 @@
 <script src="/js/adundocs_SubCtrl.js"></script>
 <script src="/js/adundocs_NewsCtrl.js"></script>
 <script src="/js/adundocs_WriteCtrl.js"></script>
+<script src="/js/adundocs_LoginCtrl.js"></script>
 
 

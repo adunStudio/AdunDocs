@@ -22,9 +22,11 @@
                 <option ng-repeat="subName in dirTree[inputDir]" value="{{subName}}">{{subName}}</option>
             </select>
             <div style="margin-bottom: 20px;"></div>
-
+<!--
+            ng-pattern='nameRegExp'
+-->
             <label for="inputName"><span>*</span>  Title</label>
-            <input ng-model="inputName" ng-required="true" ng-pattern='nameRegExp' ng-maxlength="17" maxlength="17" type="text" name="inputName">
+            <input ng-model="inputName" ng-required="true"  ng-maxlength="17" maxlength="17" type="text" name="inputName">
             <div style="margin-bottom: 20px;"></div>
 
             <div id="contents" >

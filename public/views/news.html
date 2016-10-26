@@ -8,7 +8,7 @@
     <div class="_news">
         <h4>2016</h4>
         <div ng-repeat="file in sortedFileArray" class="_news-row" >
-            <span class="_news-date">{{file.stat.birthtime | date: "MM. dd h:mm"}}</span>
+            <span class="_news-date">{{file.stat.birthtime | date: "MM.dd  hh:mm"}}</span>
             <span class="_news-title">New documentations: <a href="#/{{file.dirName}}/{{file.subName}}/{{file.name}}">{{file.name}}</a></span>
         </div>
 

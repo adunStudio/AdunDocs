@@ -1,6 +1,6 @@
 var converter = converter || new showdown.Converter();
 
-AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location', function writeCtrl($scope, $http, $routeParams, $location) {
+AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', function writeCtrl($scope, $http, $routeParams, $location, $cookies, $interval) {
     $scope.initStat();
     $scope.setName();
 
@@ -34,6 +34,17 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
             $('._container').css('z-index', '1');
         }
     });
+
+
+    var expireDate = new Date();
+    expireDate.setDate(expireDate.getDate() + 3);
+
+    $interval(function() {
+        var contents = editor.getMarkdown();
+
+
+    }, 1000 * 60 * 10);
+
 
     $scope.$watch('theme', function() {
         editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');

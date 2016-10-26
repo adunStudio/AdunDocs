@@ -1,5 +1,5 @@
 
-AdunDocs.controller('ThemeCtrl', ['$scope', '$cookieStore', function ThemeCtrl($scope, $cookieStore) {
+AdunDocs.controller('ThemeCtrl', ['$scope', '$cookies', '$interval', function ThemeCtrl($scope, $cookies, $interval) {
     var WHITE = '/css/style_white.css';
     var BLACK = '/css/style_black.css';
 
@@ -7,12 +7,11 @@ AdunDocs.controller('ThemeCtrl', ['$scope', '$cookieStore', function ThemeCtrl($
     expireDate.setDate(expireDate.getDate() + 3);
 
     $scope.initTheme = function() {
-        var theme = $cookieStore.get('theme') || WHITE;
+        var theme = $cookies.get('theme') || WHITE;
         $scope.setTheme(theme);
 
         $('#theme').attr('href', $scope.theme);
     };
-
 
 
     $scope.initTheme();
@@ -22,7 +21,7 @@ AdunDocs.controller('ThemeCtrl', ['$scope', '$cookieStore', function ThemeCtrl($
         var current = $('#theme').attr('href');
         var theme = (current == WHITE) ? BLACK : WHITE;
 
-        $cookieStore.put('theme', theme, {'expires': expireDate});
+        $cookies.put('theme', theme, {'expires': expireDate});
         $scope.setTheme(theme);
 
         $('#theme').attr('href', $scope.theme);

@@ -7,68 +7,66 @@ var formidable = require('formidable');
 var bodyParser = require('body-parser');
 
 
-
 const ARTICLE_PATH = path.normalize('./article');
 const ARTICLE_JSON = path.normalize('./public/article.json');
-const RESULT_TRUE = {result: true};
-const RESULT_FALSE = {result: false};
+const RESULT_TRUE  = JSON.stringify({result: true});
+const RESULT_FALSE = JSON.stringify({result: false});
 
 module.exports = function(app) {
+
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
 
-    // 이미지 업로드
+    // 이미지 업로드 (IMAGE UPLOAD)
     app.post('/image/upload', function(req, res) {
         res.setHeader('Content-Type', 'application/json');
 
-        var json = {
-            success: 0,
-            message: 'ddddd',
-            url: 'http://www.exampler.com'
-        };
-        var json2 = {
-            success: 1,
-            message: 'ddddd',
-            url: 'http://www.exampler.com'
-        };
-
-        var form = new formidable.IncomingForm();
-        var now = String(Date.now()).slice(-4);
-        var dir = "public/upload/";
+        var form = new formidable.IncomingForm(),
+            now = String(Date.now()).slice(-4),
+            dir = "public/upload/";
 
         fs.existsSync(dir) || fs.mkdirSync(dir);
 
-        form.parse(req, function(err, fields, files) {
-            if( err ) {
-                res.send(JSON.stringify(json));
-                return;
+        form.parse(req, function(e, fields, files) {
+
+            if( e ) {
+                return res.send(JSON.stringify({success: 0, message: e.message}));
             }
-            var tmpPath = files['editormd-image-file'].path;
-            var fileName = files['editormd-image-file'].name;
-            var dest = dir + now + "_" + fileName;
 
-            fs.readFile(tmpPath, function(err, data) {
-                if (err) {
-                    res.send(JSON.stringify(json));
-                    return;
-                }
+            var tmpPath = files['editormd-image-file'].path,
+                fileName = files['editormd-image-file'].name,
+                dest = dir + now + "_" + fileName;
 
-                fs.writeFile(dest, data, function(err) {
+            try
+            {
+                var bf = fs.readFileSync(tmpPath);
+                fs.writeFileSync(dest, bf);
 
-                    if (err) {
-                        res.send(JSON.stringify(json));
-                        return;
-                    }
-
-                    json2.url = "http://localhost:3311/upload/" +  now + '_' + fileName;
-                    res.send(JSON.stringify(json2));
-                });
-            });
-
+                res.send(JSON.stringify({success: 1, message: 'success', url: "http://localhost:3311/upload/" +  now + '_' + fileName}));
+            }
+            catch(e)
+            {
+                res.send(JSON.stringify({success: 0, message: e.message}));
+            }
         });
     });
 
+    // 갱신 (RENEW)
+    app.get('/article/renew', function(req, res) {
+            try
+            {
+                var tree = fsFileTree.sync(ARTICLE_PATH);
+                var fd = fs.openSync(ARTICLE_JSON, 'w');
+                fs.writeSync(fd, JSON.stringify(tree));
+
+                res.send(JSON.stringify({result: true}));
+            }
+            catch(e)
+            {
+                res.send(JSON.stringify({result: false, msg: e.message}));
+            }
+    });
 
     // 글 쓰기 (CREATE)
     app.post('/article/write', function(req, res) {
@@ -81,39 +79,46 @@ module.exports = function(app) {
         {
             var path = makeFilePath(dirName, subName, fileName) + '.md';
 
-            fs.open(path, 'w', function(err, fd) {
-                if (err) {
-                    return res.send(JSON.stringify({result: false, msg: '경로가 잘못되었습니다.'}));
-                }
+            try
+            {
+                var fd = fs.openSync(path, 'w');
+                fs.writeSync(fd, fileData);
 
-                fs.writeFile(path, fileData, 'utf8', function(error) {
-                    res.send(JSON.stringify({result: true}));
-                });
-            });
+                res.send(JSON.stringify({result: true}));
+            }
+            catch(e)
+            {
+                res.send(JSON.stringify({result: false, msg: e.message}));
+            }
         }
         else
         {
             res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
         }
     });
-    /*----------------------------------------------------------------------------------------------------------------*/
 
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // READ
+    // 글 읽기 (READ)
     app.get('/article/:dir/:sub/:file', function(req, res) {
         var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
-        fs.stat(path, function(err, stats) {
-            if (err) {
-                res.status(404);
-                res.send(RESULT_TRUE);
-                return;
-            }
-            if (stats.isFile()) {
+
+        try
+        {
+            if( fs.statSync(path).isFile() )
+            {
                 res.sendFile(path);
             }
-        });
+        }
+        catch(e)
+        {
+            res.status(404);
+            res.send(RESULT_TRUE);
+        }
     });
-    /*----------------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
 
 
 
@@ -135,30 +140,11 @@ module.exports = function(app) {
     });
     /*----------------------------------------------------------------------------------------------------------------*/
 
-    app.get('/article/list', function(req, res) {
-        var file = __dirname + '/public/article.json';
-        fs.readFile(file, 'utf8', function(error, fd) {
-            if (error) {
-                res.send(RESULT_FALSE);
-                return;
-            }
-            res.send(fd);
-        });
-    });
 
-    app.get('/article/renew', function(req, res) {
-        fsFileTree(ARTICLE_PATH, function(err, tree) {
-            fs.open(ARTICLE_JSON, 'w', function(err, fd) {
-                if (err) {
-                    res.send(RESULT_FALSE);
-                }
 
-                fs.writeFile(ARTICLE_JSON, JSON.stringify(tree), 'utf8', function(error) {
-                    res.send(RESULT_TRUE);
-                });
-            });
-        });
-    });
+
+
+
 };
 
 
