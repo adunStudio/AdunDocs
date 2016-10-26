@@ -15,8 +15,10 @@ app.use(express.static('./public'));
 
 // 404 PAGE
 app.use(function(req, res) {
+    console.log(404);
+    console.log(req.originalUrl);
     res.status(404);
-    //res.render('404');
+    res.send('404');
 });
 
 app.listen(app.get('port'), function() {

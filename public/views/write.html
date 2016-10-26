@@ -6,11 +6,13 @@
     <div id="write_page">
         <form name="writeForm">
             <p><span>*</span> Directory</p>
-            <!--<select ng-model="inputDir" ng-options="dir as dir for (dir, dirValue) in docs" name="inputDir">
+            <select ng-model="inputDir"  name="inputDir">
+                <option ng-repeat="(dirName, dirValue) in dirTree" value="{{dirName}}">{{dirName}}</option>
             </select>
             <p><span>*</span> SubDirectory</p>
-            <select ng-model="inputSub" ng-options="sub as sub for (sub, subValue) in docs[inputDir]" name="inputSub">
-            </select>-->
+            <select ng-model="inputSub" name="inputSub">
+                <option ng-repeat="subName in dirTree[inputDir]" value="{{subName}}">{{subName}}</option>
+            </select>
             <input ng-model="inputName" type="text" name="inputName">
             <div id="contents" >
             </div>

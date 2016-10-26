@@ -7,9 +7,9 @@
     </p>
     <div class="_news">
         <h4>2016</h4>
-        <div ng-repeat="file in fileArray" class="_news-row" >
+        <div ng-repeat="file in sortedFileArray" class="_news-row" >
             <span class="_news-date">{{file.stat.birthtime | date: "MM. dd h:mm"}}</span>
-            <span class="_news-title">New documentations: <a href="/scikit_learn/">{{file.name}}</a></span>
+            <span class="_news-title">New documentations: <a href="#/{{file.dirName}}/{{file.subName}}/{{file.name}}">{{file.name}}</a></span>
         </div>
 
         <!--<div class="_news-row"><span class="_news-date">June 18</span> <span class="_news-title">Initial release</span>-->

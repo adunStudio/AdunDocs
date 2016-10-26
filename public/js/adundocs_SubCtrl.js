@@ -5,7 +5,7 @@ AdunDocs.controller('subCtrl', ['$scope', '$routeParams', function subCtrl($scop
     var check  =  $routeParams.check;
 
 
-    $scope.makeStat();
+    $scope.initStat();
 
 
     $scope.setName(dirName, subName);

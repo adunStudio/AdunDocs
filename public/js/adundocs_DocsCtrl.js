@@ -3,30 +3,54 @@ var converter = converter || new showdown.Converter();
 
 AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function DocsCtrl($scope, $http, $routeParams) {
 
-    $scope.active = $();
-    $scope.focus  = $();
-    $scope.search = "";
-    $scope.searchResult = [];
-    $scope.docs = null;
-    $scope.stat = {};
-    $scope.fileArray = null;
-
-    $scope.dirName = '';
-    $scope.subName = '';
-    $scope.fileName = '';
-
-
     $scope.theme = '';
 
-    $scope.isToggleCheck  = false;// <- 임시방편 ... 수정해야함 toggle에서 쓰임
-
     $scope.init = function() {
+
+        $scope.active = $();
+        $scope.focus  = $();
+        $scope.search = "";
+        $scope.searchResult = [];
+        $scope.docs = null;
+        $scope.stat = {};
+        $scope.dirTree = null;
+        $scope.fileArray = null;
+
+        $scope.dirName = '';
+        $scope.subName = '';
+        $scope.fileName = '';
+
+        $scope.isToggleCheck  = false;// <- 임시방편 ... 수정해야함 toggle에서 쓰임
+
         $http.get('/article.json').then(function(response) {
             $scope.docs = response.data;
+            $scope.makeTreeAndArray();
         });
+
     };
 
     $scope.init();
+
+    $scope.makeTreeAndArray = function() {
+        $scope.dirTree  = {};
+        $scope.fileArray = [];
+
+        angular.forEach($scope.docs, function(dir, dirName) {
+            $scope.dirTree[dirName] = [];
+
+            angular.forEach(dir, function(sub, subName) {
+                $scope.dirTree[dirName].push(subName);
+
+                angular.forEach(sub, function(file, fileName) {
+                    file.dirName = dirName;
+                    file.subName = subName;
+                    file.name = fileName;
+
+                    $scope.fileArray.push(file);
+                });
+            });
+        });
+    };
 
     $scope.setName = function(dirName, subName, fileName) {
         $scope.dirName  = dirName  || '';
@@ -184,7 +208,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
         return encodeURI(str);
     };
 
-    $scope.makeStat = function(name, stat) {
+    $scope.initStat = function(name, stat) {
         $scope.stat.name = name || '';
         if(!stat) {
             $scope.stat = {};
@@ -196,38 +220,25 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
 
     $scope.searchDoc = function() {
         var text = $scope.search;
-        if( !text ) { return; }
+        if( !text || !$scope.fileArray ) { return; }
 
-        var result = [];
+        var result = [],
+            i,
+            len = $scope.fileArray.length;
 
-        angular.forEach($scope.docs, function(dir, dirName) {
-            angular.forEach(dir, function(sub, subName) {
-                angular.forEach(sub, function(file, fileName) {
-                    if(fileName.toLowerCase().indexOf(text.toLowerCase()) >= 0) {
-                        result.push({
-                            dirName: dirName,
-                            subName: subName,
-                            name: fileName,
-                            file: file
-                        });
-                    }
-                })
-            })
-        });
+        for(i = 0; i < len; ++i) {
+            var file = $scope.fileArray[i];
+
+            if( file.name.toLowerCase().indexOf(text.toLowerCase()) >= 0 ) {
+                result.push(file);
+            }
+        }
 
         $scope.searchResult = result;
     };
 
     $scope.initialize = function() {
-        $scope.dirName = "";
-        $scope.subName = "";
-        $scope.fileName = "";
-        $scope.active = $();
-        $scope.focus  = $();
-        $scope.search = "";
-        $scope.searchResult = [];
-        $scope.stat = {};
-
+        $scope.init();
         $('#list').find('a').each(function(idx, el){ $(el).removeClass('open') });
         $('#list').find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
     };

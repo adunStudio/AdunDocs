@@ -5,23 +5,13 @@ AdunDocs.controller('newsCtrl', ['$scope', function newsCtrl($scope) {
         return new Date(b.stat.birthtime).getTime() - new Date(a.stat.birthtime).getTime();
     }
 
-    if( !$scope.fileArray ) {
-        var fileArray = [];
+    $scope.sortedFileArray = [];
 
-        angular.forEach($scope.docs, function(dir, dirName) {
-            angular.forEach(dir, function(sub, subName) {
-                angular.forEach(sub, function(file, fileName) {
-                    file.dirName = dirName;
-                    file.subName = subName;
-                    file.name = fileName;
 
-                    fileArray.push(file);
-                });
-            });
-        });
+    if( $scope.fileArray ) {
 
-        fileArray.sort(date_sort);
+        $scope.sortedFileArray = $scope.fileArray.slice();
 
-        $scope.setFileArray(fileArray)
+        $scope.sortedFileArray.sort(date_sort);
     }
 }]);

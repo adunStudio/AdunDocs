@@ -1,6 +1,9 @@
 var converter = converter || new showdown.Converter();
 
 AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', function writeCtrl($scope, $http, $routeParams) {
+    $scope.initStat();
+    $scope.setName();
+
     var editor = editormd("contents", {
         path : "/editor.md/lib/",
 
@@ -30,12 +33,10 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', function wr
         }
     });
 
-    editor.setToolbarAutoFixed(true);
-
     $scope.$watch('theme', function() {
-       // editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
-       // editor.setEditorTheme($scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark');
-      //  editor.setPreviewTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
+        editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
+        editor.setEditorTheme($scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark');
+        editor.setPreviewTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
     });
 
     $scope.inputDir = "";
@@ -47,7 +48,8 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', function wr
 
         var contents = editor.getMarkdown();
 
-        /*if( $scope.inputDir && $scope.inputSub && $scope.inputName && contents ) {
+
+        if( $scope.inputDir && $scope.inputSub && $scope.inputName && contents ) {
             $http({
                 method  : 'POST',
                 url     : '/article/write',
@@ -63,8 +65,8 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', function wr
                 if( result.result )
                 {
                     $http.get('/article/renew').then(function(response) {
-                        alert(response.data.result);
                         $scope.init();
+                        location.href="/";
                     });
                 }
                 else
@@ -73,8 +75,8 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', function wr
                 }
             })
         } else {
-            alert(2);
-        }*/
+            alert('꽉꽉 채우자');
+        }
 
     }
 

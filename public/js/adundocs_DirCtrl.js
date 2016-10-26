@@ -4,7 +4,7 @@ AdunDocs.controller('dirCtrl', ['$scope', '$routeParams', function dirCtrl($scop
     var check  =  $routeParams.check;
 
 
-    $scope.makeStat();
+    $scope.initStat();
 
     $scope.setName(dirName);
 
