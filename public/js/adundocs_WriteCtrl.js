@@ -8,7 +8,7 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
     $scope.initStat();
     $scope.setName();
 
-    $scope.nameRegExp = /^[^\\/:^.\*\?"<>\|]+$/;
+    $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
 
 
     var editor = editormd("contents", {

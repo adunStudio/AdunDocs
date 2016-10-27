@@ -5,34 +5,57 @@ var path = require('path');
 var fsFileTree = require("fs-file-tree");
 var formidable = require('formidable');
 var bodyParser = require('body-parser');
+var secret = require('./secret.js');
+/**
+secret = {
+    pattern     : '...',
 
+    admin       : '...',
+
+    cookieSecret: '...'
+};
+**/
 
 const ARTICLE_PATH = path.normalize('./article');
 const ARTICLE_JSON = path.normalize('./public/article.json');
 const RESULT_TRUE  = JSON.stringify({result: true});
 const RESULT_FALSE = JSON.stringify({result: false});
 
-const PASSWORD = '7415369';
-
 
 module.exports = function(app) {
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(require('cookie-parser')(secret.cookieSecret));
+    app.use(require('express-session')({
+        resave: false,
+        saveUninitialized: true,
+        secret: secret.cookieSecret
+    }));
 
 
     app.post('/article/login', function(req, res) {
         var pattern = req.body.pattern;
 
-        pattern === PASSWORD ? res.send(RESULT_TRUE) : res.send(RESULT_FALSE);
-        if( pattern == PASSWORD ) {
+        console.log('--------- 로그인 시도 -----------');
+        console.log(req.connection.remoteAddress);
+        console.log('-------------------------------------');
 
+        if( pattern == secret.pattern ) {
+            req.session.admin = secret.admin;
+            res.send(RESULT_TRUE)
+        } else {
+            res.send(RESULT_FALSE);
         }
     });
 
     // 이미지 업로드 (IMAGE UPLOAD)
     app.post('/article/upload', function(req, res) {
         res.setHeader('Content-Type', 'application/json');
+
+        if( req.session.admin != secret.admin ) {
+            return res.send(JSON.stringify({success: 0, message: '관리자가 아닙니다.'}));
+        }
 
         var form = new formidable.IncomingForm(),
             now = String(Date.now()).slice(-4),
@@ -82,6 +105,10 @@ module.exports = function(app) {
 
     // 글 쓰기 (CREATE)
     app.post('/article/write', function(req, res) {
+        if( req.session.admin != secret.admin ) {
+            return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
+        }
+
         var dirName  = req.body.dirName,
             subName  = req.body.subName,
             fileName = req.body.fileName,
@@ -93,6 +120,10 @@ module.exports = function(app) {
 
             try
             {
+                if( fs.existsSync(path) ) {
+                    return res.send(JSON.stringify({result: false, msg: '존재하는 파일명입니다.'}));
+                }
+
                 var fd = fs.openSync(path, 'w');
                 fs.writeSync(fd, fileData);
 
@@ -113,6 +144,9 @@ module.exports = function(app) {
     app.get('/article/:dir/:sub/:file', function(req, res) {
         var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
 
+        console.log('---------' + req.params.file + '-------');
+        console.log(req.connection.remoteAddress);
+        console.log('-------------------------------------');
         try
         {
             if( fs.statSync(path).isFile() )
