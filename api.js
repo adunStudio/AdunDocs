@@ -12,14 +12,26 @@ const ARTICLE_JSON = path.normalize('./public/article.json');
 const RESULT_TRUE  = JSON.stringify({result: true});
 const RESULT_FALSE = JSON.stringify({result: false});
 
+const PASSWORD = '7415369';
+
+
 module.exports = function(app) {
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
 
+    app.post('/article/login', function(req, res) {
+        var pattern = req.body.pattern;
+
+        pattern === PASSWORD ? res.send(RESULT_TRUE) : res.send(RESULT_FALSE);
+        if( pattern == PASSWORD ) {
+
+        }
+    });
+
     // 이미지 업로드 (IMAGE UPLOAD)
-    app.post('/image/upload', function(req, res) {
+    app.post('/article/upload', function(req, res) {
         res.setHeader('Content-Type', 'application/json');
 
         var form = new formidable.IncomingForm(),

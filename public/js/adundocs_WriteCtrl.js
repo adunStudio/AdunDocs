@@ -1,10 +1,15 @@
 var converter = converter || new showdown.Converter();
 
 AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', function writeCtrl($scope, $http, $routeParams, $location, $cookies, $interval) {
+    if($scope.unLoginCheck()) {
+        $location.url('/#');
+    }
+
     $scope.initStat();
     $scope.setName();
 
     $scope.nameRegExp = /^[^\\/:^.\*\?"<>\|]+$/;
+
 
     var editor = editormd("contents", {
         path : "/editor.md/lib/",
@@ -18,14 +23,13 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
 
         placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
 
-
         theme: $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
         editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
         previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
 
         imageUpload    : true,
         imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
-        imageUploadURL : "/image/upload",
+        imageUploadURL : "/article/upload",
 
         onfullscreen : function() {
             $('._container').css('z-index', '100');
@@ -41,8 +45,6 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     $interval(function() {
         var contents = editor.getMarkdown();
-
-
     }, 1000 * 60 * 10);
 
 

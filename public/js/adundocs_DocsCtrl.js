@@ -4,6 +4,7 @@ var converter = converter || new showdown.Converter();
 AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function DocsCtrl($scope, $http, $routeParams) {
 
     $scope.theme = '';
+    $scope.isLogin = false;
 
     $scope.init = function(fn) {
 
@@ -254,5 +255,18 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
 
     $scope.setTheme = function(theme) {
         $scope.theme = theme;
+    };
+
+    $scope.setLogin = function(login) {
+        $scope.isLogin = login;
+    };
+
+    $scope.unLoginCheck = function() {
+        return !$scope.isLogin;
+    };
+
+    var $login = $scope.$login = $("._login");
+    $scope.login = function() {
+        $login.is(':visible') ? $login.hide('slide', {direction: 'right'}, 500) : $login.show('slide', {direction: 'right'}, 500);
     };
 }]);

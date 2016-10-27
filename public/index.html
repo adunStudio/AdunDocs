@@ -5,10 +5,15 @@
 
     <!-- style -->
     <link id="theme" rel="stylesheet" href="/css/style_white.css"/>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
     <!-- simplemde -->
     <link rel="stylesheet" href="/editor.md/css/editormd.css"/>
     <!-- patternLock -->
     <link rel="stylesheet" href="/css/patternLock.css"/>
+
+    <link rel="stylesheet" href="/css/custom.css"/>
+
 
     <!-- Angular -->
     <script src="/js/lib/angular.min.js"></script>
@@ -16,8 +21,12 @@
     <script src="/js/lib/angular-route.min.js"></script>
     <!-- Angular-cookies -->
     <script src="/js/lib/angular-cookies.min.js"></script>
+    <!-- Angular-sanitize -->
+    <script src="/js/lib/angular-sanitize.min.js"></script>
     <!-- jQuery -->
     <script src="/js/lib/jquery.min.js"></script>
+    <!-- jQuery-UI -->
+    <script src="/js/lib/jquery-ui.min.js"></script>
     <!-- PatternLock -->
     <script src="/js/lib/patternLock.min.js"></script>
     <!-- ShowDown -->
@@ -61,15 +70,33 @@
             <a ng-click="initialize();" href="#/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs</a>
         </h1>
         <nav class="_nav" role="navigation">
-            <a href="#tistory" class="_nav-link">Tistory</a>
-            <a href="#about" class="_nav-link">About</a>
-            <a href="#news" class="_nav-link">News</a>
-            <a href="#write" class="_nav-link">Write</a>
-            <a href="#login" class="_nav-link"><i class="fa fa-user" aria-hidden="true"></i></a>
-            <a href="#logout" class="_nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            <a href="#tistory" class="_nav-link" title="tistory">Tistory</a>
+            <a href="#about"   class="_nav-link" title="about">About</a>
+            <a href="#news"    class="_nav-link" title="news">News</a>
+            <a ng-show="isLogin"                       href="#write"  class="_nav-link" title="write">Write</a>
+            <a ng-hide="isLogin" ng-click="login();" href=""        class="_nav-link" title="login"><i class="fa fa-user" aria-hidden="true"></i></a>
+            <a ng-show="isLogin"                       href="#logout" class="_nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
         </nav>
     </header>
     <!-- 배너 -->
+
+    <!-- 로그인 -->
+    <div ng-hide="isLogin" ng-controller="LoginCtrl" class="_login"  style="display: none;">
+        <div class="login-ui-wrap">
+            <div class="login-ui-page page-lock">
+                <div class="login-ui-date-time">
+                    <div class="login-ui-time">{{h}}:{{m}} PM</div>
+                    <div class="login-ui-day">{{day}}</div>
+                    <div class="login-ui-date">{{month}} {{date}}, {{year}}</div>
+                </div>
+                <div class="login-lock-wrap">
+                    <div class="login-lock-title" data-title="Draw a pattern to unlock"></div>
+                    <div class="login-lock"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 로그인 -->
 
     <!-- 네비게이션 -->
     <section class="_sidebar" tabindex="-1">

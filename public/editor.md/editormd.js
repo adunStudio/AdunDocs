@@ -635,9 +635,14 @@
             {
                 editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
             }
-            
-            this.cm.setOption("theme", theme);
-            
+
+            /* custorm */
+            if(this.cm) {
+
+                this.cm.setOption("theme", theme);
+
+            }
+
             return this;
         },
         

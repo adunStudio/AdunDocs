@@ -1,6 +1,7 @@
 <style>
     input.ng-invalid, select.ng-invalid {
-        border: 1px solid red;
+        background-color: #d9534f;
+        border-color: #d9534f;
     }
 </style>
 <div class="_static">
@@ -10,28 +11,36 @@
     <div id="write_page">
         <form name="writeForm">
 
-            <label for="inputDir"><span>*</span> Directory</label>
-            <select ng-model="inputDir" ng-required="true" name="inputDir" >
-                <option ng-repeat="(dirName, dirValue) in dirTree" value="{{dirName}}">{{dirName}}</option>
-            </select>
-            <div style="margin-bottom: 20px;"></div>
+            <div class="col-md-2" style="padding-left: 0;">
+                <div class="form-group">
+                    <label for="inputDir"><span>*</span> Directory</label>
+                    <select ng-model="inputDir"  ng-required="true" name="inputDir" id="inputDir" class="form-control" >
+                        <option ng-repeat="(dirName, dirValue) in dirTree" data-class="_icon-{{dirName}}" value="{{dirName}}">{{dirName}}</option>
+                    </select>
+                </div>
+            </div>
 
+            <div class="col-md-2" style="padding-left: 0;">
+                <div class="form-group">
+                    <label for="inputSub"><span>*</span> SubDirectory</label>
+                    <select ng-model="inputSub" ng-required="true" name="inputSub" id="inputSub" class="form-control">
+                        <option ng-repeat="subName in dirTree[inputDir]" value="{{subName}}">{{subName}}</option>
+                    </select>
+                </div>
+            </div>
 
-            <label for="inputSub"><span>*</span>  SubDirectory</label>
-            <select ng-model="inputSub" ng-required="true" name="inputSub">
-                <option ng-repeat="subName in dirTree[inputDir]" value="{{subName}}">{{subName}}</option>
-            </select>
-            <div style="margin-bottom: 20px;"></div>
-<!--
-            ng-pattern='nameRegExp'
--->
-            <label for="inputName"><span>*</span>  Title</label>
-            <input ng-model="inputName" ng-required="true"  ng-maxlength="17" maxlength="17" type="text" name="inputName">
-            <div style="margin-bottom: 20px;"></div>
+            <div class="col-md-7" style="padding-left: 0;">
+                <div class="form-group">
+                    <label for="inputName"><span>*</span> Title</label>
+                    <input ng-model="inputName" ng-required="true" ng-pattern="nameRegExp"  ng-maxlength="17" maxlength="17" type="text" id="inputName" class="form-control">
+                </div>
+            </div>
 
             <div id="contents" >
             </div>
-            <button ng-click="write($event);">Submit</button>
+
+            <button ng-click="write($event);" type="button" class="btn btn-default">Submit</button>
+
         </form>
     </div>
 </div>
