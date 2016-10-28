@@ -134,7 +134,6 @@ module.exports = function(app) {
             {
                 var bf = fs.readFileSync(tmpPath);
                 fs.writeFileSync(dest, bf);
-                fs.closeSync(bf);
 
                 res.send(JSON.stringify({success: 1, message: 'success', url: "http://localhost:3311/upload/" +  now + '_' + fileName}));
             }

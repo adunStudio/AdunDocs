@@ -115,6 +115,7 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
             $('#dirModal').effect('shake');
         }
     };
+
     $scope.makeSubDirectory = function() {
         if( $scope.makeSubForm.$valid ) {
 
