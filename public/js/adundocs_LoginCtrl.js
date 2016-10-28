@@ -1,5 +1,9 @@
 
-AdunDocs.controller('LoginCtrl', ['$scope', '$timeout','$http',  function LoginCtrl($scope, $timeout, $http) {
+AdunDocs.controller('LoginCtrl', ['$scope', '$timeout','$http', '$cookies',  function LoginCtrl($scope, $timeout, $http, $cookies) {
+
+
+
+    $scope.setLogin($cookies.get('login') || false);
 
     var lock = new PatternLock(".login-lock", {
         margin: 15,
@@ -16,6 +20,7 @@ AdunDocs.controller('LoginCtrl', ['$scope', '$timeout','$http',  function LoginC
 
                 if(result) {
                     $scope.setLogin(true);
+                    $cookies.put('login', true);
                     lock.reset();
                     lock.enable();
                     $scope.$login.fadeOut();
