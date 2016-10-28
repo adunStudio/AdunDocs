@@ -6,7 +6,7 @@
     <!-- bootstrap -->
     <link rel="stylesheet" href="/css/bootstrap.css"/>
     <!-- style -->
-    <link id="theme" rel="stylesheet" href="/css/style_white.css"/>
+    <link id="theme" rel="stylesheet" href="/css/style_black.css"/>
     <!-- simplemde -->
     <link rel="stylesheet" href="/editor.md/css/editormd.css"/>
     <!-- patternLock -->
@@ -27,8 +27,6 @@
     <script src="/js/lib/angular-cookies.min.js"></script>
     <!-- Angular-sanitize -->
     <script src="/js/lib/angular-sanitize.min.js"></script>
-    <!-- Angular-ui-bootstrap -->
-    <script src="/js/lib/ui-bootstrap.min.js"></script>
     <!-- Angular-messages -->
     <script src="/js/lib/angular-messages.min.js"></script>
     <!-- PatternLock -->
@@ -44,7 +42,7 @@
     <script src="/editor.md/languages/en.js"></script>
 
 </head>
-<body >
+<body>
 <div class="_app" role="application" id="app" >
     <div role="alert" class="_notice _top">
         <p class="_notice-text"><strong> AdunDocs는 현재 개발중 입니다.</strong></p>
@@ -55,8 +53,9 @@
         <a ng-show="dirName" href="#/{{dirName}}?check=1" class="_path-item _icon-{{dirName}}">{{dirName}}</a>
         <a ng-show="subName" href="#/{{dirName}}/{{subName}}?check=1" class="_path-item">{{subName}}</a>
         <span ng-show="fileName" class="_path-item">{{fileName}}</span>
-        <span ng-show="stat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: {{stat.mtime | date: "y-MM-dd"}} </small></span>
-        <span ng-show="stat.btime" style="float: right;" class="_path-item">작성 날짜: {{stat.btime | date: "y-MM-dd"}} </small></span>
+        <span ng-show="isLogin && dirName && subName && fileName" style="float: right;" class="_path-item"><a href="#/modify/{{dirName}}/{{subName}}/{{fileName}}" class="_path-item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Modify</a></span>
+        <span ng-show="stat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: {{stat.mtime | date: "y-MM-dd"}} </span>
+        <span ng-show="stat.btime" style="float: right;" class="_path-item">작성 날짜: {{stat.btime | date: "y-MM-dd"}} </span>
     </div>
 
     <!-- 배너 -->
@@ -85,7 +84,7 @@
     <!-- 배너 -->
 
     <!-- 로그인 -->
-    <div ng-hide="isLogin" ng-controller="LoginCtrl" class="_login"  style="display: none;">
+    <div  ng-controller="LoginCtrl" class="_login"  style="display: none;">
         <div class="login-ui-wrap">
             <div class="login-ui-page page-lock">
                 <div class="login-ui-date-time">
@@ -158,5 +157,6 @@
 <script src="/js/adundocs_NewsCtrl.js"></script>
 <script src="/js/adundocs_WriteCtrl.js"></script>
 <script src="/js/adundocs_LoginCtrl.js"></script>
+<script src="/js/adundocs_ModifyCtrl.js"></script>
 
 

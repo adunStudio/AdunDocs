@@ -1,1 +1,0 @@
-![](http://localhost:3311/upload/5171_2_Eggs1.gif)

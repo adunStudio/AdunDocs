@@ -7,7 +7,7 @@ AdunDocs.controller('ThemeCtrl', ['$scope', '$cookies', '$interval', function Th
     expireDate.setDate(expireDate.getDate() + 3);
 
     $scope.initTheme = function() {
-        var theme = $cookies.get('theme') || WHITE;
+        var theme = $cookies.get('theme') || BLACK;
         $scope.setTheme(theme);
 
         $('#theme').attr('href', $scope.theme);

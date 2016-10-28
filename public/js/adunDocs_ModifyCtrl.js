@@ -1,27 +1,31 @@
 var converter = converter || new showdown.Converter();
 
-AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', function writeCtrl($scope, $http, $routeParams, $location, $cookies, $interval) {
+AdunDocs.controller('modifyCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', function modifyCtrl($scope, $http, $routeParams, $location, $cookies, $interval) {
 
-    $scope.initStat();
-    $scope.setName();
+    var dirName  = $routeParams.dirName;
+    var subName  = $routeParams.subName;
+    var fileName = $routeParams.fileName;
+
+    $scope.setName(dirName, subName, fileName);
+    $scope.initStat(fileName, $scope.docs[dirName][subName][fileName].stat);
 
     $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
     $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
 
-    $scope.inputDir    = null;
-    $scope.inputSub    = null;
-    $scope.inputName   = null;
+
+    $scope.originDirName  = dirName;
+    $scope.originSubName  = subName;
+    $scope.originFileName = fileName;
+
+    $scope.inputDir    = dirName;
+    $scope.inputSub    = subName;
+    $scope.inputName   = fileName.substr(0, fileName.length -3);
     $scope.makeDirName = null;
     $scope.makeSubName = null;
 
-    var expireDate = new Date();
-    expireDate.setDate(expireDate.getDate() + 3);
+    var url = $scope.toURL('/' + dirName + '/' + subName + '/' + fileName);
 
-    $interval(function() {
-        var contents = editor.getMarkdown();
-    }, 1000 * 60 * 10);
-
-    var editor = editormd("contents", {
+    var editor = $scope.editor = editormd("contents", {
         path : "/editor.md/lib/",
         width: '100%',
         height: '43rem',
@@ -40,8 +44,21 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
         },
         onfullscreenExit : function() {
             $('._container').css('z-index', '1');
+        },
+        onload: function() {
+            $http.get('/article' + url).then(function (response) {
+                //var html = converter.makeHtml(response.data);
+                $scope.editor.insertValue(response.data);
+            });
+
         }
     });
+
+
+
+
+    //editor.insertValue("### 안녕");
+
 
     $scope.$watch('theme', function() {
         editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
@@ -49,21 +66,24 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
         editor.setPreviewTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
     });
 
-    $scope.write = function(event) {
+    $scope.modify = function(event) {
         event.preventDefault();
 
         var contents = editor.getMarkdown();
 
         //if( $scope.inputDir && $scope.inputSub && $scope.inputName && contents ) {
-        if( $scope.writeForm.$valid && contents ) {
+        if( $scope.modifyForm.$valid && contents ) {
             $http({
                 method  : 'POST',
-                url     : '/article/write',
+                url     : '/article/modify',
                 data    : {
-                    dirName: $scope.inputDir,
-                    subName: $scope.inputSub,
-                    fileName: $scope.inputName,
-                    fileData: contents
+                    dirName       : $scope.inputDir,
+                    subName       : $scope.inputSub,
+                    fileName      : $scope.inputName,
+                    fileData      : contents,
+                    originDirName : $scope.originDirName,
+                    originSubName : $scope.originSubName,
+                    originFileName: $scope.originFileName
                 },
                 headers : {'Content-Type': 'application/json'}
             }).then(function(response) {
@@ -143,5 +163,4 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
             $('#subModal').effect('shake');
         }
     }
-
 }]);

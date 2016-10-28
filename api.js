@@ -38,6 +38,8 @@ module.exports = function(app) {
     app.post('/article/login', function(req, res) {
         var pattern = req.body.pattern;
 
+
+
         if( pattern == secret.pattern ) {
             req.session.admin = secret.admin;
             res.send(RESULT_TRUE)
@@ -182,9 +184,60 @@ module.exports = function(app) {
         }
     });
 
+    // 글 수정 (UPDATE)
+    app.post('/article/modify', function(req, res) {
+        if( req.session.admin != secret.admin ) {
+            return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
+        }
+
+        var dirName        = req.body.dirName,
+            subName        = req.body.subName,
+            fileName       = req.body.fileName,
+            fileData       = req.body.fileData,
+            originDirName  = req.body.originDirName,
+            originSubName  = req.body.originSubName,
+            originFileName = req.body.originFileName;
+
+        if( dirName && subName && fileName && fileData && originDirName && originFileName && originFileName )
+        {
+            var oldPath = makeFilePath(originDirName, originSubName, originFileName);
+            var newPath = makeFilePath(dirName, subName, fileName) + ".md";
+
+            try
+            {
+                if( oldPath != newPath && fs.existsSync(newPath) ) {
+                    return res.send(JSON.stringify({result: false, msg: '존재하는 파일명입니다.'}));
+                }
+
+                fs.renameSync(oldPath, newPath);
+                var fd = fs.openSync(newPath, 'w');
+                fs.writeSync(fd, fileData);
+                fs.closeSync(fd);
+
+                res.send(JSON.stringify({result: true}));
+            }
+            catch(e)
+            {
+                res.send(JSON.stringify({result: false, msg: e.message}));
+            }
+        }
+        else
+        {
+            res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
+        }
+
+
+        var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
+
+    });
+
     // 글 읽기 (READ)
     app.get('/article/:dir/:sub/:file', function(req, res) {
         var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
+
+        console.log('---------' + req.params.file + '-------');
+        console.log(req.connection.remoteAddress);
+        console.log('-------------------------------------');
 
         try
         {
@@ -200,23 +253,8 @@ module.exports = function(app) {
         }
     });
 
-/*
-    console.log('---------' + req.params.file + '-------');
-    console.log(req.connection.remoteAddress);
-    console.log('-------------------------------------');*/
-
-
-
-
-
-
-
     /*----------------------------------------------------------------------------------------------------------------*/
-    // UPDATE
-    app.put('/article/:dir/:sub/:file', function() {
-        var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
 
-    });
     /*----------------------------------------------------------------------------------------------------------------*/
 
 
