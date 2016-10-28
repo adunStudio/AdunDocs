@@ -1,6 +1,6 @@
 var converter = converter || new showdown.Converter();
 
-AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', function writeCtrl($scope, $http, $routeParams, $location, $cookies, $interval) {
+AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', '$uibModal', function writeCtrl($scope, $http, $routeParams, $location, $cookies, $interval, $uibModal) {
   /*  if($scope.unLoginCheck()) {
         $location.url('/#');
     }*/
@@ -9,6 +9,7 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
     $scope.setName();
 
     $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
+    $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
 
 
     var editor = editormd("contents", {
@@ -93,8 +94,15 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
         } else {
             alert('꽉꽉 채우자');
         }
+    };
 
-    }
+    // MODAL
 
+    $('#dirModal,#subModal').on('show.bs.modal', function () {
+        $('._container').css('z-index', '100');
+    });
+    $('#dirModal,#subModal').on('hide.bs.modal', function () {
+        $('._container').css('z-index', '1');
+    });
 
 }]);

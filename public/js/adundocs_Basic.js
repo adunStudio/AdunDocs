@@ -1,6 +1,6 @@
 var converter = new showdown.Converter();
 
-var AdunDocs = angular.module('AdunDocs', ['ngRoute', 'ngCookies', 'ngSanitize']);
+var AdunDocs = angular.module('AdunDocs', ['ngRoute', 'ngCookies', 'ngSanitize', 'ui.bootstrap']);
 
 
 AdunDocs.config(['$routeProvider', function($routeProvider) {

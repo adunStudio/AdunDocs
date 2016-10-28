@@ -1,9 +1,4 @@
-<style>
-    input.ng-invalid, select.ng-invalid {
-        background-color: #d9534f;
-        border-color: #d9534f;
-    }
-</style>
+
 <div class="_static">
 
     <h2 class="_lined-heading">Write</h2>
@@ -13,26 +8,29 @@
 
             <div class="col-md-2" style="padding-left: 0;">
                 <div class="form-group">
-                    <label for="inputDir"><span>*</span> Directory</label>
+                    <label for="inputDir"><span>*</span> Directory</label><a data-toggle="modal" data-target="#dirModal" href=""><i class="fa fa-plus-square" style="float: right; margin-right: 0.5rem; line-height: inherit;" aria-hidden="true"></i></a>
                     <select ng-model="inputDir"  ng-required="true" name="inputDir" id="inputDir" class="form-control" >
                         <option ng-repeat="(dirName, dirValue) in dirTree" data-class="_icon-{{dirName}}" value="{{dirName}}">{{dirName}}</option>
                     </select>
+
                 </div>
             </div>
 
             <div class="col-md-2" style="padding-left: 0;">
                 <div class="form-group">
-                    <label for="inputSub"><span>*</span> SubDirectory</label>
+                    <label for="inputSub"><span>*</span> SubDirectory</label><a ng-show="inputDir" data-toggle="modal" data-target="#subModal" href=""><i class="fa fa-plus-square" style="float: right; margin-right: 0.5rem; line-height: inherit;" aria-hidden="true"></i></a>
                     <select ng-model="inputSub" ng-required="true" name="inputSub" id="inputSub" class="form-control">
                         <option ng-repeat="subName in dirTree[inputDir]" value="{{subName}}">{{subName}}</option>
                     </select>
+
+
                 </div>
             </div>
 
-            <div class="col-md-7" style="padding-left: 0;">
+            <div class="col-md-8" style="padding-left: 0; width: 64.7%; margin-right: 0; padding-right: 0;">
                 <div class="form-group">
                     <label for="inputName"><span>*</span> Title</label>
-                    <input ng-model="inputName" ng-required="true" ng-pattern="nameRegExp"  ng-maxlength="17" maxlength="17" type="text" id="inputName" class="form-control">
+                    <input ng-model="inputName" ng-required="true" ng-pattern="nameRegExp"  ng-maxlength="17" maxlength="17" type="text" id="inputName" class="form-control" placeholder="제목을 적어주세요.">
                 </div>
             </div>
 
@@ -42,6 +40,54 @@
             <button ng-click="write($event);" type="button" class="btn btn-default">Submit</button>
 
         </form>
+
+        <!-- Dir Modal -->
+        <div id="dirModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Make Direcotry</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="makeDirName">
+                            <i class="fa fa-folder" aria-hidden="true"></i> Directory Name
+                        </label>
+                        <input ng-model="makeDirName" ng-required="true" ng-pattern="dirRegExp" type="text" name="makeDirName" id="makeDirName" class="form-control" maxlength="13">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Make</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Dir Modal -->
+
+        <!-- Sub Modal -->
+        <div id="subModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Make Sub Direcotry</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="makeSubName">
+                            <i class="fa fa-folder" aria-hidden="true"></i> SubDirectory Name
+                        </label>
+                        <input ng-model="makeSumName" ng-required="true" ng-pattern="dirRegExp" type="text" name="makeSubName" id="makeSubName" class="form-control" maxlength="13">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Make</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sub Modal -->
+
+
     </div>
 </div>
 <!--
