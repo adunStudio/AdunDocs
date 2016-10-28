@@ -34,12 +34,9 @@ module.exports = function(app) {
     }));
 
 
+    // 로그인 (LOG-IN)
     app.post('/article/login', function(req, res) {
         var pattern = req.body.pattern;
-
-        console.log('--------- 로그인 시도 -----------');
-        console.log(req.connection.remoteAddress);
-        console.log('-------------------------------------');
 
         if( pattern == secret.pattern ) {
             req.session.admin = secret.admin;
@@ -49,12 +46,64 @@ module.exports = function(app) {
         }
     });
 
+    // 로그아웃 (LOG-OUT)
     app.get('/article/logout', function(req, res) {
         req.session.destroy();
         res.clearCookie('sid');
         res.send(RESULT_TRUE);
     });
 
+    // 디렉토리 생성 (MAKE DIRECTORY)
+    app.post('/article/directory', function(req, res) {
+        if( req.session.admin != secret.admin ) {
+            return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
+        }
+
+        var dirName  = req.body.dirName;
+        var subName  = req.body.subName;
+
+        if( dirName )
+        {
+            try
+            {
+                var dirPath = makeDirPath(dirName);
+
+                fs.existsSync(dirPath) || fs.mkdirSync(dirPath);
+
+                if( subName ) {
+
+                    var subPath = makeDirPath(dirName, subName);
+
+                    fs.existsSync(subPath) || fs.mkdirSync(subPath);
+
+                    return res.send(JSON.stringify({result: true, msg: subName}));
+                }
+                return res.send(JSON.stringify({result: true, msg: dirName}));
+            }
+            catch (e)
+            {
+                return res.send(JSON.stringify({result: true, msg: e.message}));
+            }
+        }
+
+        return res.send(JSON.stringify({result: false, msg: '디렉토리명이 없습니다.'}));
+    });
+
+    // 갱신 (RENEW)
+    app.get('/article/renew', function(req, res) {
+            try
+            {
+                var tree = fsFileTree.sync(ARTICLE_PATH);
+                var fd = fs.openSync(ARTICLE_JSON, 'w');
+                fs.writeSync(fd, JSON.stringify(tree));
+
+                res.send(JSON.stringify({result: true}));
+            }
+            catch(e)
+            {
+                res.send(JSON.stringify({result: false, msg: e.message}));
+            }
+    });
 
     // 이미지 업로드 (IMAGE UPLOAD)
     app.post('/article/upload', function(req, res) {
@@ -94,26 +143,8 @@ module.exports = function(app) {
         });
     });
 
-    // 갱신 (RENEW)
-    app.get('/article/renew', function(req, res) {
-            try
-            {
-                var tree = fsFileTree.sync(ARTICLE_PATH);
-                var fd = fs.openSync(ARTICLE_JSON, 'w');
-                fs.writeSync(fd, JSON.stringify(tree));
-
-                res.send(JSON.stringify({result: true}));
-            }
-            catch(e)
-            {
-                res.send(JSON.stringify({result: false, msg: e.message}));
-            }
-    });
-
     // 글 쓰기 (CREATE)
     app.post('/article/write', function(req, res) {
-        console.log(req.session.admin);
-
         if( req.session.admin != secret.admin ) {
             return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
         }
@@ -153,9 +184,6 @@ module.exports = function(app) {
     app.get('/article/:dir/:sub/:file', function(req, res) {
         var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
 
-        console.log('---------' + req.params.file + '-------');
-        console.log(req.connection.remoteAddress);
-        console.log('-------------------------------------');
         try
         {
             if( fs.statSync(path).isFile() )
@@ -170,6 +198,10 @@ module.exports = function(app) {
         }
     });
 
+/*
+    console.log('---------' + req.params.file + '-------');
+    console.log(req.connection.remoteAddress);
+    console.log('-------------------------------------');*/
 
 
 
@@ -205,4 +237,13 @@ module.exports = function(app) {
 
 function makeFilePath(dir, sub, file) {
     return __dirname + '/article/' + dir + '/' + sub + '/' + file;
+}
+
+function makeDirPath(dir, sub) {
+    if(dir && !sub) {
+        return __dirname + '/article/' + dir;
+    }
+    if(dir && sub) {
+        return __dirname + '/article/' + dir + '/' + sub;
+    }
 }

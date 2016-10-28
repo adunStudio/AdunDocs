@@ -6,6 +6,19 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.theme = '';
     $scope.isLogin = false;
 
+
+    $scope.initTreeAndArray = function(fn) {
+        $http.get('/article.json').then(function(response) {
+            $scope.docs = response.data;
+            $scope.makeTreeAndArray();
+
+            if( typeof fn === 'function') {
+                fn();
+            }
+
+        });
+    };
+
     $scope.init = function(fn) {
 
         $scope.active = $();
@@ -23,19 +36,13 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
         $scope.isToggleCheck  = false;// <- 임시방편 ... 수정해야함 toggle에서 쓰임
 
-        $http.get('/article.json').then(function(response) {
-            $scope.docs = response.data;
-            $scope.makeTreeAndArray();
-
-            if( typeof fn === 'function') {
-                fn();
-            }
-
-        });
+        $scope.initTreeAndArray(fn);
 
     };
 
     $scope.init();
+
+
 
     $scope.makeTreeAndArray = function() {
         $scope.dirTree  = {};
