@@ -96,6 +96,7 @@ module.exports = function(app) {
                 var tree = fsFileTree.sync(ARTICLE_PATH);
                 var fd = fs.openSync(ARTICLE_JSON, 'w');
                 fs.writeSync(fd, JSON.stringify(tree));
+                fs.closeSync(fd);
 
                 res.send(JSON.stringify({result: true}));
             }
@@ -133,6 +134,7 @@ module.exports = function(app) {
             {
                 var bf = fs.readFileSync(tmpPath);
                 fs.writeFileSync(dest, bf);
+                fs.closeSync(bf);
 
                 res.send(JSON.stringify({success: 1, message: 'success', url: "http://localhost:3311/upload/" +  now + '_' + fileName}));
             }
@@ -166,6 +168,7 @@ module.exports = function(app) {
 
                 var fd = fs.openSync(path, 'w');
                 fs.writeSync(fd, fileData);
+                fs.closeSync(fd);
 
                 res.send(JSON.stringify({result: true}));
             }
