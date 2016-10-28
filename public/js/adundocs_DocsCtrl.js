@@ -1,7 +1,7 @@
 var converter = converter || new showdown.Converter();
 
 
-AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function DocsCtrl($scope, $http, $routeParams) {
+AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', function DocsCtrl($scope, $http, $routeParams, $location) {
 
     $scope.theme = '';
     $scope.isLogin = false;
@@ -268,5 +268,13 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams', function Doc
     var $login = $scope.$login = $("._login");
     $scope.login = function() {
         $login.is(':visible') ? $login.hide('slide', {direction: 'right'}, 500) : $login.show('slide', {direction: 'right'}, 500);
+    };
+
+    $scope.logout = function() {
+        $http.get('/article/logout').then(function(response) {
+            $scope.setLogin(false);
+            $scope.init();
+            $location.url('/');
+        });
     };
 }]);

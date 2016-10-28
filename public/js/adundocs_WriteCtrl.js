@@ -1,9 +1,9 @@
 var converter = converter || new showdown.Converter();
 
 AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', function writeCtrl($scope, $http, $routeParams, $location, $cookies, $interval) {
-    if($scope.unLoginCheck()) {
+  /*  if($scope.unLoginCheck()) {
         $location.url('/#');
-    }
+    }*/
 
     $scope.initStat();
     $scope.setName();

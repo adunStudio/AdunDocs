@@ -49,6 +49,13 @@ module.exports = function(app) {
         }
     });
 
+    app.get('/article/logout', function(req, res) {
+        req.session.destroy();
+        res.clearCookie('sid');
+        res.send(RESULT_TRUE);
+    });
+
+
     // 이미지 업로드 (IMAGE UPLOAD)
     app.post('/article/upload', function(req, res) {
         res.setHeader('Content-Type', 'application/json');
@@ -105,6 +112,8 @@ module.exports = function(app) {
 
     // 글 쓰기 (CREATE)
     app.post('/article/write', function(req, res) {
+        console.log(req.session.admin);
+
         if( req.session.admin != secret.admin ) {
             return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
         }

@@ -16,6 +16,9 @@ AdunDocs.controller('LoginCtrl', ['$scope', '$timeout','$http',  function LoginC
 
                 if(result) {
                     $scope.setLogin(true);
+                    lock.reset();
+                    lock.enable();
+                    $scope.$login.hide();
                 }
 
                 else {
