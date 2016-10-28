@@ -1,6 +1,6 @@
 ## AdunDocs
 
-![](http://oppacoding.com/img/a.png)
+![](http://oppacoding.com/img/modify.JPG)
 ![](http://oppacoding.com/img/b.png)
 
 AdunDocs는 에버노트를 대신하며, 티스토리와 연동할 수 있게 만들어지고 있습니다.
