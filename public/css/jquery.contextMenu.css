@@ -54,8 +54,6 @@
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?23gdc");
-  src: url("font/context-menu-icons.eot?23gdc#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?23gdc") format("woff2"), url("font/context-menu-icons.woff?23gdc") format("woff"), url("font/context-menu-icons.ttf?23gdc") format("truetype");
 }
 
 .context-menu-icon-add:before {
