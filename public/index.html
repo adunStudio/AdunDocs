@@ -55,35 +55,6 @@
         <p class="_notice-text"><strong> AdunDocs는 현재 개발중 입니다.</strong></p>
     </div>
 
-    <!-- changeName Modal -->
-    <div ng-controller="navigationCtrl" id="changeNameModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Change Name</h4>
-                </div>
-                <div class="modal-body">
-                    <label for="changeName">
-                        <i class="fa fa-folder" aria-hidden="true"></i> Name
-                    </label>
-                    <form name="changeNameForm">
-                        <input ng-model="changeName" ng-required="true" ng-pattern="dirRegExp" type="text" name="changeName" id="changeName" class="form-control" maxlength="50">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <div ng-messages="changeNameForm.changeName.$error" class="pull-left text-danger" style="font-weight: bold" role="alert">
-                        <p ng-message="required"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 파일 이름을 적어주세요.</p>
-                        <p ng-message="pattern"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> \ / : * ? " < > | . 같은 문자를 사용할 수 없습니다. </p>
-                    </div>
-                    <button ng-click="reName()" type="button" class="btn btn-primary">Change</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- changeName Modal -->
-
 
     <div role="complementary" class="_path" >
         <a ng-show="dirName" href="#/{{dirName}}?check=1" class="_path-item _icon-{{dirName}}">{{dirName}}</a>
@@ -140,31 +111,63 @@
     <!--
     네비게이션 컨트롤러로 빼야함 -->
     <!-- 네비게이션 -->
-    <section ng-controller="navigationCtrl" class="_sidebar" tabindex="-1">
-        <div  role="navigation" class="_list" id="list">
+    <div ng-controller="navigationCtrl">
+        <section class="_sidebar" tabindex="-1">
+            <div role="navigation" class="_list" id="list">
 
-            <div ng-show="search" class="_list" >
-                <a ng-repeat="s in searchResult" ng-click="searchToggle($event);" href="/#/search/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>
+                <div ng-show="search" class="_list" >
+                    <a ng-repeat="s in searchResult" ng-click="searchToggle($event);" href="/#/search/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>
+                </div>
+
+                <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"   id="_{{dir}}" href="/#/{{dir}}"  class="_list-item _icon-{{dir}} _list-dir _-dir-_"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
+                <div ng-repeat-end="" class="_list _list-sub" >
+                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_{{dir}}_{{sub}}" href="/#/{{dir}}/{{sub}}" class="_list-item _list-dir _-sub-_" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
+                    <div ng-repeat-end="" class="_list _list-sub">
+                        <a ng-show="!search" ng-repeat="(name, file) in docs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_{{dir}}_{{sub}}_{{name}}" href="/#/{{dir}}/{{sub}}/{{name}}" class="_list-item _list-hover _-file-_" data-edit="/#/edit/{{dir}}/{{sub}}/{{name}}" title="{{name}}" tabindex="-1">{{name}}</a>
+                    </div>
+                </div>
+
+                <h6 class="_list-title open-title"><span class="_list-arrow"></span>휴지통 (0)</h6>
             </div>
+            <div class="_sidebar-footer" ng-controller="ThemeCtrl">
+                <button type="button" class="_sidebar-footer-link _sidebar-footer-edit" data-pick-docs="">
+                    Setting
+                </button>
+                <button type="button" class="_sidebar-footer-link _sidebar-footer-light" title="Toggle light" ng-click="toggleTheme();" id="themeChangeButton">Toggle light</button>
+                <button type="button" class="_sidebar-footer-link _sidebar-footer-layout" title="Toggle layout" ng-click="toggleWidth();">Toggle layout</button>
+            </div>
+        </section>
 
-            <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"   id="_{{dir}}" href="/#/{{dir}}"  class="_list-item _icon-{{dir}} _list-dir _-dir-_"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
-            <div ng-repeat-end="" class="_list _list-sub" >
-                <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_{{dir}}_{{sub}}" href="/#/{{dir}}/{{sub}}" class="_list-item _list-dir _-sub-_" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
-                <div ng-repeat-end="" class="_list _list-sub">
-                    <a ng-show="!search" ng-repeat="(name, file) in docs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_{{dir}}_{{sub}}_{{name}}" href="/#/{{dir}}/{{sub}}/{{name}}" class="_list-item _list-hover _-file-_" data-edit="/#/edit/{{dir}}/{{sub}}/{{name}}" title="{{name}}" tabindex="-1">{{name}}</a>
+        <!-- changeName Modal -->
+        <div id="changeNameModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Change Name</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="changeName">
+                            <i class="fa fa-folder" aria-hidden="true"></i> Name
+                        </label>
+                        <form name="changeNameForm">
+                            <input ng-model="changeName" ng-required="true" ng-pattern="dirRegExp" type="text" value="{{changeName}}" name="changeName" id="changeName" class="form-control" maxlength="50">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div ng-messages="changeNameForm.changeName.$error" class="pull-left text-danger" style="font-weight: bold" role="alert">
+                            <p ng-message="required"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 파일 이름을 적어주세요.</p>
+                            <p ng-message="pattern"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> \ / : * ? " < > | . 같은 문자를 사용할 수 없습니다. </p>
+                        </div>
+                        <button ng-click="reName()" type="button" class="btn btn-primary">Change</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
+        </div>
+        <!-- changeName Modal -->
 
-            <h6 class="_list-title open-title"><span class="_list-arrow"></span>휴지통 (0)</h6>
-        </div>
-        <div class="_sidebar-footer" ng-controller="ThemeCtrl">
-            <button type="button" class="_sidebar-footer-link _sidebar-footer-edit" data-pick-docs="">
-                Setting
-            </button>
-            <button type="button" class="_sidebar-footer-link _sidebar-footer-light" title="Toggle light" ng-click="toggleTheme();" id="themeChangeButton">Toggle light</button>
-            <button type="button" class="_sidebar-footer-link _sidebar-footer-layout" title="Toggle layout" ng-click="toggleWidth();">Toggle layout</button>
-        </div>
-    </section>
+    </div>
     <!-- 네비게이션 -->
 
     <!-- 문서 -->

@@ -230,6 +230,10 @@ module.exports = function(app) {
 
     // 파일 이름 수정(RE NAME)
     app.post('/article/rename', function(req, res) {
+        if( req.session.admin != secret.admin ) {
+            return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
+        }
+
         var dirName        = req.body.dirName,
             subName        = req.body.subName,
             fileName       = req.body.fileName,
@@ -242,6 +246,10 @@ module.exports = function(app) {
 
             try
             {
+                if( oldPath != newPath && fs.existsSync(newPath) ) {
+                    return res.send(JSON.stringify({result: false, msg: '존재하는 파일명입니다.'}));
+                }
+
                 fs.renameSync(oldPath, newPath);
 
                 res.send(JSON.stringify({result: true}));

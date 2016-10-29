@@ -1,16 +1,18 @@
 
 AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$location', function navigationCtrl($scope, $http, $routeParams, $location) {
-
-
     $scope.$changeNameModal = $('#changeNameModal');
-    $scope.changeName = null;
-
+    $scope.changeName = "";
+    $scope.$watch('fileName', function() {
+        $scope.changeName = $scope.fileName.substr(0, $scope.fileName.length - 3);
+    });
     $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
     $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
 
     $.contextMenu({
         selector: '._-file-_',
         callback: function(key, options) {
+            var nameArr = $(this).attr('id').split('_');
+
             switch(key) {
                 case 'edit':
                     location.href = $(this).data('edit');
@@ -19,7 +21,6 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
                     alert(2);
                     break;
                 case 'name':
-                    $scope.changeName = $scope.fileName.substr(0, fileName.length -3);
                     $scope.$changeNameModal.modal();
                     break;
             }
@@ -27,13 +28,24 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
         items: {
             "edit": {name: "Edit", icon: "fa-edit"},
             "sep1": "---------",
-            "trash": {name: "Trash", icon: "fa-trash"},
-            "sep2": "---------",
             "name": {name: 'Name', icon: "fa-pencil"},
+            "sep2": "---------",
+            "trash": {name: "Trash", icon: "fa-trash"},
             "sep3": "---------",
             "quit": {name: "Quit", icon: "fa-times"}
         }
     });
+
+    // MODAL
+    /*$scope.$changeNameModal.on('show.bs.modal', function () {
+        $scope.changeName = $scope.fileName.substr(0, $scope.fileName.length -3);
+
+    });*/
+    /*$('#dirModal,#subModal').on('hide.bs.modal', function () {
+        $('._container').css('z-index', '1');
+        $scope.makeDirName = null;
+        $scope.makeSubName = null;
+    });*/
 
     $scope.reName = function() {
         if( $scope.changeNameForm.$valid ) {
