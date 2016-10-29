@@ -3973,6 +3973,7 @@ input.ng-invalid, select.ng-invalid {
     border-color: #000;
 }
 
+/*bootstrap.css*/
 .btn {
     display: inline-block;
     margin-bottom: 0;
@@ -4609,6 +4610,12 @@ fieldset[disabled] .btn-link:focus {
     }
 }
 
+
+
+
+
+
+/*jquery.contextMenu2.css*/
 @font-face {
     font-family: "context-menu-icons";
     font-style: normal;
