@@ -1,6 +1,5 @@
-var converter = converter || new showdown.Converter();
 
-AdunDocs.controller('modifyCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', function modifyCtrl($scope, $http, $routeParams, $location, $cookies, $interval) {
+AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', function editCtrl($scope, $http, $routeParams, $location, $cookies, $interval) {
 
     var dirName  = $routeParams.dirName;
     var subName  = $routeParams.subName;
@@ -47,7 +46,6 @@ AdunDocs.controller('modifyCtrl', ['$scope', '$http', '$routeParams', '$location
         },
         onload: function() {
             $http.get('/article' + url).then(function (response) {
-                //var html = converter.makeHtml(response.data);
                 $scope.editor.insertValue(response.data);
             });
 
@@ -56,26 +54,22 @@ AdunDocs.controller('modifyCtrl', ['$scope', '$http', '$routeParams', '$location
 
 
 
-
-    //editor.insertValue("### 안녕");
-
-
     $scope.$watch('theme', function() {
         editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
         editor.setEditorTheme($scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark');
         editor.setPreviewTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
     });
 
-    $scope.modify = function(event) {
+    $scope.edit = function(event) {
         event.preventDefault();
 
         var contents = editor.getMarkdown();
 
         //if( $scope.inputDir && $scope.inputSub && $scope.inputName && contents ) {
-        if( $scope.modifyForm.$valid && contents ) {
+        if( $scope.editForm.$valid && contents ) {
             $http({
                 method  : 'POST',
-                url     : '/article/modify',
+                url     : '/article/edit',
                 data    : {
                     dirName       : $scope.inputDir,
                     subName       : $scope.inputSub,

@@ -10,7 +10,7 @@ AdunDocs.config(['$routeProvider', function($routeProvider) {
         .when('/news',  {templateUrl: 'views/news.html',  controller: 'newsCtrl'})
         .when('/tips',  {templateUrl: 'views/tips.html'})
         .when('/write', {templateUrl: 'views/write.html', controller: 'writeCtrl'})
-        .when('/modify/:dirName/:subName/:fileName', {templateUrl: 'views/modify.html', controller: 'modifyCtrl'})
+        .when('/edit/:dirName/:subName/:fileName',   {templateUrl: 'views/edit.html',   controller: 'editCtrl'})
         .when('/search/:dirName/:subName/:fileName', {templateUrl: 'views/view.html',   controller: 'searchCtrl'})
         .when('/:dirName',                           {templateUrl: 'views/dir.html',    controller: 'dirCtrl'})
         .when('/:dirName/:subName',                  {templateUrl: 'views/sub.html',    controller: 'subCtrl'})
@@ -18,3 +18,15 @@ AdunDocs.config(['$routeProvider', function($routeProvider) {
         .otherwise({redirectTo: '/'});
 }]);
 
+AdunDocs.directive('ngRightClick', function($parse) {
+    return function(scope, element, attrs) {
+        var fn = $parse(attrs.ngRightClick);
+        element.bind('contextmenu', function(event) {
+            scope.$apply(function() {
+                event.preventDefault();
+                location.href = element.attr('href');
+                fn(scope, {$event:event});
+            });
+        });
+    };
+});

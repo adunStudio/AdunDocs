@@ -1,11 +1,11 @@
 
 <div class="_static">
 
-    <h2 class="_lined-heading">Modify</h2>
+    <h2 class="_lined-heading">Edit</h2>
 
     <div id="write_page">
-        <form name="modifyForm">
-            <div class="col-md-2" style="padding-left: 0;">
+        <form name="editForm">
+            <div class="col-xs-2" style="padding-left: 0;">
                 <div class="form-group">
                     <label for="inputDir"><span>*</span> Directory</label><a data-toggle="modal" data-target="#dirModal" href=""><i class="fa fa-plus-square" style="float: right; margin-right: 0.5rem; line-height: inherit;" aria-hidden="true"></i></a>
                     <select ng-model="inputDir"  ng-required="true"   name="inputDir" id="inputDir" class="form-control" >
@@ -14,7 +14,7 @@
 
                 </div>
             </div>
-            <div class="col-md-2" style="padding-left: 0;">
+            <div class="col-xs-2" style="padding-left: 0;">
                 <div class="form-group">
                     <label for="inputSub"><span>*</span> SubDirectory</label><a ng-show="inputDir" data-toggle="modal" data-target="#subModal" href=""><i class="fa fa-plus-square" style="float: right; margin-right: 0.5rem; line-height: inherit;" aria-hidden="true"></i></a>
                     <select ng-model="inputSub" ng-required="true" name="inputSub" id="inputSub" class="form-control">
@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="col-md-8" style="padding-left: 0; width: 64.7%; margin-right: 0; padding-right: 0;">
+            <div class="col-xs-8" style="padding-left: 0; width: 64.7%; margin-right: 0; padding-right: 0;">
                 <div class="form-group">
                     <label for="inputName"><span>*</span> Title</label>
                     <input ng-model="inputName" ng-required="true" ng-pattern="nameRegExp"  ng-maxlength="100" maxlength="100" type="text" id="inputName" class="form-control" placeholder="제목을 적어주세요.">
@@ -33,7 +33,7 @@
             <div id="contents" >
             </div>
 
-            <button ng-click="modify($event);" type="button" class="btn btn-default">Modify</button>
+            <button ng-click="edit($event);" type="button" class="btn btn-default">Edit</button>
 
         </form>
 

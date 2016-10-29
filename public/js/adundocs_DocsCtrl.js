@@ -285,4 +285,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
             $location.url('/');
         });
     };
+
+
+
+
 }]);

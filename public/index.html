@@ -11,12 +11,19 @@
     <link rel="stylesheet" href="/editor.md/css/editormd.css"/>
     <!-- patternLock -->
     <link rel="stylesheet" href="/css/patternLock.css"/>
+    <!-- jquery-contextMeny-->
+    <link rel="stylesheet" href="/css/jquery.contextMenu.css"/>
+
     <link rel="stylesheet" href="/css/custom.css"/>
 
     <!-- jQuery -->
     <script src="/js/lib/jquery.min.js"></script>
     <!-- jQuery-UI -->
     <script src="/js/lib/jquery-ui.min.js"></script>
+    <!-- jQuery-UI.position-->
+    <script src="/js/lib/jquery.ui.position.min.js"></script>
+    <!-- jQuery-contenxtMenu-->
+    <script src="/js/lib/jquery.contextMenu.min.js"></script>
     <!-- Bootstrap -->
     <script src="/js/lib/bootstap.min.js"></script>
     <!-- Angular -->
@@ -48,12 +55,41 @@
         <p class="_notice-text"><strong> AdunDocs는 현재 개발중 입니다.</strong></p>
     </div>
 
+    <!-- changeName Modal -->
+    <div ng-controller="navigationCtrl" id="changeNameModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change Name</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="changeName">
+                        <i class="fa fa-folder" aria-hidden="true"></i> Name
+                    </label>
+                    <form name="changeNameForm">
+                        <input ng-model="changeName" ng-required="true" ng-pattern="dirRegExp" type="text" name="changeName" id="changeName" class="form-control" maxlength="50">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div ng-messages="changeNameForm.changeName.$error" class="pull-left text-danger" style="font-weight: bold" role="alert">
+                        <p ng-message="required"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 파일 이름을 적어주세요.</p>
+                        <p ng-message="pattern"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> \ / : * ? " < > | . 같은 문자를 사용할 수 없습니다. </p>
+                    </div>
+                    <button ng-click="reName()" type="button" class="btn btn-primary">Change</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- changeName Modal -->
+
 
     <div role="complementary" class="_path" >
         <a ng-show="dirName" href="#/{{dirName}}?check=1" class="_path-item _icon-{{dirName}}">{{dirName}}</a>
         <a ng-show="subName" href="#/{{dirName}}/{{subName}}?check=1" class="_path-item">{{subName}}</a>
         <span ng-show="fileName" class="_path-item">{{fileName}}</span>
-        <span ng-show="isLogin && dirName && subName && fileName" style="float: right;" class="_path-item"><a href="#/modify/{{dirName}}/{{subName}}/{{fileName}}" class="_path-item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Modify</a></span>
+        <span ng-show="isLogin && dirName && subName && fileName" style="float: right;" class="_path-item"><a href="#/edit/{{dirName}}/{{subName}}/{{fileName}}" class="_path-item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
         <span ng-show="stat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: {{stat.mtime | date: "y-MM-dd"}} </span>
         <span ng-show="stat.btime" style="float: right;" class="_path-item">작성 날짜: {{stat.btime | date: "y-MM-dd"}} </span>
     </div>
@@ -101,19 +137,21 @@
     </div>
     <!-- 로그인 -->
 
+    <!--
+    네비게이션 컨트롤러로 빼야함 -->
     <!-- 네비게이션 -->
-    <section class="_sidebar" tabindex="-1">
+    <section ng-controller="navigationCtrl" class="_sidebar" tabindex="-1">
         <div  role="navigation" class="_list" id="list">
 
             <div ng-show="search" class="_list" >
-                <a ng-repeat="s in searchResult" ng-click="searchToggle($event);"  href="/#/search/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>
+                <a ng-repeat="s in searchResult" ng-click="searchToggle($event);" href="/#/search/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>
             </div>
 
-            <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" id="_{{dir}}" href="/#/{{dir}}"  class="_list-item _icon-{{dir}} _list-dir"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
+            <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"   id="_{{dir}}" href="/#/{{dir}}"  class="_list-item _icon-{{dir}} _list-dir _-dir-_"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
             <div ng-repeat-end="" class="_list _list-sub" >
-                <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)" id="_{{dir}}_{{sub}}" href="/#/{{dir}}/{{sub}}" class="_list-item _list-dir" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
+                <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_{{dir}}_{{sub}}" href="/#/{{dir}}/{{sub}}" class="_list-item _list-dir _-sub-_" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
                 <div ng-repeat-end="" class="_list _list-sub">
-                    <a ng-show="!search" ng-repeat="(name, file) in docs[dir][sub]" ng-click="toggleFile($event)" id="_{{dir}}_{{sub}}_{{name}}" href="/#/{{dir}}/{{sub}}/{{name}}" class="_list-item _list-hover" title="{{name}}" tabindex="-1">{{name}}</a>
+                    <a ng-show="!search" ng-repeat="(name, file) in docs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_{{dir}}_{{sub}}_{{name}}" href="/#/{{dir}}/{{sub}}/{{name}}" class="_list-item _list-hover _-file-_" data-edit="/#/edit/{{dir}}/{{sub}}/{{name}}" title="{{name}}" tabindex="-1">{{name}}</a>
                 </div>
             </div>
 
@@ -145,6 +183,25 @@
     <!-- 문서 -->
 </div>
 
+<style data-size="18rem" data-resizer="">
+    ._container { margin-left: 18rem; }
+    ._search, ._list, ._sidebar-footer { width: 18rem; }
+    ._list-hover.clone { min-width: 18rem; }
+    ._notice, ._path, ._resizer {
+        left: 18rem; }
+</style>
+
+<!--
+<div role="alert" class="_notif _notif-tip _in"><p class="_notif-text">
+    <strong>ProTip</strong>
+    <span class="_notif-info">(click to dismiss)</span>
+</p><p class="_notif-text">
+    Hit <code class="_label">↓</code> <code class="_label">↑</code> <code class="_label">←</code> <code class="_label">→</code> to navigate the sidebar.<br>
+    Hit <code class="_label">space / shift space</code>, <code class="_label">alt ↓/↑</code> or <code class="_label">shift ↓/↑</code> to scroll the page.
+</p><p class="_notif-text">
+    <a href="/help#shortcuts" class="_notif-link">See all keyboard shortcuts</a></p></div>
+-->
+
 </body>
 </html>
 <script src="/js/adundocs_Basic.js"></script>
@@ -157,6 +214,7 @@
 <script src="/js/adundocs_NewsCtrl.js"></script>
 <script src="/js/adundocs_WriteCtrl.js"></script>
 <script src="/js/adundocs_LoginCtrl.js"></script>
-<script src="/js/adundocs_ModifyCtrl.js"></script>
+<script src="/js/adundocs_EditCtrl.js"></script>
+<script src="/js/adundocs_NavigationCtrl.js"></script>
 
 

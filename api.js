@@ -185,7 +185,7 @@ module.exports = function(app) {
     });
 
     // 글 수정 (UPDATE)
-    app.post('/article/modify', function(req, res) {
+    app.post('/article/edit', function(req, res) {
         if( req.session.admin != secret.admin ) {
             return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
         }
@@ -226,9 +226,35 @@ module.exports = function(app) {
             res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
         }
 
+    });
 
-        var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
+    // 파일 이름 수정(RE NAME)
+    app.post('/article/rename', function(req, res) {
+        var dirName        = req.body.dirName,
+            subName        = req.body.subName,
+            fileName       = req.body.fileName,
+            newName        = req.body.newName;
 
+        if( dirName && subName && fileName && newName )
+        {
+            var oldPath = makeFilePath(dirName, subName, fileName);
+            var newPath = makeFilePath(dirName, subName, newName) + ".md";
+
+            try
+            {
+                fs.renameSync(oldPath, newPath);
+
+                res.send(JSON.stringify({result: true}));
+            }
+            catch(e)
+            {
+                res.send(JSON.stringify({result: false, msg: e.message}));
+            }
+        }
+        else
+        {
+            res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
+        }
     });
 
     // 글 읽기 (READ)
