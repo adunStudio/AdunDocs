@@ -1,12 +1,17 @@
 
 AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$location', function navigationCtrl($scope, $http, $routeParams, $location) {
     $scope.$changeNameModal = $('#changeNameModal');
-    $scope.changeName = "";
+    $scope.$trashModal      = $('#trashModal');
+
+    $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
+    $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
+
+    $scope.trashName   = "";
+    $scope.trashRegExp = "";
+    $scope.changeName  = "";
     $scope.$watch('fileName', function() {
         $scope.changeName = $scope.fileName.substr(0, $scope.fileName.length - 3);
     });
-    $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
-    $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
 
     $.contextMenu({
         selector: '._-file-_',
@@ -18,7 +23,7 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
                     location.href = $(this).data('edit');
                     break;
                 case 'trash':
-                    alert(2);
+                    $scope.$trashModal.modal();
                     break;
                 case 'name':
                     $scope.$changeNameModal.modal();
@@ -36,16 +41,6 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
         }
     });
 
-    // MODAL
-    /*$scope.$changeNameModal.on('show.bs.modal', function () {
-        $scope.changeName = $scope.fileName.substr(0, $scope.fileName.length -3);
-
-    });*/
-    /*$('#dirModal,#subModal').on('hide.bs.modal', function () {
-        $('._container').css('z-index', '1');
-        $scope.makeDirName = null;
-        $scope.makeSubName = null;
-    });*/
 
     $scope.reName = function() {
         if( $scope.changeNameForm.$valid ) {
@@ -70,7 +65,6 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
                         var changeName = $scope.changeName;
 
                         $scope.$changeNameModal.modal('hide');
-
                         $scope.init(function() {
                             $location.url(dirName +'/' + subName + '/' + changeName + '.md?check=1');
                         });
@@ -79,7 +73,40 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
             });
 
         } else {
-            $('#changeNameModal').effect('shake');
+            $scope.$changeNameModal.effect('shake');
         }
     };
+
+    $scope.trash = function() {
+        if( $scope.trashForm.$valid ) {
+            $http({
+                method  : 'POST',
+                url     : '/article/delete',
+                data    : {
+                    dirName   : $scope.dirName,
+                    subName   : $scope.subName,
+                    fileName  : $scope.fileName,
+                    trashName : $scope.trashName
+                },
+                headers : {'Content-Type': 'application/json'}
+            }).then(function(response) {
+                var result = response.data;
+                if( result.result )
+                {
+                    $http.get('/article/renew').then(function(response)
+                    {
+                        $scope.$trashModal.modal('hide');
+                        $scope.trashName   = "";
+
+                        $scope.init(function() {
+                            $location.url('/#');
+                        });
+                    });
+                } else { alert(result.msg); }
+            });
+        } else {
+            $scope.$trashModal.effect('shake');
+        }
+    };
+
 }]);

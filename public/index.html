@@ -48,11 +48,12 @@
 
 </head>
 <body>
+
+
 <div class="_app" role="application" id="app" >
     <div role="alert" class="_notice _top">
         <p class="_notice-text"><strong> AdunDocs는 현재 개발중 입니다.</strong></p>
     </div>
-
 
     <div role="complementary" class="_path" >
         <a ng-show="dirName" href="#/{{dirName}}?check=1" class="_path-item _icon-{{dirName}}">{{dirName}}</a>
@@ -82,8 +83,8 @@
             <a href="#about"   class="_nav-link" title="about">About</a>
             <a href="#news"    class="_nav-link" title="news">News</a>
             <a ng-show="isLogin"                       href="#write"  class="_nav-link" title="write">Write</a>
-            <a ng-hide="isLogin" ng-click="login();" href=""        class="_nav-link" title="login"><i class="fa fa-user" aria-hidden="true"></i></a>
-            <a ng-show="isLogin" ng-click="logout();"href="" class="_nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            <a ng-hide="isLogin" ng-click="login();"  href=""        class="_nav-link" title="login"><i class="fa fa-user" aria-hidden="true"></i></a>
+            <a ng-show="isLogin" ng-click="logout();" href="" class="_nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
         </nav>
     </header>
     <!-- 배너 -->
@@ -149,7 +150,7 @@
                             <i class="fa fa-folder" aria-hidden="true"></i> Name
                         </label>
                         <form name="changeNameForm">
-                            <input ng-model="changeName" ng-required="true" ng-pattern="dirRegExp" type="text" value="{{changeName}}" name="changeName" id="changeName" class="form-control" maxlength="50">
+                            <input ng-model="changeName" ng-required="true" ng-pattern="dirRegExp" type="text"  name="changeName" id="changeName" class="form-control" maxlength="50">
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -164,6 +165,35 @@
             </div>
         </div>
         <!-- changeName Modal -->
+
+        <!-- trash Modal -->
+        <div id="trashModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Throw away in the trash</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="changeName">
+                            <i class="fa fa-trash" aria-hidden="true"></i> Trash
+                        </label>
+                        <form name="trashForm">
+                            <input ng-model="trashName" ng-required="true" ng-pattern="{{fileName}}" type="text"  name="trashName" id="trashName" placeholder="{{fileName}}" class="form-control" maxlength="50">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div ng-messages="trashForm.trashName.$error" class="pull-left text-danger" style="font-weight: bold" role="alert">
+                            <p ng-message="required"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 삭제할 파일과 같은 이름을 적어주세요.</p>
+                            <p ng-message="pattern"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 삭제할 파일과 같은 이름을 적어주세요.</p>
+                        </div>
+                        <button ng-click="trash()" type="button" class="btn btn-primary">Throw</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- trash Modal -->
 
     </div>
     <!-- 네비게이션 -->

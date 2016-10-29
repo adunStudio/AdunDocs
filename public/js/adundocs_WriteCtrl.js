@@ -24,7 +24,7 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
     var editor = editormd("contents", {
         path : "/editor.md/lib/",
         width: '100%',
-        height: '43rem',
+        height: '36rem',
         tex: true,
         sequenceDiagram: true,
         flowChart: true,

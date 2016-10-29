@@ -38,8 +38,6 @@ module.exports = function(app) {
     app.post('/article/login', function(req, res) {
         var pattern = req.body.pattern;
 
-
-
         if( pattern == secret.pattern ) {
             req.session.admin = secret.admin;
             res.send(RESULT_TRUE)
@@ -228,7 +226,7 @@ module.exports = function(app) {
 
     });
 
-    // 파일 이름 수정(RE NAME)
+    // 글 이름 수정(RE NAME)
     app.post('/article/rename', function(req, res) {
         if( req.session.admin != secret.admin ) {
             return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
@@ -251,6 +249,39 @@ module.exports = function(app) {
                 }
 
                 fs.renameSync(oldPath, newPath);
+
+                res.send(JSON.stringify({result: true}));
+            }
+            catch(e)
+            {
+                res.send(JSON.stringify({result: false, msg: e.message}));
+            }
+        }
+        else
+        {
+            res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
+        }
+    });
+
+    // 글 삭제 (DELETE)
+    app.post('/article/delete', function(req, res) {
+        if( req.session.admin != secret.admin ) {
+            return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
+        }
+
+        var dirName        = req.body.dirName,
+            subName        = req.body.subName,
+            fileName       = req.body.fileName,
+            trashName      = req.body.trashName;
+
+        if( dirName && subName && fileName && fileName == trashName )
+        {
+            var path      = makeFilePath(dirName, subName, fileName);
+            var trashPath = makeTrashPath(fileName);
+
+            try
+            {
+                fs.renameSync(path, trashPath);
 
                 res.send(JSON.stringify({result: true}));
             }
@@ -320,4 +351,8 @@ function makeDirPath(dir, sub) {
     if(dir && sub) {
         return __dirname + '/article/' + dir + '/' + sub;
     }
+}
+
+function makeTrashPath(name) {
+    return __dirname + '/trash/' + String(Date.now()).slice(-6) + "_" + name;
 }
