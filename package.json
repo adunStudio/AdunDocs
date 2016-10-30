@@ -1,21 +1,21 @@
 {
-  "name": "fucking",
+  "name": "AdunDocs",
   "version": "0.0.1",
-  "description": "fuck Evernote",
+  "description": "AdunDocs",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adunStudio/fuckingEvernote.git"
+    "url": "git+https://github.com/adunStudio/adundocs.git"
   },
   "author": "adunstudio",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/adunStudio/fuckingEvernote/issues"
+    "url": "https://github.com/adunStudio/adundocs/issues"
   },
-  "homepage": "https://github.com/adunStudio/fuckingEvernote#readme",
+  "homepage": "https://github.com/adunStudio/adundocs#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
@@ -23,6 +23,8 @@
     "express-session": "^1.14.1",
     "formidable": "^1.0.17",
     "fs-file-tree": "^1.0.2",
-    "simplemde": "^1.11.2"
+    "request": "^2.76.0",
+    "simplemde": "^1.11.2",
+    "xmlrpc": "^1.3.2"
   }
 }

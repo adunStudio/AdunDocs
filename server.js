@@ -10,6 +10,9 @@ app.set('port', 3311);
 // API
 require("./api")(app);
 
+// TISTORY
+require("./tistory")(app);
+
 // PUBLIC
 app.use(express.static('./public'));
 

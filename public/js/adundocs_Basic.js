@@ -5,11 +5,14 @@ var AdunDocs = angular.module('AdunDocs', ['ngRoute', 'ngCookies', 'ngSanitize',
 
 AdunDocs.config(['$routeProvider', function($routeProvider) {
     $routeProvider
-        .when('/',      {templateUrl: 'views/intro.html'})
-        .when('/about', {templateUrl: 'views/about.html'})
-        .when('/news',  {templateUrl: 'views/news.html',  controller: 'newsCtrl'})
-        .when('/tips',  {templateUrl: 'views/tips.html'})
-        .when('/write', {templateUrl: 'views/write.html', controller: 'writeCtrl'})
+        .when('/',        {templateUrl: 'views/intro.html'})
+        .when('/about',   {templateUrl: 'views/about.html'})
+        .when('/news',    {templateUrl: 'views/news.html',    controller: 'newsCtrl'})
+        .when('/tips',    {templateUrl: 'views/tips.html'})
+        .when('/tistory', {templateUrl: 'views/tistory.html', controller: 'tistoryCtrl'})
+        .when('/blog',    {templateUrl: 'views/blog.html',    controller: 'blogCtrl'})
+        .when('/blog/view/:postid',                  {templateUrl: 'views/blog/blog_view.html', controller: 'blogViewCtrl'})
+        .when('/write',   {templateUrl: 'views/write.html',   controller: 'writeCtrl'})
         .when('/edit/:dirName/:subName/:fileName',   {templateUrl: 'views/edit.html',   controller: 'editCtrl'})
         .when('/search/:dirName/:subName/:fileName', {templateUrl: 'views/view.html',   controller: 'searchCtrl'})
         .when('/:dirName',                           {templateUrl: 'views/dir.html',    controller: 'dirCtrl'})

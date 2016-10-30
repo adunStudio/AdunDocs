@@ -7,6 +7,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.isLogin = false;
 
 
+
     $scope.initTreeAndArray = function(fn) {
         $http.get('/article.json').then(function(response) {
             $scope.docs = response.data;
@@ -284,6 +285,21 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
             $scope.init();
             $location.url('/');
         });
+    };
+
+    $scope.blogName = '';
+    $scope.blogCategory = null;
+
+    $scope.setBlogName = function(name) {
+        $scope.blogName = name;
+    };
+
+    $scope.setBlogCategory = function(category) {
+        $scope.blogCategory = category;
+    };
+
+    $scope.setPost = function(dir, sub, title, post) {
+      $scope.blogCategory[dir][sub][title] = post;
     };
 
 

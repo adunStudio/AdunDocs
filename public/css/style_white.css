@@ -574,6 +574,12 @@
 ._icon-codesafer:before {
     background-position: -9rem -11rem
 }
+._icon-tistory:before {
+    background-image: url('/img/tistory.png');
+    background-size: 16px;
+
+}
+
 
 
 

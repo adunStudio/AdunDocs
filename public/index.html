@@ -79,7 +79,8 @@
             <a ng-click="initialize();" href="#/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs</a>
         </h1>
         <nav class="_nav" role="navigation">
-            <a href="#tistory" class="_nav-link" title="tistory">Tistory</a>
+            <a ng-show="!blogName" href="#tistory" class="_nav-link" title="tistory">Tistory</a>
+            <a ng-show="blogName"  href="#blog" class="_nav-link" title="tistory">{{blogName}}</a>
             <a href="#about"   class="_nav-link" title="about">About</a>
             <a href="#news"    class="_nav-link" title="news">News</a>
             <a ng-show="isLogin"                       href="#write"  class="_nav-link" title="write">Write</a>
@@ -125,6 +126,17 @@
                         <a ng-show="!search" ng-repeat="(name, file) in docs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_{{dir}}_{{sub}}_{{name}}" href="/#/{{dir}}/{{sub}}/{{name}}" class="_list-item _list-hover _-file-_" data-edit="/#/edit/{{dir}}/{{sub}}/{{name}}" title="{{name}}" tabindex="-1">{{name}}</a>
                     </div>
                 </div>
+
+                <!-- Tistory -->
+                <h6 ng-show="blogCategory" class="_list-title"> Tistory</h6>
+                <a ng-show="blogCategory" ng-repeat-start="(dir, dirValue) in blogCategory" ng-click="toggleDir($event)"      id="blog_{{dir}}" href=""  class="_list-item _icon-tistory _list-dir _-dir-_"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
+                <div ng-repeat-end="" class="_list _list-sub" >
+                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in blogCategory[dir]" ng-click="toggleSub($event)"  id="blog_{{dir}}_{{sub}}" href="" class="_list-item _list-dir _-sub-_" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
+                    <div ng-repeat-end="" class="_list _list-sub">
+                        <a ng-show="!search" ng-repeat="(name, file) in blogCategory[dir][sub]" ng-click="toggleFile($event)" id="blog_{{dir}}_{{sub}}_{{name}}" href="#/blog/view/{{file.postid}}" class="_list-item _list-hover _-file-_" data-edit="/#/edit/{{dir}}/{{sub}}/{{name}}" title="{{name}}" tabindex="-1">{{name}}</a>
+                    </div>
+                </div>
+                <!-- Tistory -->
 
                 <h6 class="_list-title open-title"><span class="_list-arrow"></span>휴지통 (0)</h6>
             </div>
@@ -247,5 +259,8 @@
 <script src="/js/adundocs_LoginCtrl.js"></script>
 <script src="/js/adundocs_EditCtrl.js"></script>
 <script src="/js/adundocs_NavigationCtrl.js"></script>
+<script src="/js/adundocs_TistoryCtrl.js"></script>
+<script src="/js/adundocs_BlogCtrl.js"></script>
+<script src="/js/blog/adundocs_BlogViewCtrl.js"></script>
 
 
