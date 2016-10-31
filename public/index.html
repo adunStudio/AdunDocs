@@ -65,6 +65,7 @@
         <span ng-show="stat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: {{stat.mtime | date: "y-MM-dd"}} </span>
         <span ng-show="stat.btime" style="float: right;" class="_path-item">작성 날짜: {{stat.btime | date: "y-MM-dd"}} </span>
     </div>
+
     <div ng-show="blogStat.dirCategory" role="complementary" class="_path">
         <a ng-show="blogStat.dirCategory" href="" class="_path-item _icon-tistory">{{blogStat.dirCategory}}</a>
         <a ng-show="blogStat.subCategory" href="" class="_path-item">{{blogStat.subCategory}}</a>
@@ -88,11 +89,10 @@
             <a ng-click="initialize();" href="#/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs</a>
         </h1>
         <nav class="_nav" role="navigation">
-            <a ng-show="!blogName" href="#tistory" class="_nav-link" title="tistory">Tistory</a>
-            <a ng-show="blogName"  href="#blog" class="_nav-link" title="tistory">{{blogName}}</a>
-            <a href="#about"   class="_nav-link" title="about">About</a>
-            <a href="#news"    class="_nav-link" title="news">News</a>
-            <a ng-show="isLogin"                       href="#write"  class="_nav-link" title="write">Write</a>
+            <a href="#blog"  class="_nav-link" title="blog">{{blogName}}</a>
+            <a href="#about" class="_nav-link" title="about">About</a>
+            <a href="#news"  class="_nav-link" title="news">News</a>
+            <a ng-show="isLogin"                      href="#write"  class="_nav-link" title="write">Write</a>
             <a ng-hide="isLogin" ng-click="login();"  href=""        class="_nav-link" title="login"><i class="fa fa-user" aria-hidden="true"></i></a>
             <a ng-show="isLogin" ng-click="logout();" href="" class="_nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
         </nav>
@@ -268,7 +268,6 @@
 <script src="/js/adundocs_LoginCtrl.js"></script>
 <script src="/js/adundocs_EditCtrl.js"></script>
 <script src="/js/adundocs_NavigationCtrl.js"></script>
-<script src="/js/adundocs_TistoryCtrl.js"></script>
 <script src="/js/adundocs_BlogCtrl.js"></script>
 <script src="/js/blog/adundocs_BlogViewCtrl.js"></script>
 <script src="/js/blog/adundocs_BlogEditCtrl.js"></script>

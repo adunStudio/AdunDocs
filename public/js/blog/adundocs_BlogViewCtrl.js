@@ -15,7 +15,6 @@ AdunDocs.controller('blogViewCtrl', ['$scope', '$http', '$routeParams', '$timeou
             var data = result.data;
             $('#main').html(data.description);
 
-            console.log(data);
             if( data.categories[0].indexOf('/') > 0 )
             {
                 var splitCategory = data.categories[0].split('/');

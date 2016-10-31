@@ -1,70 +1,44 @@
 
 AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', function blogCtrl($scope, $cookies, $http, $location) {
 
-    var blogCategory = $scope.blogCategory;
-    if($scope.blogName) {
-        // 카테고리
-        $http({
-            method  : 'POST',
-            url     : 'http://175.193.42.59:7711/tistory/category',
-            headers : {'Content-Type': 'application/json'}
-        }).then(function(response) {
-            var result = response.data;
-            if( result.result )
-            {
-                var data = result.data;
-                var categorys = {};
-                var name = '';
-                angular.forEach(data, function(category) {
-                    name = category.categoryName;
-                    if( name.indexOf('/') > 0 )
-                    {
-                        var splitArr = name.split('/');
-                        if( !categorys[splitArr[0]] ) {
-                            categorys[splitArr[0]] = {};
-                        }
-                        categorys[splitArr[0]][splitArr[1]] = {};
-                    } else
-                    {
-                        if( !categorys[name] ) {
-                            categorys[name] = {};
-                        }
-                    }
-                });
 
-                $scope.setBlogCategory(categorys);
-                $scope.getPosts();
-            }
-        });
+    $scope.tistoryNAME ="adunstudio@daum.net";
+    $scope.tistoryADDR ="http://adunstudio.tistory.com/api";
+    $scope.tistoryID   ="2441858";
+    $scope.tistoryKEY  ="U2FV5P2Q";
+    $scope.addrPattern = /^http:/;
 
-    } else {
-        alert('티스토리 로그인을 해주세요.!');
-    }
+    $scope.tistoryLogin = function() {
+        if( $scope.tistoryForm.$valid ) {
+
+            $http({
+                method  : 'POST',
+                url     : 'http://175.193.42.59:7711/tistory/login',
+                data    : {
+                    tistoryNAME: $scope.tistoryNAME,
+                    tistoryADDR: $scope.tistoryADDR,
+                    tistoryID  : $scope.tistoryID,
+                    tistoryKEY : $scope.tistoryKEY
+                },
+                headers : {'Content-Type': 'application/json'}
+            }).then(function(response) {
+                var result = response.data;
+                if( result.result )
+                {
+                    var data = result.data;
+                    $cookies.put('blogName', data.blogName);
+                    $scope.setBlogName(data.blogName);
+                    $scope.setBlog();
 
 
-
-    // 최신글
-    $scope.getPosts = function() {
-        $http({
-            method  : 'POST',
-            url     : 'http://175.193.42.59:7711/tistory/recentposts',
-            headers : {'Content-Type': 'application/json'}
-        }).then(function(response) {
-            var result = response.data;
-            if( result.result )
-            {
-                var data = result.data;
-                var categoryName = '';
-                angular.forEach(data, function(post) {
-                    categoryName = post.categories[0];
-                    if( categoryName.indexOf('/') > 0 )
-                    {
-                        var splitArr = categoryName.split('/');
-                        $scope.setPost(splitArr[0], splitArr[1], post.title, post);
-                    }
-                });
-            }
-        });
+                }
+                else {
+                    alert('로그인 실패');
+                }
+            });
+        } else {
+            alert('꽉꽉채우자.');
+        }
     };
 
 }]);

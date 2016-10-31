@@ -39,6 +39,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
         $scope.initTreeAndArray(fn);
 
+
     };
 
     $scope.init();
@@ -254,8 +255,12 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
     $scope.initialize = function() {
         $scope.init();
-        $('#list').find('a').each(function(idx, el){ $(el).removeClass('open') });
+        $('#list').find('a').each(function(idx, el){ $(el).removeClass('open'); $(el).removeClass('active'); });
         $('#list').find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
+
+        if($scope.blogName !== 'Blog') {
+            $scope.setBlog();
+        }
     };
 
     $scope.setFileArray = function(arr) {
@@ -289,8 +294,12 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     };
 
 
-    $scope.blogName = '';
+    // 티스토리 관련 (따로 빼버리고 싶음)
+
+    $scope.blogName = $cookies.get('blogName') || 'Blog';
     $scope.blogCategory = null;
+
+
 
     $scope.blogStat = {
         dateCreated : null,
@@ -323,6 +332,80 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.blogStat.postid      = postid      || null;
     };
 
+
+    $scope.setBlog = function() {
+        $scope.getBlogCategory(function() {
+            $scope.getPosts();
+        });
+    };
+
+    // 블로그 카테고리 가져온 후 -> set
+    $scope.getBlogCategory = function(fn) {
+        $http({
+            method  : 'POST',
+            url     : 'http://175.193.42.59:7711/tistory/category',
+            headers : {'Content-Type': 'application/json'}
+        }).then(function(response) {
+            var result = response.data;
+            if( result.result )
+            {
+                var data = result.data;
+                var categorys = {};
+                var name = '';
+                angular.forEach(data, function(category) {
+                    name = category.categoryName;
+                    if( name.indexOf('/') > 0 )
+                    {
+                        var splitArr = name.split('/');
+                        if( !categorys[splitArr[0]] ) {
+                            categorys[splitArr[0]] = {};
+                        }
+                        categorys[splitArr[0]][splitArr[1]] = {};
+                    } else
+                    {
+                        if( !categorys[name] ) {
+                            categorys[name] = {};
+                        }
+                    }
+                });
+
+                $scope.setBlogCategory(categorys);
+
+                if( typeof fn == 'function') {
+                    fn();
+                }
+            }
+        });
+    };
+
+
+    // 블로그 최신글 가져온 후 -> set
+    $scope.getPosts = function() {
+        $http({
+            method  : 'POST',
+            url     : 'http://175.193.42.59:7711/tistory/recentposts',
+            headers : {'Content-Type': 'application/json'}
+        }).then(function(response) {
+            var result = response.data;
+            if( result.result )
+            {
+                var data = result.data;
+                var categoryName = '';
+                angular.forEach(data, function(post) {
+                    categoryName = post.categories[0];
+                    if( categoryName.indexOf('/') > 0 )
+                    {
+                        var splitArr = categoryName.split('/');
+                        $scope.setPost(splitArr[0], splitArr[1], post.title, post);
+                    }
+                });
+            }
+        });
+    };
+
+    if($scope.blogName !== 'Blog') {
+        $scope.setBlog();
+    }
 
 
 
