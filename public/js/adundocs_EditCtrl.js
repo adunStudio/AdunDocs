@@ -65,7 +65,6 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
 
         var contents = editor.getMarkdown();
 
-        //if( $scope.inputDir && $scope.inputSub && $scope.inputName && contents ) {
         if( $scope.editForm.$valid && contents ) {
             $http({
                 method  : 'POST',

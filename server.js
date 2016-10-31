@@ -5,7 +5,7 @@ var express = require('express');
 var app = express();
 
 app.set('view engine', 'html');
-app.set('port', 3311);
+app.set('port', 7711);
 
 // API
 require("./api")(app);

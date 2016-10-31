@@ -70,6 +70,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.dirName  = dirName  || '';
         $scope.subName  = subName  || '';
         $scope.fileName = fileName || '';
+        $scope.setBlogStat();
     };
 
 
@@ -287,8 +288,19 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         });
     };
 
+
     $scope.blogName = '';
     $scope.blogCategory = null;
+
+    $scope.blogStat = {
+        dateCreated : null,
+        mt_keywords : null,
+        permaLink   : null,
+        dirCategory : null,
+        subCategory : null,
+        title       : null,
+        postid      : null
+    };
 
     $scope.setBlogName = function(name) {
         $scope.blogName = name;
@@ -300,6 +312,15 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
     $scope.setPost = function(dir, sub, title, post) {
       $scope.blogCategory[dir][sub][title] = post;
+    };
+    $scope.setBlogStat = function(dateCreated , keywords, link, dirCategory, subCategory, title, postid) {
+        $scope.blogStat.dateCreated = dateCreated || null;
+        $scope.blogStat.mt_keywords = keywords    || null;
+        $scope.blogStat.permaLink   = link        || null;
+        $scope.blogStat.dirCategory = dirCategory || null;
+        $scope.blogStat.subCategory = subCategory || null;
+        $scope.blogStat.title       = title       || null;
+        $scope.blogStat.postid      = postid      || null;
     };
 
 

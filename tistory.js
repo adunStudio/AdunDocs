@@ -50,7 +50,7 @@ module.exports = function(app) {
     });
 
     // 카테고리
-    app.get('/tistory/category', function(req, res) {
+    app.post('/tistory/category', function(req, res) {
 
         var tistoryNAME = req.session.tistoryNAME;
         var tistoryADDR = req.session.tistoryADDR;
@@ -73,7 +73,7 @@ module.exports = function(app) {
     });
 
     // 최신글(= 전체글)
-    app.get('/tistory/recentposts', function(req, res) {
+    app.post('/tistory/recentposts', function(req, res) {
         var tistoryNAME = req.session.tistoryNAME;
         var tistoryADDR = req.session.tistoryADDR;
         var tistoryID   = req.session.tistoryID;
@@ -95,7 +95,7 @@ module.exports = function(app) {
     });
 
     // 글 읽기
-    app.get('/tistory/post/:postID', function(req, res) {
+    app.post('/tistory/post/:postID', function(req, res) {
         var tistoryNAME = req.session.tistoryNAME;
         var tistoryADDR = req.session.tistoryADDR;
         var tistoryID   = req.session.tistoryID;
@@ -115,6 +115,46 @@ module.exports = function(app) {
         {
             res.send(JSON.stringify({result: false, msg: '로그인을 해주시기 바랍니다.'}));
         }
+    });
+
+    // 글 수정
+    app.post('/tistory/edit', function(req, res) {
+        var tistoryNAME = req.session.tistoryNAME;
+        var tistoryADDR = req.session.tistoryADDR;
+        var tistoryID   = req.session.tistoryID;
+        var tistoryKEY  = req.session.tistoryKEY;
+        var postID      = req.body.postid;
+        var contents    = req.body.contents;
+        var dirCategory = req.body.dirCategory;
+        var subCategory = req.body.subCategory;
+        var title       = req.body.title;
+
+        if( tistoryNAME && tistoryADDR && tistoryID && tistoryKEY && postID && contents && dirCategory && subCategory && title )
+        {
+            var metaWeblog = new MetaWeblog(tistoryADDR);
+
+            var post =  {
+                title: title,
+                categories: [dirCategory + "/" + subCategory],
+                description: contents
+            };
+
+            metaWeblog.editPost(postID, tistoryNAME, tistoryKEY, post, true, function(result) {
+                if( result ) {
+                    return res.send(JSON.stringify({result: true, data: result}));
+                } else {
+                    return res.send(JSON.stringify({result: false, data: result}));
+                }
+            }, function(err) {
+                res.send(JSON.stringify({result: false, msg: '최신글 로드 실패'}));
+            });
+        }
+        else
+        {
+            res.send(JSON.stringify({result: false, msg: '파라미터가 부족하거나 로그인을 해주시기 바랍니다.'}));
+        }
+
+
     });
 
 };

@@ -182,7 +182,7 @@ module.exports = function(app) {
         }
     });
 
-    // 글 수정 (UPDATE)
+    // 글 수정 (EDIT)
     app.post('/article/edit', function(req, res) {
         if( req.session.admin != secret.admin ) {
             return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));

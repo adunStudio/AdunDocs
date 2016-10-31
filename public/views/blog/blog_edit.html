@@ -1,0 +1,42 @@
+
+<div class="_static">
+
+    <h2 class="_lined-heading">Blog Edit</h2>
+
+    <div id="write_page">
+        <form name="blogEditForm">
+            <div class="col-xs-2" style="padding-left: 0;">
+                <div class="form-group">
+                    <label for="inputDirCategory"><span>*</span> Dir Category</label>
+                    <select ng-model="inputDirCategory"  ng-required="true"   name="inputDirCategory" id="inputDirCategory" class="form-control" >
+                        <option ng-repeat="(dirName, dirValue) in blogCategory"  value="{{dirName}}">{{dirName}}</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-xs-2" style="padding-left: 0;">
+                <div class="form-group">
+                    <label for="inputSubCategory"><span>*</span> Sub Category</label>
+                    <select ng-model="inputSubCategory" ng-required="true" name="inputSubCategory" id="inputSubCategory" class="form-control">
+                        <option ng-repeat="(subName, subValue) in blogCategory[inputDirCategory]" value="{{subName}}">{{subName}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-xs-8" style="padding-left: 0; width: 64.7%; margin-right: 0; padding-right: 0;">
+                <div class="form-group">
+                    <label for="inputTitle"><span>*</span> Title</label>
+                    <input ng-model="inputTitle" ng-required="true" ng-pattern="nameRegExp"  ng-maxlength="100" maxlength="100" type="text" id="inputTitle" class="form-control" placeholder="제목을 적어주세요.">
+                </div>
+            </div>
+
+            <div id="contents" >
+                <textarea class="editormd-markdown-textarea" name="contents-markdown-doc"></textarea>
+                <textarea class="editormd-html-textarea" name="contents-html-code"></textarea>
+            </div>
+
+            <button ng-click="blogEdit($event);" type="button" class="btn btn-default">Edit</button>
+
+        </form>
+    </div>
+</div>

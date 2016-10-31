@@ -2,9 +2,9 @@
 AdunDocs.controller('tistoryCtrl', ['$scope', '$cookies', '$http', '$location', function tistoryCtrl($scope, $cookies, $http, $location) {
 
     $scope.tistoryNAME ="adunstudio@daum.net";
-    $scope.tistoryADDR ="http://boycoding.tistory.com/api";
-    $scope.tistoryID   ="2351996";
-    $scope.tistoryKEY  ="";
+    $scope.tistoryADDR ="http://adunstudio.tistory.com/api";
+    $scope.tistoryID   ="2441858";
+    $scope.tistoryKEY  ="U2FV5P2Q";
     $scope.addrPattern = /^http:/;
 
     $scope.tistoryLogin = function() {
@@ -12,7 +12,7 @@ AdunDocs.controller('tistoryCtrl', ['$scope', '$cookies', '$http', '$location', 
 
             $http({
                 method  : 'POST',
-                url     : 'http://222.109.241.40:3311/tistory/login',
+                url     : 'http://175.193.42.59:7711/tistory/login',
                 data    : {
                     tistoryNAME: $scope.tistoryNAME,
                     tistoryADDR: $scope.tistoryADDR,

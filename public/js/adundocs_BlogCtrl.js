@@ -5,8 +5,8 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
     if($scope.blogName) {
         // 카테고리
         $http({
-            method  : 'GET',
-            url     : 'http://222.109.241.40:3311/tistory/category',
+            method  : 'POST',
+            url     : 'http://175.193.42.59:7711/tistory/category',
             headers : {'Content-Type': 'application/json'}
         }).then(function(response) {
             var result = response.data;
@@ -46,8 +46,8 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
     // 최신글
     $scope.getPosts = function() {
         $http({
-            method  : 'GET',
-            url     : 'http://222.109.241.40:3311/tistory/recentposts',
+            method  : 'POST',
+            url     : 'http://175.193.42.59:7711/tistory/recentposts',
             headers : {'Content-Type': 'application/json'}
         }).then(function(response) {
             var result = response.data;

@@ -12,6 +12,7 @@ AdunDocs.config(['$routeProvider', function($routeProvider) {
         .when('/tistory', {templateUrl: 'views/tistory.html', controller: 'tistoryCtrl'})
         .when('/blog',    {templateUrl: 'views/blog.html',    controller: 'blogCtrl'})
         .when('/blog/view/:postid',                  {templateUrl: 'views/blog/blog_view.html', controller: 'blogViewCtrl'})
+        .when('/blog/edit/:postid',                  {templateUrl: 'views/blog/blog_edit.html', controller: 'blogEditCtrl'})
         .when('/write',   {templateUrl: 'views/write.html',   controller: 'writeCtrl'})
         .when('/edit/:dirName/:subName/:fileName',   {templateUrl: 'views/edit.html',   controller: 'editCtrl'})
         .when('/search/:dirName/:subName/:fileName', {templateUrl: 'views/view.html',   controller: 'searchCtrl'})
