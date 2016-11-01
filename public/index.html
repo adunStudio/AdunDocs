@@ -71,6 +71,7 @@
         <a ng-show="blogStat.subCategory" href="#blog/{{blogStat.dirCategory}}/{{blogStat.subCategory}}?check=1" class="_path-item">{{blogStat.subCategory}}</a>
         <span ng-show="blogStat.title" class="_path-item">{{blogStat.title}}</span>
         <span ng-show="blogStat.title" style="float: right;" class="_path-item"><a href="#/blog/edit/{{blogStat.postid}}" class="_path-item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
+        <span ng-show="!blogStat.title" style="float: right;" class="_path-item"><a href="#/blog/write/{{blogStat.dirCategory}}/{{blogStat.subCategory}}" class="_path-item"><i class="fa fa-pencil" aria-hidden="true"></i> New Post</a></span>
         <span ng-show="blogStat.dateCreated" style="float: right;" class="_path-item">작성 날짜: {{blogStat.dateCreated | date: "y-MM-dd hh:mm"}} </span>
     </div>
 
@@ -274,5 +275,6 @@
 <script src="/js/blog/adundocs_BlogEditCtrl.js"></script>
 <script src="/js/blog/adundocs_BlogDirCategoryCtrl.js"></script>
 <script src="/js/blog/adundocs_BlogSubCategoryCtrl.js"></script>
+<script src="/js/blog/adundocs_BlogWriteCtrl.js"></script>
 
 

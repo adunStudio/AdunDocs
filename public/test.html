@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var s = 0;
+    var n = prompt('몇번 반복할꺼냐?');
+    var arr = [];
+    var a, b, len, len2;
+    while(s  < n) {
+        ++s;
+
+        a = prompt('숫자 입력');
+        b = prompt('숫자 입력');
+
+        len = String(a).length;
+        a= String(a).charAt(len - 1);
+
+        len2 = String(b).length;
+        b= String(b).charAt(len2 - 1);
+
+
+        arr.push(Math.pow(a, b));
+    }
+
+    for(var i = 0; i < arr.length; ++i)
+    {
+        console.log(arr[i] % 10);
+    }
+
+
+</script>
