@@ -343,7 +343,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.getBlogCategory = function(fn) {
         $http({
             method  : 'POST',
-            url     : 'http://175.193.42.59:7711/tistory/category',
+            url     : 'http://192.168.0.84:7711/tistory/category',
             headers : {'Content-Type': 'application/json'}
         }).then(function(response) {
             var result = response.data;
@@ -383,7 +383,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.getPosts = function() {
         $http({
             method  : 'POST',
-            url     : 'http://175.193.42.59:7711/tistory/recentposts',
+            url     : 'http://192.168.0.84:7711/tistory/recentposts',
             headers : {'Content-Type': 'application/json'}
         }).then(function(response) {
             var result = response.data;
