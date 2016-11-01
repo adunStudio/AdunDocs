@@ -371,7 +371,7 @@ function naturalSortByKey(obj) {
 
         key = keys[index];
 
-        if( typeof obj[key] == 'object' && !(obj[key] instanceof Array) )
+        if( typeof obj[key] == 'object' && !(obj[key] instanceof Array) && key != 'stat')
         {
             sortedObj[key] = naturalSortByKey(obj[key]);
         }

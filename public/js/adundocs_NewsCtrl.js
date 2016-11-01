@@ -9,7 +9,6 @@ AdunDocs.controller('newsCtrl', ['$scope', function newsCtrl($scope) {
 
 
     if( $scope.fileArray ) {
-
         $scope.sortedFileArray = $scope.fileArray.slice();
 
         $scope.sortedFileArray.sort(date_sort);

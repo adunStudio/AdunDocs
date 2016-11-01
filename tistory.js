@@ -6,12 +6,10 @@ var request = require('request');
 var MetaWeblog = require('./metaweblog');
 
 
-var tistoryURL = "http://{0}.tistory.com/api";
-
 module.exports = function(app) {
 
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json({limit: '50mb'}));
+    app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
     app.use(require('cookie-parser')(secret.cookieSecret));
     app.use(require('express-session')({
         resave: false,
@@ -129,17 +127,32 @@ module.exports = function(app) {
         var subCategory = req.body.subCategory;
         var title       = req.body.title;
 
+
         if( tistoryNAME && tistoryADDR && tistoryID && tistoryKEY && postID && contents && dirCategory && subCategory && title )
         {
             var metaWeblog = new MetaWeblog(tistoryADDR);
 
+            var categories;
+
+            if(dirCategory == '분류없음' && subCategory == '분류없음') {
+                categories = ['sdfsdfsdfsdfsd'];
+            } else if (subCategory == '분류없음') {
+                categories = [dirCategory];
+            } else {
+                categories = [dirCategory + "/" + subCategory];
+            }
+
+            console.log(categories);
             var post =  {
                 title: title,
-                categories: [dirCategory + "/" + subCategory],
+                categories: categories,
                 description: contents
             };
 
+
             metaWeblog.editPost(postID, tistoryNAME, tistoryKEY, post, true, function(result) {
+                console.dir(result);
+                console.dir('-0');
                 if( result ) {
                     return res.send(JSON.stringify({result: true, data: result}));
                 } else {

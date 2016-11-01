@@ -22,6 +22,10 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
     $scope.makeDirName = null;
     $scope.makeSubName = null;
 
+    $scope.selectFirst = function() {
+        $scope.inputSub = Object.keys($scope.docs[$scope.inputDir])[0];
+    };
+
     var url = $scope.toURL('/' + dirName + '/' + subName + '/' + fileName);
 
     var editor = $scope.editor = editormd("contents", {

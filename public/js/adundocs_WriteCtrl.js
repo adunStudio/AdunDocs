@@ -8,11 +8,15 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
     $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
     $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
 
-    $scope.inputDir    = null;
-    $scope.inputSub    = null;
+    $scope.inputDir    = Object.keys($scope.docs)[0];
+    $scope.inputSub    = Object.keys($scope.docs[$scope.inputDir])[0];
     $scope.inputName   = null;
     $scope.makeDirName = null;
     $scope.makeSubName = null;
+
+    $scope.selectFirst = function() {
+        $scope.inputSub = Object.keys($scope.docs[$scope.inputDir])[0];
+    };
 
     var expireDate = new Date();
     expireDate.setDate(expireDate.getDate() + 3);

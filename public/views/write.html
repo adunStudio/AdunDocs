@@ -8,7 +8,7 @@
             <div class="col-md-2" style="padding-left: 0;">
                 <div class="form-group">
                     <label for="inputDir"><span>*</span> Directory</label><a data-toggle="modal" data-target="#dirModal" href=""><i class="fa fa-plus-square" style="float: right; margin-right: 0.5rem; line-height: inherit;" aria-hidden="true"></i></a>
-                    <select ng-model="inputDir"  ng-required="true"   name="inputDir" id="inputDir" class="form-control" >
+                    <select ng-model="inputDir"  ng-required="true" ng-change="selectFirst();"   name="inputDir" id="inputDir" class="form-control" >
                         <option ng-repeat="(dirName, dirValue) in dirTree"  value="{{dirName}}">{{dirName}}</option>
                     </select>
 

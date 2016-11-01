@@ -44,8 +44,6 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
     $scope.init();
 
-
-
     $scope.makeTreeAndArray = function() {
         $scope.dirTree  = {};
         $scope.fileArray = [];
@@ -161,7 +159,6 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     };
 
 
-
     $scope.toggleCheck = function(dirEl, subEl, fileEl) {
 
         $scope.search = "";
@@ -199,7 +196,6 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         }
 
         if( fileEl && !fileEl.hasClass('active') ) {
-
             $fileEl.addClass('focus');
             $scope.focus = $fileEl;
 
@@ -333,9 +329,9 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     };
 
 
-    $scope.setBlog = function() {
+    $scope.setBlog = function(fn) {
         $scope.getBlogCategory(function() {
-            $scope.getPosts();
+            $scope.getPosts(fn);
         });
     };
 
@@ -380,7 +376,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
 
     // 블로그 최신글 가져온 후 -> set
-    $scope.getPosts = function() {
+    $scope.getPosts = function(fn) {
         $http({
             method  : 'POST',
             url     : 'http://192.168.0.84:7711/tistory/recentposts',
@@ -393,12 +389,33 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
                 var categoryName = '';
                 angular.forEach(data, function(post) {
                     categoryName = post.categories[0];
-                    if( categoryName.indexOf('/') > 0 )
+                    console.dir(categoryName);
+                    if( !categoryName )
+                    {
+                        if( !$scope.blogCategory['분류없음'] )
+                        {
+                            $scope.blogCategory['분류없음'] = {};
+                            $scope.blogCategory['분류없음']['분류없음'] = {};
+                        }
+                        $scope.setPost('분류없음', '분류없음', post.title, post);
+                    }
+                    else if( categoryName.indexOf('/') > 0 )
                     {
                         var splitArr = categoryName.split('/');
                         $scope.setPost(splitArr[0], splitArr[1], post.title, post);
                     }
+                    else
+                    {
+                        if( !$scope.blogCategory[categoryName]['분류없음'] ) {
+                            $scope.blogCategory[categoryName]['분류없음'] = {};
+                        }
+                        $scope.setPost(categoryName, '분류없음', post.title, post);
+                    }
                 });
+                $scope.blogReady = true;
+                if(typeof fn == 'function') {
+                    fn();
+                }
             }
         });
     };

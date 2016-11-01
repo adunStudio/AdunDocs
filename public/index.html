@@ -67,11 +67,11 @@
     </div>
 
     <div ng-show="blogStat.dirCategory" role="complementary" class="_path">
-        <a ng-show="blogStat.dirCategory" href="" class="_path-item _icon-tistory">{{blogStat.dirCategory}}</a>
-        <a ng-show="blogStat.subCategory" href="" class="_path-item">{{blogStat.subCategory}}</a>
+        <a ng-show="blogStat.dirCategory" href="#blog/{{blogStat.dirCategory}}?check=1" class="_path-item _icon-tistory">{{blogStat.dirCategory}}</a>
+        <a ng-show="blogStat.subCategory" href="#blog/{{blogStat.dirCategory}}/{{blogStat.subCategory}}?check=1" class="_path-item">{{blogStat.subCategory}}</a>
         <span ng-show="blogStat.title" class="_path-item">{{blogStat.title}}</span>
         <span ng-show="blogStat.title" style="float: right;" class="_path-item"><a href="#/blog/edit/{{blogStat.postid}}" class="_path-item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
-        <span ng-show="blogStat.dateCreated" style="float: right;" class="_path-item">작성 날짜: {{blogStat.dateCreated | date: "y-MM-dd h:m"}} </span>
+        <span ng-show="blogStat.dateCreated" style="float: right;" class="_path-item">작성 날짜: {{blogStat.dateCreated | date: "y-MM-dd hh:mm"}} </span>
     </div>
 
     <!-- 배너 -->
@@ -92,6 +92,7 @@
             <a href="#blog"  class="_nav-link" title="blog">{{blogName}}</a>
             <a href="#about" class="_nav-link" title="about">About</a>
             <a href="#news"  class="_nav-link" title="news">News</a>
+            <a href="#tips"  class="_nav-link" title="news">Tips</a>
             <a ng-show="isLogin"                      href="#write"  class="_nav-link" title="write">Write</a>
             <a ng-hide="isLogin" ng-click="login();"  href=""        class="_nav-link" title="login"><i class="fa fa-user" aria-hidden="true"></i></a>
             <a ng-show="isLogin" ng-click="logout();" href="" class="_nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
@@ -138,11 +139,11 @@
 
                 <!-- Tistory -->
                 <h6 ng-show="blogCategory" class="_list-title"> Tistory</h6>
-                <a ng-show="blogCategory" ng-repeat-start="(dir, dirValue) in blogCategory" ng-click="toggleDir($event)"      id="blog_{{dir}}" href=""  class="_list-item _icon-tistory _list-dir _-dir-_"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
+                <a ng-show="blogCategory" ng-repeat-start="(dir, dirValue) in blogCategory" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"      id="blog_{{dir}}" href="/#/blog/{{dir}}"  class="_list-item _icon-tistory _list-dir _-dir-_"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
                 <div ng-repeat-end="" class="_list _list-sub" >
-                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in blogCategory[dir]" ng-click="toggleSub($event)"  id="blog_{{dir}}_{{sub}}" href="" class="_list-item _list-dir _-sub-_" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
+                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in blogCategory[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="blog_{{dir}}_{{sub}}" href="/#/blog/{{dir}}/{{sub}}" class="_list-item _list-dir _-sub-_" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
                     <div ng-repeat-end="" class="_list _list-sub">
-                        <a ng-show="!search" ng-repeat="(name, file) in blogCategory[dir][sub]" ng-click="toggleFile($event)" id="blog_{{dir}}_{{sub}}_{{name}}" href="#/blog/view/{{file.postid}}" class="_list-item _list-hover _-file-_" data-edit="/#/edit/{{dir}}/{{sub}}/{{name}}" title="{{name}}" tabindex="-1">{{name}}</a>
+                        <a ng-show="!search" ng-repeat="(name, file) in blogCategory[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="blog_{{dir}}_{{sub}}_{{name}}" href="#/blog/{{dir}}/{{sub}}/{{name}}" class="_list-item _list-hover" data-edit="/#/edit/{{dir}}/{{sub}}/{{name}}" title="{{name}}" tabindex="-1">{{name}}</a>
                     </div>
                 </div>
                 <!-- Tistory -->
@@ -271,5 +272,7 @@
 <script src="/js/adundocs_BlogCtrl.js"></script>
 <script src="/js/blog/adundocs_BlogViewCtrl.js"></script>
 <script src="/js/blog/adundocs_BlogEditCtrl.js"></script>
+<script src="/js/blog/adundocs_BlogDirCategoryCtrl.js"></script>
+<script src="/js/blog/adundocs_BlogSubCategoryCtrl.js"></script>
 
 
