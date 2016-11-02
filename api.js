@@ -117,7 +117,7 @@ module.exports = function(app) {
             }
     });
 
-    // 이미지 업로드 (IMAGE UPLOAD)
+    // 이미지 업로드 (IMAGE UPLOAD) // editormd
     app.post('/article/upload', function(req, res) {
         res.setHeader('Content-Type', 'application/json');
 
@@ -153,6 +153,58 @@ module.exports = function(app) {
                 res.send(JSON.stringify({success: 0, message: e.message}));
             }
         });
+    });
+
+    // 이미지 업로드 (IMAGE UPLOAD) // ckeditor
+    app.post('/article/uploadck', function(req, res) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if( req.session.admin != secret.admin ) {
+            return res.send(JSON.stringify({success: 0, message: '관리자가 아닙니다.'}));
+        }
+
+        var dest, fileName, tmpPath;
+
+        var now = new Date();
+        var dateDir =  "public/uploads/";
+        var date = "/" +  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" +  now.getDate() +"/";
+        var uploadDir = dateDir + date;
+        fs.existsSync(dateDir) || fs.mkdirSync(dateDir);
+        fs.existsSync(uploadDir) || fs.mkdirSync(uploadDir);
+
+        var formidable = require('formidable');
+        var form = new formidable.IncomingForm();
+        form.parse(req, function(err, fields, files) {
+            form.uploadDir = "public/uploads";
+            tmpPath = files.upload.path;
+            fileName = Date.now() + "_" +files.upload.name;
+            dest = uploadDir + fileName;
+            fs.readFile(files.upload.path, function(err, data) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                fs.writeFile(dest, data, function(err) {
+                    var html;
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+
+                    html = "";
+                    html += "<script type='text/javascript'>";
+                    html += "    var funcNum = " + req.query.CKEditorFuncNum + ";";
+                    html += "    var url     = \"/uploads"+ date + fileName + "\";";
+                    html += "    var message = \"업로드 성공!\";";
+                    html += "";
+                    html += "    window.parent.CKEDITOR.tools.callFunction(funcNum, url, message);";
+                    html += "</script>";
+
+                    res.send(html);
+                });
+            });
+        });
+
     });
 
     // 글 쓰기 (CREATE)
