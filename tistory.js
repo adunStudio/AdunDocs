@@ -138,14 +138,12 @@ module.exports = function(app) {
             var categories;
 
             if(dirCategory == '분류없음' && subCategory == '분류없음') {
-                categories = ['sdfsdfsdfsdfsd'];
+                categories = [undefined];
             } else if (subCategory == '분류없음') {
                 categories = [dirCategory];
             } else {
                 categories = [dirCategory + "/" + subCategory];
             }
-
-            console.log(categories);
             var post =  {
                 title: title,
                 categories: categories,
@@ -154,8 +152,6 @@ module.exports = function(app) {
 
 
             metaWeblog.editPost(postID, tistoryNAME, tistoryKEY, post, true, function(result) {
-                console.dir(result);
-                console.dir('-0');
                 if( result ) {
                     return res.send(JSON.stringify({result: true, data: result}));
                 } else {
@@ -169,6 +165,50 @@ module.exports = function(app) {
         {
             res.send(JSON.stringify({result: false, msg: '파라미터가 부족하거나 로그인을 해주시기 바랍니다.'}));
         }
+    });
+
+    // 글 제목 수정
+    app.post('/tistory/rename', function(req, res) {
+        var tistoryNAME = req.session.tistoryNAME;
+        var tistoryADDR = req.session.tistoryADDR;
+        var tistoryID   = req.session.tistoryID;
+        var tistoryKEY  = req.session.tistoryKEY;
+        var postID      = req.body.postid;
+        var newTitle       = req.body.title;
+
+        if( tistoryNAME && tistoryADDR && tistoryID && tistoryKEY && postID && newTitle )
+        {
+            var metaWeblog = new MetaWeblog(tistoryADDR);
+            metaWeblog.getPost(postID, tistoryNAME, tistoryKEY, function(post) {
+                var description = post.description;
+                var categories = post.categories[0];
+
+                var post =  {
+                    title: newTitle,
+                    categories: categories,
+                    description: description
+                };
+
+                metaWeblog.editPost(postID, tistoryNAME, tistoryKEY, post, true, function(result) {
+                    if( result ) {
+                        return res.send(JSON.stringify({result: true, data: result}));
+                    } else {
+                        return res.send(JSON.stringify({result: false, data: result}));
+                    }
+                }, function(err) {
+                    res.send(JSON.stringify({result: false, msg: err}));
+                });
+
+            }, function(err) {
+                res.send(JSON.stringify({result: false, msg: err}));
+            });
+        }
+        else
+        {
+            res.send(JSON.stringify({result: false, msg: '파라미터가 부족하거나 로그인을 해주시기 바랍니다.'}));
+        }
+
+
     });
 
     // 글 쓰기

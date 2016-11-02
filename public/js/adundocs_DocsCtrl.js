@@ -16,8 +16,13 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
             if( typeof fn === 'function') {
                 fn();
             }
-
         });
+
+        $http.get('/trash.json').then(function(response) {
+            $scope.trashs = response.data;
+            console.dir($scope.trashs);
+        });
+
     };
 
     $scope.init = function(fn) {
@@ -30,6 +35,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.stat = {};
         $scope.dirTree = null;
         $scope.fileArray = null;
+        $scope.trashs = null;
+        console.dir($scope.trashs)
 
         $scope.dirName = '';
         $scope.subName = '';
@@ -65,10 +72,11 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         });
     };
 
-    $scope.setName = function(dirName, subName, fileName) {
+    $scope.setName = function(dirName, subName, fileName, isTrash) {
         $scope.dirName  = dirName  || '';
         $scope.subName  = subName  || '';
         $scope.fileName = fileName || '';
+        $scope.isTrash  = isTrash  || false;
         $scope.setBlogStat();
     };
 
@@ -110,12 +118,14 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
         if(element.hasClass('open')) {
             element.removeClass('open');
+            element.removeClass('open-title');
             $element.next().slideUp();
             $element.next().find('a').each(function(idx, el){ $(el).removeClass('open') });
             $element.next().find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
         }
         else {
             element.addClass('open');
+            element.addClass('open-title');
             $element.next().slideDown();
         }
     };
@@ -389,7 +399,6 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
                 var categoryName = '';
                 angular.forEach(data, function(post) {
                     categoryName = post.categories[0];
-                    console.dir(categoryName);
                     if( !categoryName )
                     {
                         if( !$scope.blogCategory['분류없음'] )

@@ -18,6 +18,8 @@ secret = {
 
 const ARTICLE_PATH = path.normalize('./article');
 const ARTICLE_JSON = path.normalize('./public/article.json');
+const TRASH_PATH = path.normalize('./trash');
+const TRASH_JSON = path.normalize('./public/trash.json');
 const RESULT_TRUE  = JSON.stringify({result: true});
 const RESULT_FALSE = JSON.stringify({result: false});
 
@@ -94,12 +96,18 @@ module.exports = function(app) {
             try
             {
                 var tree = fsFileTree.sync(ARTICLE_PATH);
-
                 tree = naturalSortByKey(tree);
-
                 var fd = fs.openSync(ARTICLE_JSON, 'w');
                 fs.writeSync(fd, JSON.stringify(tree));
                 fs.closeSync(fd);
+
+                var tree2 = fsFileTree.sync(TRASH_PATH);
+                tree2 = naturalSortByKey(tree2);
+                var TREE = {};
+                TREE['휴지통'] = tree2;
+                var fd2 = fs.openSync(TRASH_JSON, 'w');
+                fs.writeSync(fd2, JSON.stringify(TREE));
+                fs.closeSync(fd2);
 
                res.send(JSON.stringify({result: true}));
             }
@@ -280,7 +288,9 @@ module.exports = function(app) {
         if( dirName && subName && fileName && fileName == trashName )
         {
             var path      = makeFilePath(dirName, subName, fileName);
-            var trashPath = makeTrashPath(fileName);
+            var subPath   = makeTrashSubPath(yyyymmdd());
+            fs.existsSync(subPath) || fs.mkdirSync(subPath);
+            var trashPath = subPath + "/" + String(Date.now()).slice(-6) + "_" + fileName;
 
             try
             {
@@ -298,6 +308,7 @@ module.exports = function(app) {
             res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
         }
     });
+
 
     // 글 읽기 (READ)
     app.get('/article/:dir/:sub/:file', function(req, res) {
@@ -320,6 +331,24 @@ module.exports = function(app) {
             res.send(RESULT_TRUE);
         }
     });
+
+    // 휴지통 읽기 (READ)
+    app.get('/trash/:sub/:file', function(req, res) {
+        var path = makeTrashPath(req.params.sub, req.params.file);
+        try
+        {
+            if( fs.statSync(path).isFile() )
+            {
+                res.sendFile(path);
+            }
+        }
+        catch(e)
+        {
+            res.status(404);
+            res.send(RESULT_TRUE);
+        }
+    });
+
 
     /*----------------------------------------------------------------------------------------------------------------*/
 
@@ -356,9 +385,14 @@ function makeDirPath(dir, sub) {
     }
 }
 
-function makeTrashPath(name) {
-    return __dirname + '/trash/' + String(Date.now()).slice(-6) + "_" + name;
+function makeTrashPath(sub, file) {
+    return __dirname + '/trash/' + sub + '/' + file;
 }
+
+function makeTrashSubPath(name) {
+    return __dirname + '/trash/' + name;
+}
+
 
 function naturalSortByKey(obj) {
     var sortedObj = {};
@@ -423,4 +457,11 @@ function naturalSort (a, b) {
         if (oFxNcL > oFyNcL) { return 1; }
     }
     return 0;
+}
+function yyyymmdd() {
+    var dateIn = new Date();
+    var yyyy = dateIn.getFullYear();
+    var mm = dateIn.getMonth()+1   ;
+    var dd  = dateIn.getDate()< 10 ? '0' + dateIn.getDate() : dateIn.getDate();
+    return String(yyyy +"-" +  mm + "-" +dd);
 }

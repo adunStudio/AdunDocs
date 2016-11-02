@@ -574,10 +574,15 @@
 ._icon-codesafer:before {
     background-position: -9rem -11rem
 }
+._icon-trash:before {
+    background-image: url('/img/trash.png') !important;
+    background-size: 16px !important;
+}
 ._icon-tistory:before {
     background-image: url('/img/tistory.png') !important;
     background-size: 16px !important;
 }
+
 
 input, button, ._app, ._search, ._notif, ._list, ._list-hover.clone, ._sidebar-footer-link, ._container, ._content, ._fail, ._coffeescript > .code > pre, ._socketio .ezcol-one-half {
     -moz-box-sizing: border-box;

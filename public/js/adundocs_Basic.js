@@ -20,6 +20,7 @@ AdunDocs.config(['$routeProvider', function($routeProvider) {
 
         /*         ╥ндц                */
         .when('/write',                                  {templateUrl: 'views/write.html',   controller: 'writeCtrl'})
+        .when('/trash/:subName/:fileName',            {templateUrl: 'views/trash.html',     controller: 'TrashCtrl'})
         .when('/edit/:dirName/:subName/:fileName',       {templateUrl: 'views/edit.html',     controller: 'editCtrl'})
         .when('/search/:dirName/:subName/:fileName',     {templateUrl: 'views/view.html',     controller: 'searchCtrl'})
         .when('/:dirName',                               {templateUrl: 'views/dir.html',      controller: 'dirCtrl'})
@@ -34,10 +35,14 @@ AdunDocs.directive('ngRightClick', function($parse) {
         element.bind('contextmenu', function(event) {
             scope.$apply(function() {
                 event.preventDefault();
-                location.href = element.attr('href');
+                if(element.attr('href') != undefined) {
+                    location.href = element.attr('href');
+                }
                 fn(scope, {$event:event});
             });
         });
     };
 });
+
+
 
