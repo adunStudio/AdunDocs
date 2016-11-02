@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 var secret = require('./secret.js');
 var request = require('request');
 var MetaWeblog = require('./metaweblog');
+var formidable = require('formidable');
+var fs = require('fs');
 
 
 module.exports = function(app) {
@@ -28,10 +30,7 @@ module.exports = function(app) {
         if( tistoryNAME && tistoryADDR && tistoryID && tistoryKEY )
         {
             var metaWeblog = new MetaWeblog(tistoryADDR);
-            //metaWeblog.getUsersBlogs(tistoryID, tistoryNAME, tistoryKEY, function(blogInfo) {
-            console.log(tistoryID)
-            console.log(tistoryNAME)
-            console.log(tistoryKEY)
+
             metaWeblog.getUsersBlogs(tistoryID, tistoryNAME, tistoryKEY, function(blogInfo) {
 
                 req.session.tistoryADDR = tistoryADDR;
@@ -218,6 +217,57 @@ module.exports = function(app) {
             res.send(JSON.stringify({result: false, msg: '파라미터가 부족하거나 로그인을 해주시기 바랍니다.'}));
         }
     });
+
+    // 이미지 업로드
+    app.post('/tistory/media', function(req, res) {
+        var tistoryNAME = req.session.tistoryNAME;
+        var tistoryADDR = req.session.tistoryADDR;
+        var tistoryID   = req.session.tistoryID;
+        var tistoryKEY  = req.session.tistoryKEY;
+
+        var form = new formidable.IncomingForm();
+
+
+
+        form.parse(req, function(e, fields, files) {
+            if( e ) {
+                return res.send(JSON.stringify({success: 0, message: e.message}));
+            }
+
+            var tmpPath = files['editormd-image-file'].path,
+                fileName = files['editormd-image-file'].name,
+                fileType = files['editormd-image-file'].type;
+
+            if( tistoryNAME && tistoryADDR && tistoryID && tistoryKEY && tmpPath )
+            {
+                var bf = fs.readFileSync(tmpPath);
+
+                var media = {};
+                media.name = fileName;
+                media.type = fileType;
+                media.bits = bf;
+
+                var metaWeblog = new MetaWeblog(tistoryADDR);
+
+                metaWeblog.newMediaObject(tistoryID, tistoryNAME, tistoryKEY, media, function(result) {
+                    if( result ) {
+                        return res.send(JSON.stringify({success: 1, message: result, url: result.url}));
+                    } else {
+                        return res.send(JSON.stringify({success: 0, message: result, url: result.url}));
+                    }
+                }, function(err) {
+                    return res.send(JSON.stringify({success: 0, message: err, url: err}));
+                });
+            }
+            else
+            {
+                return res.send(JSON.stringify({success: 0, message: '파라미터가 부족하거나 로그인을 해주시기 바랍니다.', url: result}));
+            }
+        });
+
+    });
+
+
 
 };
 

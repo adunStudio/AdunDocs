@@ -26,6 +26,10 @@ AdunDocs.controller('BlogViewCtrl', ['$scope', '$http', '$routeParams', '$timeou
             $('#main').html(data.description);
 
             $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, blogDirCategoryName, blogSubCategoryName, data.title, postid);
+
+            $('img').on('error', function() {
+                $(this).attr('src', "/img/tistory_404.png");
+            });
         }
     });
 
@@ -37,4 +41,5 @@ AdunDocs.controller('BlogViewCtrl', ['$scope', '$http', '$routeParams', '$timeou
     if( $scope.isToggleCheck == false || check) {
         $scope.toggleCheck(dirEl, subEl, fileEl);
     }
+
 }]);

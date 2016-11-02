@@ -43,15 +43,17 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
         previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
         imageUpload    : true,
         imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
-        imageUploadURL : "/article/upload",
+        imageUploadURL : "/tistory/media",
         onfullscreen : function() {
             $('._container').css('z-index', '100');
         },
         onfullscreenExit : function() {
             $('._container').css('z-index', '1');
         },
-        onload: function() {
-
+        onchange: function() {
+            $('img').on('error', function() {
+                $(this).attr('src', "/img/tistory_404.png");
+            });
         }
     });
 

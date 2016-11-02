@@ -31,6 +31,7 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
     var editor = $scope.editor = editormd("contents", {
         saveHTMLToTextarea : true,
         path : "/editor.md/lib/",
+        htmlDecode : true,
         width: '100%',
         height: '36rem',
         tex: true,
@@ -42,12 +43,17 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
         previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
         imageUpload    : true,
         imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
-        imageUploadURL : "/article/upload",
+        imageUploadURL : "/tistory/media",
         onfullscreen : function() {
             $('._container').css('z-index', '100');
         },
         onfullscreenExit : function() {
             $('._container').css('z-index', '1');
+        },
+        onchange: function() {
+            $('img').on('error', function() {
+                $(this).attr('src', "/img/tistory_404.png");
+            });
         },
         onload: function() {
 
