@@ -36,8 +36,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.fileName = '';
 
         $scope.isToggleCheck  = false;// <- 임시방편 ... 수정해야함 toggle에서 쓰임
-
         $scope.initTreeAndArray(fn);
+        $scope.blogStat = {};
 
 
     };
@@ -339,7 +339,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.getBlogCategory = function(fn) {
         $http({
             method  : 'POST',
-            url     : 'http://175.193.42.59:7711/tistory/category',
+            url     : '/tistory/category',
             headers : {'Content-Type': 'application/json'}
         }).then(function(response) {
             var result = response.data;
@@ -379,7 +379,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.getPosts = function(fn) {
         $http({
             method  : 'POST',
-            url     : 'http://175.193.42.59:7711/tistory/recentposts',
+            url     : '/tistory/recentposts',
             headers : {'Content-Type': 'application/json'}
         }).then(function(response) {
             var result = response.data;

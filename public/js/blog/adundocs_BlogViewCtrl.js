@@ -4,6 +4,7 @@ AdunDocs.controller('BlogViewCtrl', ['$scope', '$http', '$routeParams', '$timeou
     if( !$scope.blogReady)
     {
         $location.url('/');
+        return;
     }
 
     $scope.setName();

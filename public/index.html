@@ -61,7 +61,7 @@
         <a ng-show="dirName" href="#/{{dirName}}?check=1" class="_path-item _icon-{{dirName}}">{{dirName}}</a>
         <a ng-show="subName" href="#/{{dirName}}/{{subName}}?check=1" class="_path-item">{{subName}}</a>
         <span ng-show="fileName" class="_path-item">{{fileName}}</span>
-        <span ng-show="isLogin && dirName && subName && fileName" style="float: right;" class="_path-item"><a href="#/edit/{{dirName}}/{{subName}}/{{fileName}}" class="_path-item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
+        <span ng-show="isLogin && dirName && subName && fileName" style="float: right;" class="_path-item"><a href="#/edit/{{dirName}}/{{subName}}/{{fileName}}" class=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
         <span ng-show="stat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: {{stat.mtime | date: "y-MM-dd"}} </span>
         <span ng-show="stat.btime" style="float: right;" class="_path-item">작성 날짜: {{stat.btime | date: "y-MM-dd"}} </span>
     </div>
@@ -70,8 +70,8 @@
         <a ng-show="blogStat.dirCategory" href="#blog/{{blogStat.dirCategory}}?check=1" class="_path-item _icon-tistory">{{blogStat.dirCategory}}</a>
         <a ng-show="blogStat.subCategory" href="#blog/{{blogStat.dirCategory}}/{{blogStat.subCategory}}?check=1" class="_path-item">{{blogStat.subCategory}}</a>
         <span ng-show="blogStat.title" class="_path-item">{{blogStat.title}}</span>
-        <span ng-show="blogStat.title" style="float: right;" class="_path-item"><a href="#/blog/edit/{{blogStat.postid}}" class="_path-item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
-        <span ng-show="!blogStat.title" style="float: right;" class="_path-item"><a href="#/blog/write/{{blogStat.dirCategory}}/{{blogStat.subCategory}}" class="_path-item"><i class="fa fa-pencil" aria-hidden="true"></i> New Post</a></span>
+        <span ng-show="blogStat.title" style="float: right;" class="_path-item"><a href="#/blog/edit/{{blogStat.postid}}" class=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
+        <span ng-show="!blogStat.title && blogStat.dirCategory && blogStat.dirCategory != '분류없음'" style="float: right;" class="_path-item"><a href="#/blog/write/{{blogStat.dirCategory}}/{{blogStat.subCategory}}" ><i class="fa fa-pencil" aria-hidden="true"></i> New Post</a></span>
         <span ng-show="blogStat.dateCreated" style="float: right;" class="_path-item">작성 날짜: {{blogStat.dateCreated | date: "y-MM-dd hh:mm"}} </span>
     </div>
 

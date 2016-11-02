@@ -4,6 +4,7 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
     if( !$scope.blogReady)
     {
         $location.url('/');
+        return;
     }
 
     var postid  = $routeParams.postid;

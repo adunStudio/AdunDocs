@@ -11,6 +11,7 @@ AdunDocs.config(['$routeProvider', function($routeProvider) {
         .when('/tips',    {templateUrl: 'views/tips.html'})
         /*          ºí·Î±×             */
         .when('/blog',                                          {templateUrl: 'views/blog.html',                    controller: 'blogCtrl'})
+        .when('/blog/write/:dirCategoryName/',  {templateUrl: 'views/blog/blog_write.html',         controller: 'BlogWriteCtrl'})
         .when('/blog/write/:dirCategoryName/:subCategoryName',  {templateUrl: 'views/blog/blog_write.html',         controller: 'BlogWriteCtrl'})
         .when('/blog/edit/:postid',                             {templateUrl: 'views/blog/blog_edit.html',          controller: 'blogEditCtrl'})
         .when('/blog/:dirCategoryName',                         {templateUrl: 'views/blog/blog_dirCategory.html',   controller: 'BlogDirCategoryCtrl'})

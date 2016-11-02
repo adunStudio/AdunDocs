@@ -13,7 +13,7 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
 
             $http({
                 method  : 'POST',
-                url     : 'http://175.193.42.59:7711/tistory/login',
+                url     : '/tistory/login',
                 data    : {
                     tistoryNAME: $scope.tistoryNAME,
                     tistoryADDR: $scope.tistoryADDR,

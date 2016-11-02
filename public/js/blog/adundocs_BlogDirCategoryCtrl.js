@@ -4,6 +4,7 @@ AdunDocs.controller('BlogDirCategoryCtrl', ['$scope', '$routeParams', '$location
     if( !$scope.blogReady)
     {
         $location.url('/');
+        return;
     }
     $scope.initStat();
     $scope.setName();

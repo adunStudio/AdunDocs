@@ -28,6 +28,10 @@ module.exports = function(app) {
         if( tistoryNAME && tistoryADDR && tistoryID && tistoryKEY )
         {
             var metaWeblog = new MetaWeblog(tistoryADDR);
+            //metaWeblog.getUsersBlogs(tistoryID, tistoryNAME, tistoryKEY, function(blogInfo) {
+            console.log(tistoryID)
+            console.log(tistoryNAME)
+            console.log(tistoryKEY)
             metaWeblog.getUsersBlogs(tistoryID, tistoryNAME, tistoryKEY, function(blogInfo) {
 
                 req.session.tistoryADDR = tistoryADDR;
@@ -166,8 +170,53 @@ module.exports = function(app) {
         {
             res.send(JSON.stringify({result: false, msg: '파라미터가 부족하거나 로그인을 해주시기 바랍니다.'}));
         }
+    });
+
+    // 글 쓰기
+    app.post('/tistory/write', function(req, res) {
+        var tistoryNAME = req.session.tistoryNAME;
+        var tistoryADDR = req.session.tistoryADDR;
+        var tistoryID   = req.session.tistoryID;
+        var tistoryKEY  = req.session.tistoryKEY;
+        var contents    = req.body.contents;
+        var dirCategory = req.body.dirCategory;
+        var subCategory = req.body.subCategory;
+        var title       = req.body.title;
 
 
+        if( tistoryNAME && tistoryADDR && tistoryID && tistoryKEY && contents && dirCategory && subCategory && title )
+        {
+            var metaWeblog = new MetaWeblog(tistoryADDR);
+
+            var categories;
+
+            if (subCategory == '분류없음') {
+                categories = [dirCategory];
+            } else {
+                categories = [dirCategory + "/" + subCategory];
+            }
+
+            var post =  {
+                title: title,
+                categories: categories,
+                description: contents
+            };
+
+
+            metaWeblog.newPost(tistoryID, tistoryNAME, tistoryKEY, post, true, function(result) {
+                if( result ) {
+                    return res.send(JSON.stringify({result: true, data: result}));
+                } else {
+                    return res.send(JSON.stringify({result: false, data: result}));
+                }
+            }, function(err) {
+                res.send(JSON.stringify({result: false, msg: '최신글 로드 실패'}));
+            });
+        }
+        else
+        {
+            res.send(JSON.stringify({result: false, msg: '파라미터가 부족하거나 로그인을 해주시기 바랍니다.'}));
+        }
     });
 
 };
