@@ -49,6 +49,18 @@ module.exports = function(app) {
             res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
         }
     });
+    /*app.post("/tistory/!*", function (req, res, next) {
+        var tistoryNAME = req.session.tistoryNAME;
+        var tistoryADDR = req.session.tistoryADDR;
+        var tistoryID   = req.session.tistoryID;
+        var tistoryKEY  = req.session.tistoryKEY;
+
+        if(tistoryNAME && tistoryADDR && tistoryID && tistoryKEY) {
+            next();
+        } else {
+            res.send(JSON.stringify({result: false, msg: '로그인을 해주시기 바랍니다.'}));
+        }
+    });*/
 
     // 카테고리
     app.post('/tistory/category', function(req, res) {
