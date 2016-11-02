@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-8" style="padding-left: 0; width: 64.7%; margin-right: 0; padding-right: 0;">
+            <div class="col-xs-8" style="padding-left: 0; width: 63.7%; margin-right: 0; padding-right: 0;">
                 <div class="form-group">
                     <label for="inputTitle"><span>*</span> Title</label>
                     <input ng-model="inputTitle" ng-required="true" ng-pattern="nameRegExp"  ng-maxlength="100" maxlength="100" type="text" id="inputTitle" class="form-control" placeholder="제목을 적어주세요.">
@@ -32,8 +32,10 @@
 
             <div id="contents" >
                 <textarea class="editormd-markdown-textarea" name="contents-markdown-doc"></textarea>
-                <textarea class="editormd-html-textarea" name="contents-html-code"><h1>heelo</h1></textarea>
+                <textarea class="editormd-html-textarea" name="contents-html-code"></textarea>
             </div>
+
+            <textarea id="summernote" name="summernote"></textarea>
 
             <button ng-click="blogEdit($event);" type="button" class="btn btn-default">Edit</button>
 

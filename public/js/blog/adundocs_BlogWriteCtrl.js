@@ -27,38 +27,57 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
 
     };
 
+    var mode = $scope.htmlMode == true ? "HTML" : "MarkDown";
+    var editor = null;
 
+    if( mode == "MarkDown" )
+    {
+        editor = $scope.editor = editormd("contents", {
+            saveHTMLToTextarea : true,
+            path : "/editor.md/lib/",
+            width: '100%',
+            height: '36rem',
+            tex: true,
+            sequenceDiagram: true,
+            flowChart: true,
+            placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
+            theme: $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
+            editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
+            previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
+            imageUpload    : true,
+            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
+            imageUploadURL : "/tistory/media",
+            onfullscreen : function() {
+                $('._container').css('z-index', '100');
+            },
+            onfullscreenExit : function() {
+                $('._container').css('z-index', '1');
+            },
+            onchange: function() {
+                $('img').on('error', function() {
+                    $(this).attr('src', "/img/tistory_404.png");
+                });
+            }
+        });
+    }
+    else
+    {
+        editor = $('#summernote');
+        editor.summernote({
+            height: 500,                 // set editor height
+            minHeight: null,             // set minimum height of editor
+            maxHeight: null,             // set maximum height of editor
+            focus: true,                  // set focus to editable area after initializing summernote
+            lang: 'ko-KR'
+        });
+    }
 
-    var editor = $scope.editor = editormd("contents", {
-        saveHTMLToTextarea : true,
-        path : "/editor.md/lib/",
-        width: '100%',
-        height: '36rem',
-        tex: true,
-        sequenceDiagram: true,
-        flowChart: true,
-        placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
-        theme: $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
-        editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
-        previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
-        imageUpload    : true,
-        imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
-        imageUploadURL : "/tistory/media",
-        onfullscreen : function() {
-            $('._container').css('z-index', '100');
-        },
-        onfullscreenExit : function() {
-            $('._container').css('z-index', '1');
-        },
-        onchange: function() {
-            $('img').on('error', function() {
-                $(this).attr('src', "/img/tistory_404.png");
-            });
-        }
-    });
 
    $scope.blogWrite = function() {
-       var contents = editor.getHTML();
+       alert(1);
+       var contents = mode == "HTML" ? editor.summernote('code') : editor.getHTML();
+       alert(contents);
+return;
        if( $scope.blogWriteForm.$valid && contents)
        {
            $http({

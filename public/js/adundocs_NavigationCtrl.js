@@ -1,5 +1,21 @@
 
-AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$location', function navigationCtrl($scope, $http, $routeParams, $location) {
+AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', function navigationCtrl($scope, $http, $routeParams, $location, $cookies) {
+
+
+    $scope.settingMode = false;
+
+    $scope.settingButton = function() {
+        $scope.settingMode = $scope.settingMode ? false : true;
+    };
+    $scope.setting_htmlButton = function() {
+        var expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() + 300);
+        var mode = $scope.htmlMode = ($scope.htmlMode == true ? true : false);
+        $scope.setHtmlMode(mode);
+        $cookies.put('htmlmode', mode, {'expires': expireDate});
+    };
+
+
     $scope.$changeNameModal = $('#changeNameModal');
     $scope.$trashModal      = $('#trashModal');
     $scope.$changePostNameModal = $('#changePostNameModal');
@@ -181,5 +197,10 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
             $scope.$changePostNameModal.effect('shake');
         }
     };
+
+
+
+
+
 
 }]);

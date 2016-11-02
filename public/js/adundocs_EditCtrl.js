@@ -58,6 +58,7 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
 
 
 
+
     $scope.$watch('theme', function() {
         editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
         editor.setEditorTheme($scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark');

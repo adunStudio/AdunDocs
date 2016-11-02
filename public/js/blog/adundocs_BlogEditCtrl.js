@@ -89,12 +89,31 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
 
                     $scope.inputTitle       = data.title;
                     $scope.editor.insertValue(md(data.description));
-                   // $scope.editor.insertValue((data.description));
-                    //$scope.editor.insertValue(toMarkdown(data.description));
+
+                    $('#summernote').summernote('code', data.description);
                 }
             });
         }
     });
+
+    $('#summernote').summernote({
+        height: 500,                 // set editor height
+        minHeight: null,             // set minimum height of editor
+        maxHeight: null,             // set maximum height of editor
+        focus: true,                  // set focus to editable area after initializing summernote
+        lang: 'ko-KR'
+    });
+
+    $('.modal').on('show.bs.modal', function () {
+        $('._container').css('z-index', '100');
+    });
+    $('.modal').on('hide.bs.modal', function () {
+        $('._container').css('z-index', '1');
+    });
+
+
+
+
 
     $scope.blogEdit = function(event) {
         event.preventDefault();

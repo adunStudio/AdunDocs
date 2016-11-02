@@ -433,6 +433,12 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.setBlog();
     }
 
+    $scope.htmlMode = $cookies.get('htmlmode') == 'true' ? true : false;
+
+    $scope.setHtmlMode = function(bool) {
+        $scope.htmlMode = bool;
+    }
+
 
 
 }]);

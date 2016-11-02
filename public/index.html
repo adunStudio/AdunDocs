@@ -3,9 +3,7 @@
 <head>
     <title>AdunDocs</title>
 
-    <link rel="stylesheet" href="/ckeditor/samples/css/samples.css"/>
-<!--    <link href="/ckeditor/plugins/codesnippet/lib/highlight/styles/github.css" rel="stylesheet">
-    <script src="/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>-->
+
 
     <!-- bootstrap -->
     <link rel="stylesheet" href="/css/bootstrap.css"/>
@@ -13,9 +11,10 @@
     <link id="theme" rel="stylesheet" href="/css/style_black.css"/>
     <!-- editormd -->
     <link rel="stylesheet" href="/editor.md/css/editormd.css"/>
-
     <!-- patternLock -->
     <link rel="stylesheet" href="/css/patternLock.css"/>
+    <!-- summernote -->
+    <link rel="stylesheet" href="/summernote/summernote.css"/>
 
     <link rel="stylesheet" href="/css/custom.css"/>
 
@@ -52,13 +51,13 @@
 
     <!-- MathJax -->
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    <!-- highlight -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
     <!-- editor.md -->
     <script src="/editor.md/editormd.js"></script>
     <script src="/editor.md/languages/en.js"></script>
-    <!-- ckeditor -->
-    <script src="/ckeditor/ckeditor.js"></script>
+    <!-- summernote -->
+    <script src="/summernote/summernote.js"></script>
+
+
 
 </head>
 <body>
@@ -142,8 +141,15 @@
     <!-- 네비게이션 -->
     <div ng-controller="navigationCtrl">
         <section class="_sidebar" tabindex="-1">
-            <div role="navigation" class="_list" id="list">
-
+            <div ng-show="settingMode" id="settingForm" role="form" class="_list _list-picker _in">
+                <label class="_list-item _icon-html">
+                    <input ng-model="htmlMode" ng-change="setting_htmlButton()" type="checkbox" name="html" class="_list-checkbox">
+                    <span class="_list-text">블로그를 HTML방식으로 포스팅</span>
+                </label>
+                <div class="_list-note">Tip: 설정을 완료한 후에는 새로고침을 해주시기 바랍니다.</div>
+                <a href="http://www.oppacoding.com/about" class="_list-link" target="_blank" >문의사항이 있나요?</a>
+            </div>
+            <div ng-show="!settingMode" role="navigation" class="_list" id="list">
                 <div ng-show="search" class="_list" >
                     <a ng-repeat="s in searchResult" ng-click="searchToggle($event);" href="/#/search/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>
                 </div>
@@ -176,8 +182,9 @@
                 </div>
 
             </div>
+
             <div class="_sidebar-footer" ng-controller="ThemeCtrl">
-                <button type="button" class="_sidebar-footer-link _sidebar-footer-edit" data-pick-docs="">
+                <button ng-click="settingButton()" type="button" class="_sidebar-footer-link _sidebar-footer-edit" data-pick-docs="">
                     Setting
                 </button>
                 <button type="button" class="_sidebar-footer-link _sidebar-footer-light" title="Toggle light" ng-click="toggleTheme();" id="themeChangeButton">Toggle light</button>
