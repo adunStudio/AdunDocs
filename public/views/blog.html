@@ -3,38 +3,38 @@
 
     <h2 class="_lined-heading">Tistory</h2>
 
-    <div id="write_page">
+    <div ng-show="!blogName" id="write_page">
         <form name="tistoryForm">
-            <div class="col-md-5" style="padding-left: 0;">
+            <div class="col-sm-5" style="padding: 10px;">
                 <div class="form-group">
                     <label for="tistoryKey"><span>*</span> Tistory ID</label>
                     <input ng-model="tistoryNAME" ng-required="true" name="tistoryNAME" id="tistoryNAME" type="text" class="form-control">
                 </div>
             </div>
-            <div class="col-md-5" style="padding-left: 0;">
+            <div class="col-sm-5" style="padding: 10px;">
                 <div class="form-group">
                     <label for="tistoryADDR"><span>*</span> API 주소</label>
                     <input ng-model="tistoryADDR" ng-required="true" ng-pattern="addrPattern" name="tistoryADDR" id="tistoryADDR" type="text" class="form-control">
                 </div>
             </div>
-            <div class="col-md-5" style="padding-left: 0;">
+            <div class="col-sm-5" style="padding: 10px;">
                 <div class="form-group">
                     <label for="tistoryID"><span>*</span> API ID</label>
                     <input ng-model="tistoryID" ng-required="true" name="tistoryID" id="tistoryID" type="text" class="form-control">
                 </div>
             </div>
-            <div class="col-md-5" style="padding-left: 0;">
+            <div class="col-sm-5" style="padding: 10px;">
                 <div class="form-group">
                     <label for="tistoryKEY"><span>*</span> API KEY</label>
                     <input ng-model="tistoryKEY" ng-required="true" name="tistoryKEY" id="tistoryKEY" type="password" class="form-control">
                 </div>
             </div>
+            <div class="col-sm-6" style="padding: 10px;">
+                <button ng-click="tistoryLogin($event);" type="button" class="btn btn-default">Login</button>
 
-
-
+            </div>
         </form>
 
-        <button ng-click="tistoryLogin($event);" type="button" class="btn btn-default">Login</button>
 
 
 
