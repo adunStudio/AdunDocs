@@ -5,11 +5,14 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
     $scope.initStat();
     $scope.setName();
 
+    var dirName = $routeParams.dirName || Object.keys($scope.docs)[0];
+    var subName = $routeParams.subName || Object.keys($scope.docs[dirName])[0] ;
+
     $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
     $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
 
-    $scope.inputDir    = Object.keys($scope.docs)[0];
-    $scope.inputSub    = Object.keys($scope.docs[$scope.inputDir])[0];
+    $scope.inputDir    = dirName;
+    $scope.inputSub    = subName;
     $scope.inputName   = null;
     $scope.makeDirName = null;
     $scope.makeSubName = null;

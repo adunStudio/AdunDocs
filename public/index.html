@@ -154,9 +154,9 @@
                     <a ng-repeat="s in searchResult" ng-click="searchToggle($event);" href="/#/search/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-item _list-hover _list-result _icon-{{s.dirName}}" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/{{s.dirName}}/{{s.subName}}/{{s.name}}" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">{{s.name}}</span></a>
                 </div>
 
-                <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"   id="_{{dir}}" href="/#/{{dir}}"  class="_list-item _icon-{{dir}} _list-dir _-dir-_"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
+                <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"   id="_{{dir}}" href="/#/{{dir}}"  class="_list-item _icon-{{dir}} _list-dir _-dir-_"  data-write="/#/write/{{dir}}" title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
                 <div ng-repeat-end="" class="_list _list-sub" >
-                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_{{dir}}_{{sub}}" href="/#/{{dir}}/{{sub}}" class="_list-item _list-dir _-sub-_" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
+                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_{{dir}}_{{sub}}" href="/#/{{dir}}/{{sub}}" class="_list-item _list-dir _-sub-_" data-write="/#/write/{{dir}}/{{sub}}" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
                     <div ng-repeat-end="" class="_list _list-sub">
                         <a ng-show="!search" ng-repeat="(name, file) in docs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_{{dir}}_{{sub}}_{{name}}" href="/#/{{dir}}/{{sub}}/{{name}}" class="_list-item _list-hover _-file-_" data-edit="/#/edit/{{dir}}/{{sub}}/{{name}}" title="{{name}}" tabindex="-1">{{name}}</a>
                     </div>
@@ -164,9 +164,9 @@
 
                 <!-- Tistory -->
                 <h6 ng-show="blogCategory" class="_list-title"> Tistory</h6>
-                <a ng-show="blogCategory" ng-repeat-start="(dir, dirValue) in blogCategory" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"      id="blog_{{dir}}" href="/#/blog/{{dir}}"  class="_list-item _icon-tistory _list-dir _-blog_dir-_"  title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
+                <a ng-show="blogCategory" ng-repeat-start="(dir, dirValue) in blogCategory" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"      id="blog_{{dir}}" href="/#/blog/{{dir}}"  class="_list-item _icon-tistory _list-dir _-blog_dir-_"  data-newpost="/#/blog/write/{{dir}}" title="{{dir}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getDeepLength(dirValue)}}</span><span class="_list-text">{{dir}}</span></a>
                 <div ng-repeat-end="" class="_list _list-sub" >
-                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in blogCategory[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="blog_{{dir}}_{{sub}}" href="/#/blog/{{dir}}/{{sub}}" class="_list-item _list-dir _-blog_sub-_" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
+                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in blogCategory[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="blog_{{dir}}_{{sub}}" href="/#/blog/{{dir}}/{{sub}}" class="_list-item _list-dir _-blog_sub-_"  data-newpost="/#/blog/write/{{dir}}/{{sub}}" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
                     <div ng-repeat-end="" class="_list _list-sub">
                         <a ng-show="!search" ng-repeat="(name, file) in blogCategory[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="blog_{{dir}}_{{sub}}_{{name}}" href="#/blog/{{dir}}/{{sub}}/{{name}}" class="_list-item _list-hover _-blog-_" data-edit="/#/blog/edit/{{file.postid}}" title="{{name}}" tabindex="-1">{{name}}</a>
                     </div>
@@ -175,9 +175,9 @@
 
                 <h6 ng-show="trashs" ng-repeat-start="(dir, dirValue) in trashs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)" id="휴지통" class="_list-title "><span class="_list-arrow"></span>휴지통 ({{getDeepLength(dirValue)}})</h6>
                 <div ng-repeat-end="" class="_list _list-sub" >
-                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in trashs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_{{dir}}_{{sub}}" class="_list-item _list-dir _-sub-_" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
+                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in trashs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)"  class="_list-item _list-dir _-sub-_" title="{{sub}}" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">{{getLength(subValue)}}</span><span class="_list-text">{{sub}}</span></a>
                     <div ng-repeat-end="" class="_list _list-sub">
-                        <a ng-show="!search" ng-repeat="(name, file) in trashs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_{{dir}}_{{sub}}_{{name}}" href="/#/trash/{{sub}}/{{name}}" class="_list-item _list-hover" title="{{name}}" tabindex="-1">{{name}}</a>
+                        <a ng-show="!search" ng-repeat="(name, file) in trashs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)"  href="/#/trash/{{sub}}/{{name}}" class="_list-item _list-hover" title="{{name}}" tabindex="-1">{{name}}</a>
                     </div>
                 </div>
 

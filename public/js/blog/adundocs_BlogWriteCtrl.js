@@ -75,7 +75,12 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
             minHeight: null,             // set minimum height of editor
             maxHeight: null,             // set maximum height of editor
             focus: true,                  // set focus to editable area after initializing summernote
-            lang: 'ko-KR'
+            lang: 'ko-KR',
+            callbacks: {
+                onImageUpload: function(files) {
+                    sendFile(files[0]);
+                }
+            }
         });
         $('.modal').on('show.bs.modal', function () {
             $('._container').css('z-index', '100');
@@ -85,7 +90,27 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
         });
     }
 
-
+    function sendFile(file) {
+        console.dir(file);
+        data = new FormData();
+        data.append("editormd-image-file", file);
+        $.ajax({
+            data: data,
+            type: "POST",
+            url: "/tistory/media",
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function(result) {
+                if(result.success) {
+                    editor.summernote('insertImage', result.url,'ddd');
+                } else {
+                    alert(result.message);
+                }
+            }
+        });
+    }
 
    $scope.blogWrite = function() {
        var contents = $scope.mode == "HTML" ? editor.summernote('code') : editor.getHTML();

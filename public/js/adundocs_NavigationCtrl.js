@@ -36,8 +36,6 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
     $.contextMenu({
         selector: '._-file-_',
         callback: function(key, options) {
-            var nameArr = $(this).attr('id').split('_');
-
             switch(key) {
                 case 'edit':
                     location.href = $(this).data('edit');
@@ -53,7 +51,7 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
         items: {
             "edit": {name: "Edit", icon: "fa-edit"},
             "sep1": "---------",
-            "name": {name: 'Name', icon: "fa-pencil"},
+            "name": {name: 'Name', icon: "fa-tags"},
             "sep2": "---------",
             "trash": {name: "Trash", icon: "fa-trash"},
             "sep3": "---------",
@@ -89,7 +87,7 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
         items: {
             "edit": {name: "Edit", icon: "fa-edit"},
             "sep1": "---------",
-            "name": {name: 'Name', icon: "fa-pencil"},
+            "name": {name: 'Name', icon: "fa-tags"},
             "sep2": "---------",
             "trash": {name: "Trash", icon: "fa-trash"},
             "sep3": "---------",
@@ -195,6 +193,38 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
             $scope.$changePostNameModal.effect('shake');
         }
     };
+
+    $.contextMenu({
+        selector: '._-dir-_, ._-sub-_',
+        callback: function(key, options) {
+            switch(key) {
+                case 'write':
+                    location.href = $(this).data('write');
+                    break;
+            }
+        },
+        items: {
+            "write": {name: "Write", icon: "fa-pencil"},
+            "sep1": "---------",
+            "quit": {name: "Quit", icon: "fa-times"}
+        }
+    });
+
+    $.contextMenu({
+        selector: '._-blog_dir-_, ._-blog_sub-_',
+        callback: function(key, options) {
+            switch(key) {
+                case 'newPost':
+                    location.href = $(this).data('newpost');
+                    break;
+            }
+        },
+        items: {
+            "newPost": {name: "New Post", icon: "fa-pencil"},
+            "sep1": "---------",
+            "quit": {name: "Quit", icon: "fa-times"}
+        }
+    });
 
 
 

@@ -20,6 +20,8 @@ AdunDocs.config(['$routeProvider', function($routeProvider) {
 
         /*         ╥ндц                */
         .when('/write',                                  {templateUrl: 'views/write.html',   controller: 'writeCtrl'})
+        .when('/write/:dirName',                                  {templateUrl: 'views/write.html',   controller: 'writeCtrl'})
+        .when('/write/:dirName/:subName',                                  {templateUrl: 'views/write.html',   controller: 'writeCtrl'})
         .when('/trash/:subName/:fileName',            {templateUrl: 'views/trash.html',     controller: 'TrashCtrl'})
         .when('/edit/:dirName/:subName/:fileName',       {templateUrl: 'views/edit.html',     controller: 'editCtrl'})
         .when('/search/:dirName/:subName/:fileName',     {templateUrl: 'views/view.html',     controller: 'searchCtrl'})
