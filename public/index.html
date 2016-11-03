@@ -89,8 +89,8 @@
 
     <!-- 배너 -->
     <header class="_header" role="banner">
-        <button type="button" class="_mobile-btn _back-btn">Back</button>
-        <button type="button" class="_mobile-btn _forward-btn">Forward</button>
+        <button ng-click="historyBack();" type="button" class="_mobile-btn _back-btn">Back</button>
+        <button ng-click="historyForward();" type="button" class="_mobile-btn _forward-btn">Forward</button>
         <button ng-click="naviToggle()" type="button" class="_mobile-btn _menu-btn">Menu</button>
         <button ng-click="initialize();" type="button" class="_mobile-btn _home-btn">Home</button>
         <form  class="_search" role="search">

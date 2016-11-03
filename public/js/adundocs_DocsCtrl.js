@@ -463,12 +463,18 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
     $scope.setHtmlMode = function(bool) {
         $scope.htmlMode = bool;
-    }
+    };
 
     $scope.settingMode = false;
     $scope.settting  = function(bool) {
         $scope.settingMode = bool;
-    }
+    };
 
+    $scope.historyForward = function() {
+        window.history.forward();
+    };
+    $scope.historyBack = function() {
+        window.history.back();
+    }
 
 }]);
