@@ -27,6 +27,7 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
 
     };
 
+
     $scope.mode = ($scope.htmlMode == true ? "HTML" : "MarkDown");
     var editor = null;
 
@@ -75,6 +76,12 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
             maxHeight: null,             // set maximum height of editor
             focus: true,                  // set focus to editable area after initializing summernote
             lang: 'ko-KR'
+        });
+        $('.modal').on('show.bs.modal', function () {
+            $('._container').css('z-index', '100');
+        });
+        $('.modal').on('hide.bs.modal', function () {
+            $('._container').css('z-index', '1');
         });
     }
 

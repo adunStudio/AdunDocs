@@ -280,8 +280,9 @@ module.exports = function(app) {
         var form = new formidable.IncomingForm();
 
 
-
         form.parse(req, function(e, fields, files) {
+            console.log(files);
+
             if( e ) {
                 return res.send(JSON.stringify({success: 0, message: e.message}));
             }

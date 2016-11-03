@@ -3136,7 +3136,9 @@
           deferred.resolve($img);
         }).one('error abort', function () {
           $img.off('load').detach();
-          deferred.reject($img);
+          //deferred.reject($img);
+          deferred.resolve($img);
+
         }).css({
           display: 'none'
         }).appendTo(document.body).attr('src', url);
@@ -4093,7 +4095,7 @@
           if (typeof param === 'string') {
             $image.attr('data-filename', param);
           }
-          $image.css('width', Math.min($editable.width(), $image.width()));
+          $image.css('width', Math.min($editable.width(), $image.width()) || prompt('이미지의 넓이를 입력해주세요.') );
         }
 
         $image.show();
