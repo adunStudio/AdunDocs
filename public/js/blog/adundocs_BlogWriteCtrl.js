@@ -27,10 +27,10 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
 
     };
 
-    var mode = $scope.htmlMode == true ? "HTML" : "MarkDown";
+    $scope.mode = ($scope.htmlMode == true ? "HTML" : "MarkDown");
     var editor = null;
 
-    if( mode == "MarkDown" )
+    if( $scope.mode == "MarkDown" )
     {
         editor = $scope.editor = editormd("contents", {
             saveHTMLToTextarea : true,
@@ -59,6 +59,12 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
                 });
             }
         });
+
+        $scope.$watch('theme', function() {
+            editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
+            editor.setEditorTheme($scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark');
+            editor.setPreviewTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
+        });
     }
     else
     {
@@ -73,11 +79,10 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
     }
 
 
+
    $scope.blogWrite = function() {
-       alert(1);
-       var contents = mode == "HTML" ? editor.summernote('code') : editor.getHTML();
-       alert(contents);
-return;
+       var contents = $scope.mode == "HTML" ? editor.summernote('code') : editor.getHTML();
+
        if( $scope.blogWriteForm.$valid && contents)
        {
            $http({

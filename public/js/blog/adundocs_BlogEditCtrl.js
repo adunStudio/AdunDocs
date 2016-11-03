@@ -27,82 +27,100 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
         $scope.inputSubCategory = Object.keys($scope.blogCategory[$scope.inputDirCategory])[0];
 
     };
+    $scope.mode = ($scope.htmlMode == true ? "HTML" : "MarkDown");
+    var editor = null;
 
-    var editor = $scope.editor = editormd("contents", {
-        saveHTMLToTextarea : true,
-        path : "/editor.md/lib/",
-        htmlDecode : true,
-        width: '100%',
-        height: '36rem',
-        tex: true,
-        sequenceDiagram: true,
-        flowChart: true,
-        placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
-        theme: $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
-        editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
-        previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
-        imageUpload    : true,
-        imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
-        imageUploadURL : "/tistory/media",
-        onfullscreen : function() {
-            $('._container').css('z-index', '100');
-        },
-        onfullscreenExit : function() {
-            $('._container').css('z-index', '1');
-        },
-        onchange: function() {
-            $('img').on('error', function() {
-                $(this).attr('src', "/img/tistory_404.png");
-            });
-        },
-        onload: function() {
-            $http.post('/tistory/post/' + postid).then(function (response) {
 
-                var result = response.data;
-
-                if( result.result )
-                {
-                    var data = result.data;
-
-                    console.dir(data.categories);
-                    console.dir(data.categories[0]);
-
-                    if( !data.categories[0] )
-                    {
-                        $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, '분류없음', '분류없음', data.title, postid);
-                        $scope.inputDirCategory = '분류없음';
-                        $scope.inputSubCategory = '분류없음';
-                    }
-                    else if( data.categories[0].indexOf('/') > 0 )
-                    {
-                        var splitCategory = data.categories[0].split('/');
-                        $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, splitCategory[0], splitCategory[1], data.title, postid);
-                        $scope.inputDirCategory = splitCategory[0];
-                        $scope.inputSubCategory = splitCategory[1];
-                    }
-                    else
-                    {
-                        $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, data.categories[0], '분류없음', data.title, postid);
-                        $scope.inputDirCategory = data.categories[0];
-                        $scope.inputSubCategory = '분류없음';
-                    }
-
-                    $scope.inputTitle       = data.title;
-                    $scope.editor.insertValue(md(data.description));
-
-                    $('#summernote').summernote('code', data.description);
+    $scope.setEditor = function(description) {
+        if( $scope.mode == "MarkDown" )
+        {
+            editor = $scope.editor = editormd("contents", {
+                saveHTMLToTextarea : true,
+                path : "/editor.md/lib/",
+                htmlDecode : true,
+                width: '100%',
+                height: '36rem',
+                tex: true,
+                sequenceDiagram: true,
+                flowChart: true,
+                placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
+                theme: $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
+                editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
+                previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
+                imageUpload    : true,
+                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
+                imageUploadURL : "/tistory/media",
+                onfullscreen : function() {
+                    $('._container').css('z-index', '100');
+                },
+                onfullscreenExit : function() {
+                    $('._container').css('z-index', '1');
+                },
+                onchange: function() {
+                    $('img').on('error', function() {
+                        $(this).attr('src', "/img/tistory_404.png");
+                    });
+                },
+                onload: function() {
+                    editor.insertValue(md(description));
                 }
             });
+
+            $scope.$watch('theme', function() {
+                editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
+                editor.setEditorTheme($scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark');
+                editor.setPreviewTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
+            });
+        }
+        else
+        {
+            editor = $('#summernote');
+            editor.summernote({
+                height: 500,                 // set editor height
+                minHeight: null,             // set minimum height of editor
+                maxHeight: null,             // set maximum height of editor
+                focus: true,                  // set focus to editable area after initializing summernote
+                lang: 'ko-KR'
+            });
+            editor.summernote('code', description);
+        }
+    };
+
+    $http.post('/tistory/post/' + postid).then(function (response) {
+
+        var result = response.data;
+
+        if( result.result )
+        {
+            var data = result.data;
+
+            if( !data.categories[0] )
+            {
+                $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, '분류없음', '분류없음', data.title, postid);
+                $scope.inputDirCategory = '분류없음';
+                $scope.inputSubCategory = '분류없음';
+            }
+            else if( data.categories[0].indexOf('/') > 0 )
+            {
+                var splitCategory = data.categories[0].split('/');
+                $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, splitCategory[0], splitCategory[1], data.title, postid);
+                $scope.inputDirCategory = splitCategory[0];
+                $scope.inputSubCategory = splitCategory[1];
+            }
+            else
+            {
+                $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, data.categories[0], '분류없음', data.title, postid);
+                $scope.inputDirCategory = data.categories[0];
+                $scope.inputSubCategory = '분류없음';
+            }
+
+            $scope.inputTitle       = data.title;
+
+            $scope.setEditor(data.description);
+            //$('#summernote').summernote('code', data.description);
         }
     });
 
-    $('#summernote').summernote({
-        height: 500,                 // set editor height
-        minHeight: null,             // set minimum height of editor
-        maxHeight: null,             // set maximum height of editor
-        focus: true,                  // set focus to editable area after initializing summernote
-        lang: 'ko-KR'
-    });
 
     $('.modal').on('show.bs.modal', function () {
         $('._container').css('z-index', '100');
@@ -118,7 +136,7 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
     $scope.blogEdit = function(event) {
         event.preventDefault();
 
-        var contents = editor.getHTML();
+        var contents = $scope.mode == "HTML" ? editor.summernote('code') : editor.getHTML();
 
         if( $scope.blogEditForm.$valid && contents )
         {

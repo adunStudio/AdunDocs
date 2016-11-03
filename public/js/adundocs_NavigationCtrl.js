@@ -2,10 +2,8 @@
 AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', function navigationCtrl($scope, $http, $routeParams, $location, $cookies) {
 
 
-    $scope.settingMode = false;
-
     $scope.settingButton = function() {
-        $scope.settingMode = $scope.settingMode ? false : true;
+        $scope.settting($scope.settingMode ? false : true);
     };
     $scope.setting_htmlButton = function() {
         var expireDate = new Date();

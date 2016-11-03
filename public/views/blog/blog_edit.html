@@ -30,12 +30,13 @@
                 </div>
             </div>
 
-            <div id="contents" >
+            <div ng-show="mode == 'MarkDown'" id="contents" >
                 <textarea class="editormd-markdown-textarea" name="contents-markdown-doc"></textarea>
                 <textarea class="editormd-html-textarea" name="contents-html-code"></textarea>
             </div>
-
-            <textarea id="summernote" name="summernote"></textarea>
+            <div ng-show="mode == 'HTML'" class="col-xs-12" style="padding: 0;">
+                <textarea id="summernote" name="summernote"></textarea>
+            </div>
 
             <button ng-click="blogEdit($event);" type="button" class="btn btn-default">Edit</button>
 

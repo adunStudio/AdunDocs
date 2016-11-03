@@ -261,6 +261,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
     $scope.initialize = function() {
         $scope.init();
+        $scope.settingMode = false;
         $('#list').find('a').each(function(idx, el){ $(el).removeClass('open'); $(el).removeClass('active'); });
         $('#list').find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
 
@@ -439,6 +440,10 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.htmlMode = bool;
     }
 
+    $scope.settingMode = false;
+    $scope.settting  = function(bool) {
+        $scope.settingMode = bool;
+    }
 
 
 }]);
