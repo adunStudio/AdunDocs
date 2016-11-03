@@ -1,10 +1,7 @@
 <!doctype html>
-<html class="_mobile1" ng-app="AdunDocs" ng-controller="DocsCtrl">
+<html ng-class="{'_mobile': isMobile}" ng-app="AdunDocs" ng-controller="DocsCtrl">
 <head>
     <title>AdunDocs</title>
-
-
-
     <!-- bootstrap -->
     <link rel="stylesheet" href="/css/bootstrap.css"/>
     <!-- style -->
@@ -17,8 +14,6 @@
     <link rel="stylesheet" href="/summernote/summernote.css"/>
 
     <link rel="stylesheet" href="/css/custom.css"/>
-
-
 
     <!-- jQuery -->
     <script src="/js/lib/jquery.min.js"></script>
@@ -68,7 +63,7 @@
         <p class="_notice-text"><strong> AdunDocs는 현재 개발중 입니다.</strong></p>
     </div>
 
-    <div ng-show="!isTrash" role="complementary" class="_path" >
+    <div  ng-show="!isTrash" role="complementary" class="_path" >
         <a ng-show="dirName && !isTrash" href="#/{{dirName}}?check=1" class="_path-item _icon-{{dirName}}">{{dirName}}</a>
         <a ng-show="subName && !isTrash" href="#/{{dirName}}/{{subName}}?check=1" class="_path-item">{{subName}}</a>
         <span ng-show="fileName" class="_path-item">{{fileName}}</span>
@@ -83,7 +78,7 @@
         <span ng-show="fileName" class="_path-item">{{fileName}}</span>
     </div>
 
-    <div ng-show="blogStat.dirCategory" role="complementary" class="_path">
+    <div  ng-show="blogStat.dirCategory" role="complementary" class="_path">
         <a ng-show="blogStat.dirCategory" href="#blog/{{blogStat.dirCategory}}?check=1" class="_path-item _icon-tistory">{{blogStat.dirCategory}}</a>
         <a ng-show="blogStat.subCategory" href="#blog/{{blogStat.dirCategory}}/{{blogStat.subCategory}}?check=1" class="_path-item">{{blogStat.subCategory}}</a>
         <span ng-show="blogStat.title" class="_path-item">{{blogStat.title}}</span>
@@ -96,15 +91,15 @@
     <header class="_header" role="banner">
         <button type="button" class="_mobile-btn _back-btn">Back</button>
         <button type="button" class="_mobile-btn _forward-btn">Forward</button>
-        <button type="button" class="_mobile-btn _menu-btn">Menu</button>
-        <button type="button" class="_mobile-btn _home-btn">Home</button>
+        <button ng-click="naviToggle()" type="button" class="_mobile-btn _menu-btn">Menu</button>
+        <button ng-click="initialize();" type="button" class="_mobile-btn _home-btn">Home</button>
         <form  class="_search" role="search">
             <input ng-model="search" ng-change="searchDoc();" type="search" class="_search-input" placeholder="Search…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="30" aria-label="Search">
             <button type="reset" class="_search-clear" title="Clear search">Clear search</button>
             <div class="_search-tag"></div>
         </form>
         <h1 class="_logo">
-            <a ng-click="initialize();" href="#/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs{{bb}}</a>
+            <a ng-click="initialize();" href="#/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs</a>
         </h1>
         <nav class="_nav" role="navigation">
             <a href="#blog"  class="_nav-link" title="blog">{{blogName}}</a>
@@ -139,7 +134,7 @@
     <!--
     네비게이션 컨트롤러로 빼야함 -->
     <!-- 네비게이션 -->
-    <div ng-controller="navigationCtrl">
+    <div ng-controller="navigationCtrl" id="navigation">
         <section class="_sidebar" tabindex="-1">
             <div ng-show="settingMode" id="settingForm" role="form" class="_list _list-picker _in">
                 <label class="_list-item _icon-html">
@@ -312,6 +307,12 @@
     <!-- 문서 -->
     <div class="_container" role="document">
         <main class="_content " role="main" tabindex="1">
+            <nav class="_mobile-nav">
+                <a href="#blog" class="_mobile-nav-link">Blog</a>
+                <a href="#about" class="_mobile-nav-link">About</a>
+                <a href="#new" class="_mobile-nav-link">News</a>
+                <a href="#tips" class="_mobile-nav-link">Tip</a>
+            </nav>
 <!--
             _content-loading
 -->

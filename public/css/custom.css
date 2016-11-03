@@ -4,3 +4,14 @@
     right: 1px;
     top: 3rem;
 }
+
+._mobile ._mobile-nav {
+    display: block;
+}
+
+._mobile ._path {
+    display: none;
+}
+._mobile #navigation {
+    display: none;
+}

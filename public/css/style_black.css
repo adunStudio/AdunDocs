@@ -2741,8 +2741,11 @@ pre:hover > ._pre-clip {
     margin: .25rem 0 1.25rem;
     padding: 0;
     line-height: 2.8;
-    overflow: hidden
+    overflow: hidden;
+    display: none;
 }
+
+
 
 ._mobile-nav-link {
     float: left;

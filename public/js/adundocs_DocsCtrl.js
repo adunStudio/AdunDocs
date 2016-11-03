@@ -3,6 +3,21 @@ var converter = converter || new showdown.Converter();
 
 AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', '$cookies', function DocsCtrl($scope, $http, $routeParams, $location, $cookies) {
 
+    $scope.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent) ? true : false;
+
+    $scope.$navigation = $('#navigation');
+    $scope.naviToggle = function() {
+        if($scope.$navigation.is(':visible'))
+        {
+            $('#navigation').slideUp();
+        }
+        else
+        {
+            $('#navigation').slideDown();
+        }
+
+    };
+
     $scope.theme = '';
     $scope.isLogin = false;
 
@@ -242,8 +257,17 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
     $scope.searchDoc = function() {
         var text = $scope.search;
-        if( !text || !$scope.fileArray ) { return; }
-
+        if( !text || !$scope.fileArray ) {
+            if($scope.isMobile)
+            {
+                $('#navigation').slideUp();
+            }
+            return;
+        }
+        if(!$scope.$navigation.is(':visible'))
+        {
+            $('#navigation').slideDown();
+        }
         var result = [],
             i,
             len = $scope.fileArray.length;
@@ -262,6 +286,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.initialize = function() {
         $scope.init();
         $scope.settingMode = false;
+        $location.url('/');
         $('#list').find('a').each(function(idx, el){ $(el).removeClass('open'); $(el).removeClass('active'); });
         $('#list').find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
 
