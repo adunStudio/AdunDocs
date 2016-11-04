@@ -6,6 +6,7 @@ var fsFileTree = require("fs-file-tree");
 var formidable = require('formidable');
 var bodyParser = require('body-parser');
 var secret = require('./secret.js');
+var _ = require('underscore');
 /**
 secret = {
     pattern     : '...',
@@ -24,6 +25,47 @@ const RESULT_TRUE  = JSON.stringify({result: true});
 const RESULT_FALSE = JSON.stringify({result: false});
 
 
+function makeList() {
+    try
+    {
+        var articleTree = fsFileTree.sync(ARTICLE_PATH);
+        articleTree = naturalSortByKey(articleTree);
+
+        var article = {
+            docs: articleTree,
+            dirTree: {},
+            fileTree: []
+        };
+
+        _.each(articleTree, function(dirValue, dirName) {
+            article.dirTree[dirName] = [];
+
+            _.each(dirValue, function(subValue, subName) {
+                article.dirTree[dirName].push(subName);
+
+                _.each(subValue, function(fileValue, fileName) {
+                    fileValue.dirName = dirName;
+                    fileValue.subName = subName;
+                    fileValue.name = fileName;
+
+                    article.fileTree.push(fileValue);
+                });
+            });
+        });
+
+        var trashTree = fsFileTree.sync(TRASH_PATH);
+        trashTree = naturalSortByKey(trashTree);
+
+        return {article: article, trash: trashTree};
+    }
+    catch(e)
+    {
+        console.log("파일 리스트에서 오류 발생, message: " + e.message);
+        return {article: {}, trash: {}};
+    }
+}
+
+
 module.exports = function(app) {
 
     app.use(bodyParser.json());
@@ -35,6 +77,9 @@ module.exports = function(app) {
         secret: secret.cookieSecret
     }));
 
+    app.get('/article/list', function(req, res) {
+        res.send(makeList());
+    });
 
     // 로그인 (LOG-IN)
     app.post('/article/login', function(req, res) {

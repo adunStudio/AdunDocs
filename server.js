@@ -30,6 +30,7 @@ app.get('/', function(req, res) {
     res.render('index', {theme: theme, isDesktop: !isMobile});
 });
 
+
 // PUBLIC
 app.use(express.static('./public'));
 

@@ -1,7 +1,6 @@
 
 AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', function blogCtrl($scope, $cookies, $http, $location) {
 
-
     $scope.tistoryNAME ="adunstudio@daum.net";
     $scope.tistoryADDR ="http://adunstudio.tistory.com/api";
     $scope.tistoryID   ="2441858";
@@ -10,7 +9,6 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
 
     $scope.tistoryLogin = function() {
         if( $scope.tistoryForm.$valid ) {
-
             $http({
                 method  : 'POST',
                 url     : '/tistory/login',
@@ -37,7 +35,7 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
                 }
             });
         } else {
-            alert('꽉꽉채우자.');
+            $scope.$body.effect('shake');
         }
     };
 

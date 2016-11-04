@@ -4,6 +4,10 @@ var converter = converter || new showdown.Converter();
 AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', '$cookies', function DocsCtrl($scope, $http, $routeParams, $location, $cookies) {
 
     $scope.$navigation = $('#navigation');
+    $scope.$app = $('#app');
+    $scope.$body = $('body');
+
+
     $scope.naviToggle = function() {
         if($scope.$navigation.is(':visible'))
         {
@@ -16,7 +20,6 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
     };
 
-    $scope.theme = '';
     $scope.isLogin = false;
 
 
@@ -49,7 +52,6 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.dirTree = null;
         $scope.fileArray = null;
         $scope.trashs = null;
-        console.dir($scope.trashs)
 
         $scope.dirName = '';
         $scope.subName = '';
@@ -474,5 +476,6 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.historyBack = function() {
         window.history.back();
     }
+
 
 }]);
