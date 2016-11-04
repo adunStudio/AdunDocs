@@ -366,10 +366,6 @@ module.exports = function(app) {
     app.get('/article/:dir/:sub/:file', function(req, res) {
         var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
 
-        console.log('---------' + req.params.file + '-------');
-        console.log(req.connection.remoteAddress);
-        console.log('-------------------------------------');
-
         try
         {
             if( fs.statSync(path).isFile() )

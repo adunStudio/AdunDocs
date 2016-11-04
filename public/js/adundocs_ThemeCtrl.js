@@ -14,7 +14,7 @@ AdunDocs.controller('ThemeCtrl', ['$scope', '$cookies', '$interval', function Th
     };
 
 
-    $scope.initTheme();
+    //$scope.initTheme();
 
 
     $scope.toggleTheme = function() {

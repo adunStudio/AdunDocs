@@ -7,11 +7,14 @@ var app = express();
 var handlebars = require('express-handlebars').create({
     layoutsDir: __dirname + 'public/'
 });
+var cookieParser = require('cookie-parser');
+
 
 app.set('views', __dirname + '/public/');
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', 7711);
+app.use(cookieParser());
 
 // API
 require("./api")(app);
@@ -20,8 +23,8 @@ require("./api")(app);
 require("./tistory")(app);
 
 app.get('/', function(req, res) {
-
-    res.render('index');
+    var theme = req.cookies.theme || '/css/style_black.css';
+    res.render('index', {theme: theme});
 });
 
 // PUBLIC
