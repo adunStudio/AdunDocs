@@ -1,19 +1,6 @@
 
 AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', function navigationCtrl($scope, $http, $routeParams, $location, $cookies) {
 
-
-    $scope.settingButton = function() {
-        $scope.settting($scope.settingMode ? false : true);
-    };
-    $scope.setting_htmlButton = function() {
-        var expireDate = new Date();
-        expireDate.setDate(expireDate.getDate() + 300);
-        var mode = $scope.htmlMode = ($scope.htmlMode == true ? true : false);
-        $scope.setHtmlMode(mode);
-        $cookies.put('htmlmode', mode, {'expires': expireDate});
-    };
-
-
     $scope.$changeNameModal = $('#changeNameModal');
     $scope.$trashModal      = $('#trashModal');
     $scope.$changePostNameModal = $('#changePostNameModal');
@@ -26,12 +13,25 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
     $scope.changeName  = "";
     $scope.tranhPostName ="";
     $scope.changePostName ="";
+
     $scope.$watch('fileName', function() {
         $scope.changeName = $scope.fileName.substr(0, $scope.fileName.length - 3);
     });
     $scope.$watch('blogStat.title', function() {
         $scope.changePostName = $scope.blogStat.title;
     });
+
+    $scope.settingButton = function() {
+        $scope.settting($scope.settingMode ? false : true);
+    };
+
+    $scope.setting_htmlButton = function() {
+        var expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() + 300);
+        var mode = $scope.htmlMode = ($scope.htmlMode == true ? true : false);
+        $scope.setHtmlMode(mode);
+        $cookies.put('htmlmode', mode, {'expires': expireDate});
+    };
 
     $.contextMenu({
         selector: '._-file-_',
@@ -65,7 +65,6 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
         $scope.changePostName = null;
         $scope.trashPostName = null;
     });
-
 
     $.contextMenu({
         selector: '._-blog-_',
@@ -225,10 +224,4 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
             "quit": {name: "Quit", icon: "fa-times"}
         }
     });
-
-
-
-
-
-
 }]);

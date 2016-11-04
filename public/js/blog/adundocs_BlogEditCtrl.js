@@ -9,8 +9,6 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
 
     var postid  = $routeParams.postid;
 
-    $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
-
     $scope.setName(null, null, null);
     $scope.initStat(null, null, null);
 
@@ -51,10 +49,10 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
                 imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
                 imageUploadURL : "/tistory/media",
                 onfullscreen : function() {
-                    $('._container').css('z-index', '100');
+                    $scope.$container.css('z-index', '100');
                 },
                 onfullscreenExit : function() {
-                    $('._container').css('z-index', '1');
+                    $scope.$container.css('z-index', '1');
                 },
                 onchange: function() {
                     $('img').on('error', function() {
@@ -90,10 +88,10 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
             editor.summernote('code', description);
 
             $('.modal').on('show.bs.modal', function () {
-                $('._container').css('z-index', '100');
+                $scope.$container.css('z-index', '100');
             });
             $('.modal').on('hide.bs.modal', function () {
-                $('._container').css('z-index', '1');
+                $scope.$container.css('z-index', '1');
             });
         }
     };
@@ -153,11 +151,6 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
             $scope.setEditor(data.description);
         }
     });
-
-
-
-
-
 
 
     $scope.blogEdit = function(event) {

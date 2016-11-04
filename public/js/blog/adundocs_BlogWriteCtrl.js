@@ -5,8 +5,6 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
         return;
     }
 
-    $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
-
     $scope.setName(null, null, null);
     $scope.initStat(null, null, null);
 
@@ -49,10 +47,10 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
             imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
             imageUploadURL : "/tistory/media",
             onfullscreen : function() {
-                $('._container').css('z-index', '100');
+                $scope.$container.css('z-index', '100');
             },
             onfullscreenExit : function() {
-                $('._container').css('z-index', '1');
+                $scope.$container.css('z-index', '1');
             },
             onchange: function() {
                 $('img').on('error', function() {
@@ -83,10 +81,10 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
             }
         });
         $('.modal').on('show.bs.modal', function () {
-            $('._container').css('z-index', '100');
+            $scope.$container.css('z-index', '100');
         });
         $('.modal').on('hide.bs.modal', function () {
-            $('._container').css('z-index', '1');
+            $scope.$container.css('z-index', '1');
         });
     }
 

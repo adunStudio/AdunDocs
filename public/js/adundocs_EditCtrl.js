@@ -8,10 +8,6 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
     $scope.setName(dirName, subName, fileName);
     $scope.initStat(fileName, $scope.docs[dirName][subName][fileName].stat);
 
-    $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
-    $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
-
-
     $scope.originDirName  = dirName;
     $scope.originSubName  = subName;
     $scope.originFileName = fileName;
@@ -43,10 +39,10 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
         imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
         imageUploadURL : "/article/upload",
         onfullscreen : function() {
-            $('._container').css('z-index', '100');
+            $scope.$container.css('z-index', '100');
         },
         onfullscreenExit : function() {
-            $('._container').css('z-index', '1');
+            $scope.$container.css('z-index', '1');
         },
         onload: function() {
             $http.get('/article' + url).then(function (response) {
@@ -100,10 +96,10 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
 
     // MODAL
     $('#dirModal,#subModal').on('show.bs.modal', function () {
-        $('._container').css('z-index', '100');
+        $scope.$container.css('z-index', '100');
     });
     $('#dirModal,#subModal').on('hide.bs.modal', function () {
-        $('._container').css('z-index', '1');
+        $scope.$container.css('z-index', '1');
         $scope.makeDirName = null;
         $scope.makeSubName = null;
     });

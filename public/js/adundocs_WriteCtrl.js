@@ -8,9 +8,6 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
     var dirName = $routeParams.dirName || Object.keys($scope.docs)[0];
     var subName = $routeParams.subName || Object.keys($scope.docs[dirName])[0] ;
 
-    $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
-    $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
-
     $scope.inputDir    = dirName;
     $scope.inputSub    = subName;
     $scope.inputName   = null;
@@ -43,10 +40,10 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
         imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
         imageUploadURL : "/article/upload",
         onfullscreen : function() {
-            $('._container').css('z-index', '100');
+            $scope.$container.css('z-index', '100');
         },
         onfullscreenExit : function() {
-            $('._container').css('z-index', '1');
+            $scope.$container.css('z-index', '1');
         }
     });
 
@@ -89,10 +86,10 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     // MODAL
     $('#dirModal,#subModal').on('show.bs.modal', function () {
-        $('._container').css('z-index', '100');
+        $scope.$container.css('z-index', '100');
     });
     $('#dirModal,#subModal').on('hide.bs.modal', function () {
-        $('._container').css('z-index', '1');
+        $scope.$container.css('z-index', '1');
         $scope.makeDirName = null;
         $scope.makeSubName = null;
     });

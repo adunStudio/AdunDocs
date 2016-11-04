@@ -6,86 +6,65 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.$navigation = $('#navigation');
     $scope.$app = $('#app');
     $scope.$body = $('body');
-
-
-    $scope.naviToggle = function() {
-        if($scope.$navigation.is(':visible'))
-        {
-            $('#navigation').slideUp();
-        }
-        else
-        {
-            $('#navigation').slideDown();
-        }
-
-    };
-
+    $scope.$container = $('._container');
+    $scope.theme = $('#theme').attr('href');
+    $scope.$login = $("._login");
     $scope.isLogin = false;
-
-
-
-    $scope.initTreeAndArray = function(fn) {
-        $http.get('/article.json').then(function(response) {
-            $scope.docs = response.data;
-            $scope.makeTreeAndArray();
-
-            if( typeof fn === 'function') {
-                fn();
-            }
-        });
-
-        $http.get('/trash.json').then(function(response) {
-            $scope.trashs = response.data;
-            console.dir($scope.trashs);
-        });
-
+    $scope.blogName = $cookies.get('blogName') || 'Blog';
+    $scope.blogCategory = null;
+    $scope.blogStat = {
+        dateCreated : null,
+        mt_keywords : null,
+        permaLink   : null,
+        dirCategory : null,
+        subCategory : null,
+        title       : null,
+        postid      : null
     };
+    $scope.htmlMode = $cookies.get('htmlmode') == 'true' ? true : false;
+    $scope.settingMode = false;
+    $scope.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent) ? true : false;
+
+    $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
+    $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
 
     $scope.init = function(fn) {
-
         $scope.active = $();
         $scope.focus  = $();
         $scope.search = "";
         $scope.searchResult = [];
         $scope.docs = null;
-        $scope.stat = {};
         $scope.dirTree = null;
-        $scope.fileArray = null;
+        $scope.fileTree = null;
         $scope.trashs = null;
-
+        $scope.stat = {};
         $scope.dirName = '';
         $scope.subName = '';
         $scope.fileName = '';
-
         $scope.isToggleCheck  = false;// <- 임시방편 ... 수정해야함 toggle에서 쓰임
-        $scope.initTreeAndArray(fn);
         $scope.blogStat = {};
+        $scope.getList(fn);
+    };
 
+    $scope.getList = function(fn) {
 
+        $http.get('/article/list').then(function(response) {
+            var article = response.data.article;
+
+            $scope.docs = article.docs;
+            $scope.dirTree = article.dirTree;
+            $scope.fileTree = article.fileTree;
+            if( typeof fn === 'function') {
+                fn();
+            }
+            $scope.trashs = {'휴지통': response.data.trash};
+
+            $scope.$body.removeClass('_booting _loading');
+        });
     };
 
     $scope.init();
 
-    $scope.makeTreeAndArray = function() {
-        $scope.dirTree  = {};
-        $scope.fileArray = [];
-
-        angular.forEach($scope.docs, function(dir, dirName) {
-            $scope.dirTree[dirName] = [];
-
-            angular.forEach(dir, function(sub, subName) {
-                $scope.dirTree[dirName].push(subName);
-
-                angular.forEach(sub, function(file, fileName) {
-                    file.dirName = dirName;
-                    file.subName = subName;
-                    file.name = fileName;
-
-                    $scope.fileArray.push(file);
-                });
-            });
-        });
-    };
 
     $scope.setName = function(dirName, subName, fileName, isTrash) {
         $scope.dirName  = dirName  || '';
@@ -95,12 +74,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.setBlogStat();
     };
 
-
-    $scope.toLocation = function(event) {
-        var element = angular.element(event.target);
-        var $element = $(element);
-        $scope.search = '';
-        location.href=  $element.data('link');
+    $scope.naviToggle = function() {
+        $scope.$navigation.is(':visible') ? $scope.$navigation.slideUp() : $scope.$navigation.slideDown();
     };
 
     $scope.getLength = function(obj) {
@@ -240,7 +215,6 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.active = $element;
     };
 
-
     $scope.toURL = function(str) {
         return encodeURI(str);
     };
@@ -257,23 +231,24 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
     $scope.searchDoc = function() {
         var text = $scope.search;
-        if( !text || !$scope.fileArray ) {
+        if( !text || !$scope.fileTree ) {
             if($scope.isMobile)
             {
-                $('#navigation').slideUp();
+                $scope.$navigation.slideUp();
             }
             return;
         }
         if(!$scope.$navigation.is(':visible'))
         {
-            $('#navigation').slideDown();
+            $scope.$navigation.slideDown();
         }
+
         var result = [],
             i,
-            len = $scope.fileArray.length;
+            len = $scope.fileTree.length;
 
         for(i = 0; i < len; ++i) {
-            var file = $scope.fileArray[i];
+            var file = $scope.fileTree[i];
 
             if( file.name.toLowerCase().indexOf(text.toLowerCase()) >= 0 ) {
                 result.push(file);
@@ -295,9 +270,6 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         }
     };
 
-    $scope.setFileArray = function(arr) {
-        $scope.fileArray = arr;
-    };
 
     $scope.setTheme = function(theme) {
         $scope.theme = theme;
@@ -311,9 +283,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         return !$scope.isLogin;
     };
 
-    var $login = $scope.$login = $("._login");
     $scope.login = function() {
-        $login.is(':visible') ? $login.hide('slide', {direction: 'right'}, 500) : $login.show('slide', {direction: 'right'}, 500);
+        $scope.$login.is(':visible') ? $scope.$login.hide('slide', {direction: 'right'}, 500) : $scope.$login.show('slide', {direction: 'right'}, 500);
     };
 
     $scope.logout = function() {
@@ -326,22 +297,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     };
 
 
-    // 티스토리 관련 (따로 빼버리고 싶음)
 
-    $scope.blogName = $cookies.get('blogName') || 'Blog';
-    $scope.blogCategory = null;
-
-
-
-    $scope.blogStat = {
-        dateCreated : null,
-        mt_keywords : null,
-        permaLink   : null,
-        dirCategory : null,
-        subCategory : null,
-        title       : null,
-        postid      : null
-    };
 
     $scope.setBlogName = function(name) {
         $scope.blogName = name;
@@ -459,13 +415,10 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.setBlog();
     }
 
-    $scope.htmlMode = $cookies.get('htmlmode') == 'true' ? true : false;
-
     $scope.setHtmlMode = function(bool) {
         $scope.htmlMode = bool;
     };
 
-    $scope.settingMode = false;
     $scope.settting  = function(bool) {
         $scope.settingMode = bool;
     };
