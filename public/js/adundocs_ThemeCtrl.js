@@ -6,17 +6,6 @@ AdunDocs.controller('ThemeCtrl', ['$scope', '$cookies', '$interval', function Th
     var expireDate = new Date();
     expireDate.setDate(expireDate.getDate() + 3);
 
-    $scope.initTheme = function() {
-        var theme = $cookies.get('theme') || BLACK;
-        $scope.setTheme(theme);
-
-        $('#theme').attr('href', $scope.theme);
-    };
-
-
-    //$scope.initTheme();
-
-
     $scope.toggleTheme = function() {
         var current = $('#theme').attr('href');
         var theme = (current == WHITE) ? BLACK : WHITE;
@@ -30,5 +19,7 @@ AdunDocs.controller('ThemeCtrl', ['$scope', '$cookies', '$interval', function Th
     $scope.toggleWidth = function() {
         $('#app').toggleClass('_max-width');
     };
+
+    $('body').removeClass('_booting _loading');
 
 }]);
