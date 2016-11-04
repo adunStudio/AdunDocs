@@ -8,8 +8,8 @@ AdunDocs.controller('newsCtrl', ['$scope', function newsCtrl($scope) {
     $scope.sortedFileArray = [];
 
 
-    if( $scope.fileArray ) {
-        $scope.sortedFileArray = $scope.fileArray.slice();
+    if( $scope.fileTree ) {
+        $scope.sortedFileArray = $scope.fileTree.slice();
 
         $scope.sortedFileArray.sort(date_sort);
     }
