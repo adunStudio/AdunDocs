@@ -1,3 +1,15 @@
+._icon-codesafer:before {
+    background-position: -9rem -11rem
+}
+._icon-trash:before {
+    background-image: url('/img/trash.png') !important;
+    background-size: 16px !important;
+}
+._icon-tistory:before {
+    background-image: url('/img/tistory.png') !important;
+    background-size: 16px !important;
+}
+
 ._login {
     position: absolute;
     z-index: 6;
