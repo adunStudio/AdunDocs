@@ -2,6 +2,10 @@ var converter = new showdown.Converter();
 
 var AdunDocs = angular.module('AdunDocs', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngMessages']);
 
+AdunDocs.config(['$interpolateProvider', function($interpolateProvider) {
+    $interpolateProvider.startSymbol('[[');
+    $interpolateProvider.endSymbol(']]');
+}]);
 
 AdunDocs.config(['$routeProvider', function($routeProvider) {
     $routeProvider

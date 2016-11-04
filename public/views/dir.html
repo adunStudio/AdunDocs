@@ -1,12 +1,12 @@
 <div class="_page _mdn">
-    <h1 class="" style="font-size: 2rem;">{{dirName}}</h1>
+    <h1 class="" style="font-size: 2rem;">[[dirName]]</h1>
 
     <div class="note"><strong>Keyword index</strong></div>
     <div>
         <div class="index">
-            <span ng-repeat-start="(sub, subValue) in docs[dirName]">{{sub}}</span>
+            <span ng-repeat-start="(sub, subValue) in docs[dirName]">[[sub]]</span>
             <ul ng-repeat-end="">
-                <li ng-repeat="(name, file) in docs[dirName][sub]"><a href="/#/{{dirName}}/{{sub}}/{{name}}?check=1"><code>{{name}}</code></a></li>
+                <li ng-repeat="(name, file) in docs[dirName][sub]"><a href="/#/[[dirName]]/[[sub]]/[[name]]?check=1"><code>[[name]]</code></a></li>
             </ul>
          </div>
     </div>

@@ -9,7 +9,7 @@
                 <div class="form-group">
                     <label for="inputDirCategory"><span>*</span> Dir Category</label>
                     <select ng-model="inputDirCategory"  ng-required="true" ng-change="selectFirst()"   name="inputDirCategory" id="inputDirCategory" class="form-control" >
-                        <option ng-repeat="(dirName, dirValue) in blogCategory"  value="{{dirName}}">{{dirName}}</option>
+                        <option ng-repeat="(dirName, dirValue) in blogCategory"  value="[[dirName]]">[[dirName]]</option>
                     </select>
 
                 </div>
@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="inputSubCategory"><span>*</span> Sub Category</label>
                     <select ng-model="inputSubCategory" ng-required="true" name="inputSubCategory" id="inputSubCategory" class="form-control">
-                        <option ng-repeat="(subName, subValue) in blogCategory[inputDirCategory]" value="{{subName}}">{{subName}}</option>
+                        <option ng-repeat="(subName, subValue) in blogCategory[inputDirCategory]" value="[[subName]]">[[subName]]</option>
                     </select>
                 </div>
             </div>

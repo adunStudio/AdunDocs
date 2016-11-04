@@ -1,12 +1,12 @@
 <div class="_page _mdn">
-    <h1 class="" style="font-size: 2rem;">{{blogStat.dirCategory}}</h1>
+    <h1 class="" style="font-size: 2rem;">[[blogStat.dirCategory]]</h1>
 
     <div class="note"><strong>Keyword index</strong></div>
     <div>
         <div class="index">
-            <span ng-repeat-start="(subCategoryName, subCategoryValue) in blogCategory[blogStat.dirCategory]">{{subCategoryName}}</span>
+            <span ng-repeat-start="(subCategoryName, subCategoryValue) in blogCategory[blogStat.dirCategory]">[[subCategoryName]]</span>
             <ul ng-repeat-end="">
-                <li ng-repeat="(blogPostName, blogPostValue) in blogCategory[blogStat.dirCategory][subCategoryName]"><a href="/#/blog/{{blogStat.dirCategory}}/{{subCategoryName}}/{{blogPostName}}?check=1"><code>{{blogPostName}}</code></a></li>
+                <li ng-repeat="(blogPostName, blogPostValue) in blogCategory[blogStat.dirCategory][subCategoryName]"><a href="/#/blog/[[blogStat.dirCategory]]/[[subCategoryName]]/[[blogPostName]]?check=1"><code>[[blogPostName]]</code></a></li>
             </ul>
         </div>
     </div>

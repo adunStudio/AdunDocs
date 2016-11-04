@@ -9,7 +9,7 @@
                 <div class="form-group">
                     <label for="inputDir"><span>*</span> Directory</label><a data-toggle="modal" data-target="#dirModal" href=""><i class="fa fa-plus-square" style="float: right; margin-right: 0.5rem; line-height: inherit;" aria-hidden="true"></i></a>
                     <select ng-model="inputDir"  ng-required="true" ng-change="selectFirst();"   name="inputDir" id="inputDir" class="form-control" >
-                        <option ng-repeat="(dirName, dirValue) in dirTree"  value="{{dirName}}">{{dirName}}</option>
+                        <option ng-repeat="(dirName, dirValue) in dirTree"  value="[[dirName]]">[[dirName]]</option>
                     </select>
 
                 </div>
@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="inputSub"><span>*</span> SubDirectory</label><a ng-show="inputDir" data-toggle="modal" data-target="#subModal" href=""><i class="fa fa-plus-square" style="float: right; margin-right: 0.5rem; line-height: inherit;" aria-hidden="true"></i></a>
                     <select ng-model="inputSub" ng-required="true" name="inputSub" id="inputSub" class="form-control">
-                        <option ng-repeat="subName in dirTree[inputDir]" value="{{subName}}">{{subName}}</option>
+                        <option ng-repeat="subName in dirTree[inputDir]" value="[[subName]]">[[subName]]</option>
                     </select>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     </div>
                     <div class="modal-body">
                         <label for="makeSubName">
-                            <i class="fa fa-folder" aria-hidden="true"></i> {{inputDir}} <i class="fa fa-angle-right" aria-hidden="true"></i> SubDirectory Name
+                            <i class="fa fa-folder" aria-hidden="true"></i> [[inputDir]] <i class="fa fa-angle-right" aria-hidden="true"></i> SubDirectory Name
                         </label>
                         <form name="makeSubForm">
                             <input ng-model="makeSubName" ng-required="true" ng-pattern="dirRegExp" type="text" name="makeSubName" id="makeSubName" class="form-control" maxlength="17">
@@ -99,5 +99,5 @@
     </div>
 </div>
 <!--
-<option ng-repeat="(dir, dirValue) in docs" value="{{dir}}">{{dir}}</option>
+<option ng-repeat="(dir, dirValue) in docs" value="[[dir]]">[[dir]]</option>
 -->

@@ -1,6 +1,6 @@
 <div class="_page">
-    <h1>{{blogStat.dirCategory}} / {{blogStat.subCategory}}</h1>
+    <h1>[[blogStat.dirCategory]] / [[blogStat.subCategory]]</h1>
     <ul class="_entry-list">
-        <li ng-repeat="(blogPostName, blogPostValue) in blogCategory[blogStat.dirCategory][blogStat.subCategory]"><a href="#/blog/{{blogStat.dirCategory}}/{{blogStat.subCategory}}/{{blogPostName}}?check=1">{{blogPostName}}</a></li>
+        <li ng-repeat="(blogPostName, blogPostValue) in blogCategory[blogStat.dirCategory][blogStat.subCategory]"><a href="#/blog/[[blogStat.dirCategory]]/[[blogStat.subCategory]]/[[blogPostName]]?check=1">[[blogPostName]]</a></li>
     </ul>
 </div>
