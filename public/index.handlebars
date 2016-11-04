@@ -7,7 +7,7 @@
 
 -->
 <!doctype html>
-<html ng-class="{'_mobile': isMobile}" ng-app="AdunDocs" ng-controller="DocsCtrl">
+<html {{#unless isDesktop}} class="_mobile" {{/unless}} ng-app="AdunDocs" ng-controller="DocsCtrl">
 <head>
     <title>AdunDocs</title>
     <meta name="viewport" content="width=device-width initial-scale=1 maximum-scale=1" />

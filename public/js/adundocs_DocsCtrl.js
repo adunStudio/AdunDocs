@@ -3,8 +3,6 @@ var converter = converter || new showdown.Converter();
 
 AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', '$cookies', function DocsCtrl($scope, $http, $routeParams, $location, $cookies) {
 
-    $scope.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent) ? true : false;
-
     $scope.$navigation = $('#navigation');
     $scope.naviToggle = function() {
         if($scope.$navigation.is(':visible'))

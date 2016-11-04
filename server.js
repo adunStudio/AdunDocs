@@ -16,6 +16,7 @@ app.set('view engine', 'handlebars');
 app.set('port', 7711);
 app.use(cookieParser());
 
+const MOBILE =
 // API
 require("./api")(app);
 
@@ -24,7 +25,9 @@ require("./tistory")(app);
 
 app.get('/', function(req, res) {
     var theme = req.cookies.theme || '/css/style_black.css';
-    res.render('index', {theme: theme});
+    var isMobile = /mobile/i.test(req.header('user-agent'));
+
+    res.render('index', {theme: theme, isDesktop: !isMobile});
 });
 
 // PUBLIC
