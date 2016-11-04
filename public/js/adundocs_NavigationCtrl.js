@@ -111,16 +111,13 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
                 var result = response.data;
                 if( result.result )
                 {
-                    $http.get('/article/renew').then(function(response)
-                    {
-                        var dirName    = $scope.dirName;
-                        var subName    = $scope.subName;
-                        var changeName = $scope.changeName;
+                    var dirName    = $scope.dirName;
+                    var subName    = $scope.subName;
+                    var changeName = $scope.changeName;
 
-                        $scope.$changeNameModal.modal('hide');
-                        $scope.init(function() {
-                            $location.url(dirName +'/' + subName + '/' + changeName + '.md?check=1');
-                        });
+                    $scope.$changeNameModal.modal('hide');
+                    $scope.getList(function() {
+                        $location.url(dirName +'/' + subName + '/' + changeName + '.md?check=1');
                     });
                 } else { alert(result.msg); }
             });
@@ -147,14 +144,13 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
                 var result = response.data;
                 if( result.result )
                 {
-                    $http.get('/article/renew').then(function(response)
-                    {
-                        $scope.$trashModal.modal('hide');
-                        $scope.trashName   = "";
+                    $scope.$trashModal.modal('hide');
+                    $scope.trashName   = "";
 
-                        $scope.init(function() {
-                            $location.url('/#');
-                        });
+                    $scope.getList(function() {
+                        $scope.initStat();
+                        $scope.setName();
+                        $location.url('/#');
                     });
                 } else { alert(result.msg); }
             });

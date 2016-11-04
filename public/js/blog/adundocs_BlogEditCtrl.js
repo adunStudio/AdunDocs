@@ -177,7 +177,6 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
                 {
                     $scope.setBlog(function() {
                         $location.url('blog/' + $scope.inputDirCategory +'/' + $scope.inputSubCategory + '/' + $scope.inputTitle + '?check=1');
-
                     });
                 }
                 else

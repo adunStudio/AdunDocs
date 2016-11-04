@@ -84,10 +84,8 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
                 var result = response.data;
                 if( result.result )
                 {
-                    $http.get('/article/renew').then(function(response) {
-                        $scope.init(function() {
-                            $location.url($scope.inputDir +'/' + $scope.inputSub + '/' + $scope.inputName + '.md?check=1');
-                        });
+                    $scope.getList(function() {
+                        $location.url($scope.inputDir +'/' + $scope.inputSub + '/' + $scope.inputName + '.md?check=1');
                     });
                 } else { alert(result.msg); }
             });
@@ -120,8 +118,7 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
                 {
                     $scope.inputDir = $scope.makeDirName;
                     $scope.inputSub = null;
-                    $http.get('/article/renew').then(function(response) {
-                        $scope.initTreeAndArray();
+                    $scope.getList(function() {
                         $('#dirModal').modal('hide');
                     });
                 } else { alert(result.msg); }
@@ -133,7 +130,6 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
 
     $scope.makeSubDirectory = function() {
         if( $scope.makeSubForm.$valid ) {
-
             $http({
                 method  : 'POST',
                 url     : '/article/directory',
@@ -147,8 +143,7 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
                 if( result.result )
                 {
                     $scope.inputSub = $scope.makeSubName;
-                    $http.get('/article/renew').then(function(response) {
-                        $scope.initTreeAndArray();
+                    $scope.getList(function() {
                         $('#subModal').modal('hide');
                     });
                 } else { alert(result.msg); }
