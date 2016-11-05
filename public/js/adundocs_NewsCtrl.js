@@ -1,5 +1,7 @@
 
 AdunDocs.controller('newsCtrl', ['$scope', function newsCtrl($scope) {
+    $scope.initStat();
+    $scope.setName();
 
     function date_sort(a, b) {
         return new Date(b.stat.birthtime).getTime() - new Date(a.stat.birthtime).getTime();

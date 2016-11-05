@@ -10,7 +10,8 @@ AdunDocs.config(['$interpolateProvider', function($interpolateProvider) {
 AdunDocs.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/',        {templateUrl: 'views/intro.html'})
-        .when('/about',   {templateUrl: 'views/about.html'})
+        .when('/about',   {templateUrl: 'views/about.html',    controller: 'AboutCtrl'})
+        .when('/aboutkor',{templateUrl: 'views/aboutkor.html', controller: 'AboutCtrl'})
         .when('/news',    {templateUrl: 'views/news.html',    controller: 'newsCtrl'})
         .when('/tips',    {templateUrl: 'views/tips.html'})
         /*          ºí·Î±×             */
