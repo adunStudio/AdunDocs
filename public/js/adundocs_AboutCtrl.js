@@ -7,7 +7,7 @@ AdunDocs.controller('AboutCtrl', ['$scope', function AboutCtrl($scope) {
         event.preventDefault ? event.preventDefault() : event.returnValue = false;
         var $anchor = $(this);
         var link = '#' + $anchor.attr('href').split('#')[2];
-        $('._content').stop().animate({
+        $('._content, body').stop().animate({
             scrollTop: ($(link).offset().top - 100)
         }, 1250, 'easeInOutExpo');
     });

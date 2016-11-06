@@ -11,21 +11,47 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
     $scope.inputDir    = dirName;
     $scope.inputSub    = subName;
     $scope.inputName   = null;
+    $scope.inputSave = null;
     $scope.makeDirName = null;
     $scope.makeSubName = null;
+    $scope.saveObject   = {};
 
     $scope.selectFirst = function() {
         $scope.inputSub = Object.keys($scope.docs[$scope.inputDir])[0];
     };
 
-    var expireDate = new Date();
-    expireDate.setDate(expireDate.getDate() + 3);
 
-    $interval(function() {
-        var contents = editor.getMarkdown();
-    }, 1000 * 60 * 10);
+    $scope.getSave = function() {
+        if( $scope.autoMode && $scope.isLocalStorage )
+        {
+            $scope.saveObject = {};
+            var i, key, date, len = window.localStorage.length;
 
-    var editor = editormd("contents", {
+            for(i = len -1; i >= 0; --i) {
+                key = localStorage.key(i);
+                if( i > 20 )
+                {
+                    window.localStorage.removeItem(key);
+                }
+                else
+                {
+                    $scope.saveObject[moment.unix(key).format("LLLL")] = key;
+                }
+            }
+        }
+    };
+
+    $scope.getSave();
+
+    $scope.saveLoad = function() {
+        if( $scope.inputSave != "" ) {
+            var contents = window.localStorage.getItem($scope.inputSave);
+            $scope.editor.insertValue(contents);
+            $scope.inputSave = "";
+        }
+    };
+
+    var editor = $scope.editor = editormd("contents", {
         path : "/editor.md/lib/",
         width: '100%',
         height: '36rem',
@@ -44,8 +70,26 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
         },
         onfullscreenExit : function() {
             $scope.$container.css('z-index', '1');
+        },
+        onload: function() {
+            if( $scope.autoMode && $scope.isLocalStorage )
+            {
+                var contents = editor.getMarkdown();
+                // 오토세이브 기능
+                $interval(function() {
+                    var text = editor.getMarkdown();
+                    if( contents != text) {
+                        contents = text;
+                        window.localStorage.setItem(moment().unix(), contents);
+                        console.log('autosave');
+                        $scope.getSave();
+                    }
+                }, 1000 * 60 * 3); // 3분마다 호출
+                //}, 1000); // 1초마다 호출(테스트)
+            }
         }
     });
+
 
     $scope.$watch('theme', function() {
         editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
@@ -143,6 +187,8 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
         } else {
             $('#subModal').effect('shake');
         }
-    }
+    };
+
+
 
 }]);

@@ -47,6 +47,8 @@
     <script src="/js/lib/angular-messages.min.js"></script>
     <!-- PatternLock -->
     <script src="/js/lib/patternLock.min.js"></script>
+    <!-- Moment -->
+    <script src="/js/lib/moment.js"></script>
     <!-- ShowDown -->
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.4.3/dist/showdown.min.js"></script>
     <!-- md -->
@@ -61,17 +63,18 @@
 
 
 
+
 </head>
-<body class="_booting _loading">
+<body class="_booting _loading" ng-keypress="key();">
 
 
 <div class="_app" role="application" id="app" >
     <div role="alert" class="_notice _top">
-        <p class="_notice-text"><strong> AdunDocs는 현재 개발중 입니다.</strong></p>
+        <p class="_notice-text"><strong> AdunDocs는 현재 개발중 입니다. 메뉴에서 우클릭을 하시면 다양한 ..</strong></p>
     </div>
 
     <div  ng-show="!isTrash" role="complementary" class="_path" >
-        <a ng-show="dirName && !isTrash" href="#/[[dirName]]?check=1" class="_path-item _icon-[[dirName]]">[[dirName]]</a>
+        <a ng-show="dirName && !isTrash" href="#/[[dirName]]?check=1" class="_path-item _icon-[[dirName | lowercase]]">[[dirName]]</a>
         <a ng-show="subName && !isTrash" href="#/[[dirName]]/[[subName]]?check=1" class="_path-item">[[subName]]</a>
         <span ng-show="fileName" class="_path-item">[[fileName]]</span>
         <span ng-show="isLogin && dirName && subName && fileName && !isTrash" style="float: right;" class="_path-item"><a href="#/edit/[[dirName]]/[[subName]]/[[fileName]]" class=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
@@ -148,15 +151,19 @@
                     <input ng-model="htmlMode" ng-change="setting_htmlButton()" type="checkbox" name="html" class="_list-checkbox">
                     <span class="_list-text">블로그를 HTML방식으로 포스팅</span>
                 </label>
+                <label class="_list-item _icon-html">
+                    <input ng-model="autoMode" ng-change="setting_autoButton()" type="checkbox" name="auto" class="_list-checkbox">
+                    <span class="_list-text">AutoSave 기능 사용</span>
+                </label>
                 <div class="_list-note">Tip: 설정을 완료한 후에는 새로고침을 해주시기 바랍니다.</div>
                 <a href="" ng-click="settingButton()" class="_list-link" target="_blank" >확인</a>
             </div>
             <div ng-show="!settingMode" role="navigation" class="_list" id="list">
                 <div ng-show="search" class="_list" >
-                    <a ng-repeat="s in searchResult" ng-click="searchToggle($event);" href="/#/search/[[s.dirName]]/[[s.subName]]/[[s.name]]" class="_list-item _list-hover _list-result _icon-[[s.dirName]]" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/[[s.dirName]]/[[s.subName]]/[[s.name]]" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">[[s.name]]</span></a>
+                    <a ng-repeat="s in searchResult" ng-click="searchToggle($event);" href="/#/search/[[s.dirName]]/[[s.subName]]/[[s.name]]" class="_list-item _list-hover _list-result _icon-[[s.dirName | lowercase]]" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/[[s.dirName]]/[[s.subName]]/[[s.name]]" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">[[s.name]]</span></a>
                 </div>
 
-                <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"   id="_[[dir]]" href="/#/[[dir]]"  class="_list-item _icon-[[dir]] _list-dir _-dir-_"  data-write="/#/write/[[dir]]" title="[[dir]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getDeepLength(dirValue)]]</span><span class="_list-text">[[dir]]</span></a>
+                <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"   id="_[[dir]]" href="/#/[[dir]]"  class="_list-item _icon-[[dir | lowercase]] _list-dir _-dir-_"  data-write="/#/write/[[dir]]" title="[[dir]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getDeepLength(dirValue)]]</span><span class="_list-text">[[dir]]</span></a>
                 <div ng-repeat-end="" class="_list _list-sub" >
                     <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_[[dir]]_[[sub]]" href="/#/[[dir]]/[[sub]]" class="_list-item _list-dir _-sub-_" data-write="/#/write/[[dir]]/[[sub]]" title="[[sub]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getLength(subValue)]]</span><span class="_list-text">[[sub]]</span></a>
                     <div ng-repeat-end="" class="_list _list-sub">

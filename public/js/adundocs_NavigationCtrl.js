@@ -33,6 +33,14 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
         $cookies.put('htmlmode', mode, {'expires': expireDate});
     };
 
+    $scope.setting_autoButton = function() {
+        var expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() + 300);
+        var mode = $scope.autoMode = ($scope.autoMode == true ? true : false);
+        $scope.setAutoMode(mode);
+        $cookies.put('automode', mode, {'expires': expireDate});
+    };
+
     $.contextMenu({
         selector: '._-file-_',
         callback: function(key, options) {
@@ -220,6 +228,30 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
             "quit": {name: "Quit", icon: "fa-times"}
         }
     });
+
+
+    $(window).on('keydown', function(e) {
+        
+        if ($(e.target).is('input, textarea')) {
+            return;
+        }
+        var keyCode = e.which;
+
+        switch(keyCode) {
+            case 37: // ก็
+
+                break;
+            case 38: // ก่
+
+                break;
+            case 39: // กๆ
+
+                break;
+            case 40: // ก้
+                $('._list-item ').eq(1).addClass('focus')//[0].addClass('active');
+                break;
+        }
+    })
 
 
 }]);

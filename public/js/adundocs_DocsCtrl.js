@@ -2,6 +2,7 @@ var converter = converter || new showdown.Converter();
 
 
 AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', '$cookies', function DocsCtrl($scope, $http, $routeParams, $location, $cookies) {
+    moment.locale('ko');
 
     $scope.$navigation = $('#navigation');
     $scope.$app = $('#app');
@@ -22,11 +23,13 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         postid      : null
     };
     $scope.htmlMode = $cookies.get('htmlmode') == 'true' ? true : false;
+    $scope.autoMode = $cookies.get('automode') == 'true' ? true : false;
     $scope.settingMode = false;
     $scope.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent) ? true : false;
 
     $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
     $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
+    $scope.isLocalStorage = window.localStorage ? true : false;
 
     $scope.init = function(fn) {
         $scope.active = $();
@@ -417,6 +420,10 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
     $scope.setHtmlMode = function(bool) {
         $scope.htmlMode = bool;
+    };
+
+    $scope.setAutoMode = function(bool) {
+        $scope.autoMode = bool;
     };
 
     $scope.settting  = function(bool) {

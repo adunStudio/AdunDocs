@@ -30,6 +30,16 @@
                 </div>
             </div>
 
+            <div ng-show="isLocalStorage && autoMode" class="col-xs-4" style="padding-left: 0; margin-right: 0; padding-right: 0;">
+                <div class="form-group">
+                    <label for="autoSave"> AutoSave</label>
+                    <select ng-model="inputSave" ng-change="saveLoad();" id="autoSave" class="form-control">
+                        <option value="">선택해주세요.</option>
+                        <option ng-repeat="(saveName, saveValue) in saveObject" value="[[saveValue]]">[[saveName]]</option>
+                    </select>
+                </div>
+            </div>
+
             <div id="contents" >
             </div>
 

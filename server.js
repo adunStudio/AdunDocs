@@ -13,7 +13,7 @@ var cookieParser = require('cookie-parser');
 app.set('views', __dirname + '/public/');
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 7711);
+app.set('port', 80);
 app.use(cookieParser());
 
 const MOBILE =
@@ -26,6 +26,7 @@ require("./tistory")(app);
 app.get('/', function(req, res) {
     var theme = req.cookies.theme || '/css/style_black.css';
     var isMobile = /mobile/i.test(req.header('user-agent'));
+    console.log(req.connection.remoteAddress);
 
     res.render('index', {theme: theme, isDesktop: !isMobile});
 });

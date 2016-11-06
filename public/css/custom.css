@@ -9,7 +9,12 @@
     background-image: url('/img/tistory.png') !important;
     background-size: 16px !important;
 }
-
+._icon-adundocs:before {
+    background-image: url('/img/temp.png') !important;
+    background-size: 16px !important;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 ._login {
     position: absolute;
     z-index: 6;
