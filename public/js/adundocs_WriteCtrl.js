@@ -29,13 +29,15 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
 
             for(i = len -1; i >= 0; --i) {
                 key = localStorage.key(i);
-                if( i > 20 )
+                if( len > 30 && i  == 0)
                 {
                     window.localStorage.removeItem(key);
                 }
                 else
                 {
-                    $scope.saveObject[moment.unix(key).format("LLLL")] = key;
+                    if( !$scope.saveObject[moment.unix(key).format("LLLL")] ) {
+                        $scope.saveObject[moment.unix(key).format("LLLL")] = key;
+                    }
                 }
             }
         }
@@ -51,12 +53,14 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
         }
     };
 
+
     var editor = $scope.editor = editormd("contents", {
         path : "/editor.md/lib/",
         width: '100%',
         height: '36rem',
         tex: true,
         sequenceDiagram: true,
+        watch: false,
         flowChart: true,
         placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
         theme: $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
@@ -83,6 +87,7 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
                         window.localStorage.setItem(moment().unix(), contents);
                         console.log('autosave');
                         $scope.getSave();
+                        $scope.$save_noti.show(500).delay(1000).fadeOut('slow');
                     }
                 }, 1000 * 60 * 3); // 3분마다 호출
                 //}, 1000); // 1초마다 호출(테스트)

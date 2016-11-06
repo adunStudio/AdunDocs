@@ -37,6 +37,7 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
             width: '100%',
             height: '36rem',
             tex: true,
+            watch: false,
             sequenceDiagram: true,
             flowChart: true,
             placeholder: 'AdunDocs는 MarkDown을 지원합니다...',

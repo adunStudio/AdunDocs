@@ -8,6 +8,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.$app = $('#app');
     $scope.$body = $('body');
     $scope.$container = $('._container');
+    $scope.$save_noti = $('#save_noti');
     $scope.theme = $('#theme').attr('href');
     $scope.$login = $("._login");
     $scope.isLogin = false;
@@ -78,7 +79,18 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     };
 
     $scope.naviToggle = function() {
-        $scope.$navigation.is(':visible') ? $scope.$navigation.slideUp() : $scope.$navigation.slideDown();
+        if( $scope.$navigation.is(':visible') )
+        {
+            $scope.$navigation.slideUp();
+            return;
+        }
+
+        $('body').stop().animate({
+            scrollTop: 0,
+        }, function() {
+            $scope.$navigation.slideDown();
+        });
+
     };
 
     $scope.getLength = function(obj) {
