@@ -19,21 +19,26 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+._icon-editormd:before {
+    background-image: url('/img/editormd.png') !important;
+    background-size: 16px !important;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 ._list-select {
     position: absolute;
-    top: .5rem;
     right: .75rem;
     width: 8rem;
     height: 1.5rem;
     transition: .2s;
-    margin-top: 1px \9;
+    margin-top: 1px;
     line-height: normal;
     font-family: inherit;
     font-size: 100%;
     color: #333;
     background: #EAEAEA;
-    border: 1px solid;
-    border-color: #C7C7C7;
+    border: 1px solid #C7C7C7;
     border-radius: 3px
 }
 
