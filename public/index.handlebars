@@ -83,18 +83,19 @@
     </div>
 
     <div  ng-show="!isTrash" role="complementary" class="_path" >
-        <a ng-show="dirName && !isTrash" href="#/[[dirName]]?check=1" class="_path-item _icon-[[dirName | lowercase]]">[[dirName]]</a>
-        <a ng-show="subName && !isTrash" href="#/[[dirName]]/[[subName]]?check=1" class="_path-item">[[subName]]</a>
-        <span ng-show="fileName" class="_path-item">[[fileName]]</span>
-        <span ng-show="isLogin && dirName && subName && fileName && !isTrash" style="float: right;" class="_path-item"><a href="#/edit/[[dirName]]/[[subName]]/[[fileName]]" class=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
-        <span ng-show="stat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: [[stat.mtime | date: "y-MM-dd"]] </span>
-        <span ng-show="stat.btime" style="float: right;" class="_path-item">작성 날짜: [[stat.btime | date: "y-MM-dd"]] </span>
+        <a ng-show="docStat.dirName && !isTrash" href="#/[[docStat.dirName]]?check=1" class="_path-item _icon-[[docStat.dirName | lowercase]]">[[docStat.dirName]]</a>
+        <a ng-show="docStat.subName && !isTrash" href="#/[[docStat.dirName]]/[[docStat.subName]]?check=1" class="_path-item">[[docStat.subName]]</a>
+        <span ng-show="docStat.fileName" class="_path-item">[[docStat.fileName]]</span>
+        <span ng-show="isLogin && docStat.dirName && docStat.subName && docStat.fileName && !isTrash" style="float: right;" class="_path-item"><a href="#/edit/[[docStat.dirName]]/[[docStat.subName]]/[[docStat.fileName]]" class=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
+        <span ng-show="docStat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: [[docStat.mtime | date: "y-MM-dd"]] </span>
+        <span ng-show="docStat.btime" style="float: right;" class="_path-item">작성 날짜: [[docStat.btime | date: "y-MM-dd"]] </span>
     </div>
 
     <div ng-show="isTrash" role="complementary" class="_path" >
-        <a ng-show="dirName && isTrash" href="" class="_path-item _icon-trash">[[dirName]]</a>
-        <a ng-show="subName && isTrash" href="" class="_path-item">[[subName]]</a>
-        <span ng-show="fileName" class="_path-item">[[fileName]]</span>
+        <a href="" class="_path-item _icon-trash">[[docStat.dirName]]</a>
+        <a href="" class="_path-item">[[docStat.subName]]</a>
+        <span class="_path-item">[[docStat.fileName]]</span>
+        <span style="float: right;" class="_path-item">삭제된 날짜: [[docStat.btime | date: "y-MM-dd"]] </span>
     </div>
 
     <div  ng-show="blogStat.dirCategory" role="complementary" class="_path">
@@ -118,7 +119,7 @@
             <div class="_search-tag"></div>
         </form>
         <h1 class="_logo">
-            <a ng-click="initialize();" href="#/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs</a>
+            <a ng-click="initialize();" href="#/" class="_nav-link" title="Offline API Documentation Browser">AdunDocs[[aa]]</a>
         </h1>
         <nav class="_nav" role="navigation">
             <a href="#blog"  class="_nav-link" title="blog">[[blogName]]</a>
@@ -191,13 +192,15 @@
                 </div>
                 <!-- Tistory -->
 
-                <h6 ng-show="trashs" ng-repeat-start="(dir, dirValue) in trashs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)" id="휴지통" class="_list-title "><span class="_list-arrow"></span>휴지통 ([[getDeepLength(dirValue)]])</h6>
+                <!-- 휴지통 -->
+                <h6 ng-show="trashs" ng-repeat-start="(dir, dirValue) in trashs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)" id="_휴지통" class="_list-title "><span class="_list-arrow"></span>휴지통 ([[getDeepLength(dirValue)]])</h6>
                 <div ng-repeat-end="" class="_list _list-sub" >
-                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in trashs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)"  class="_list-item _list-dir _-sub-_" title="[[sub]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getLength(subValue)]]</span><span class="_list-text">[[sub]]</span></a>
+                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in trashs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_휴지통_[[sub]]"  class="_list-item _list-dir " title="[[sub]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getLength(subValue)]]</span><span class="_list-text">[[sub]]</span></a>
                     <div ng-repeat-end="" class="_list _list-sub">
-                        <a ng-show="!search" ng-repeat="(name, file) in trashs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)"  href="/#/trash/[[sub]]/[[name]]" class="_list-item _list-hover" title="[[name]]" tabindex="-1">[[name]]</a>
+                        <a ng-show="!search" ng-repeat="(name, file) in trashs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_휴지통_[[sub]]_[[name]]" href="/#/trash/[[sub]]/[[name]]" class="_list-item _list-hover" title="[[name]]" tabindex="-1">[[name]]</a>
                     </div>
                 </div>
+                <!-- 휴지통 -->
 
             </div>
 

@@ -14,9 +14,12 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
     $scope.tranhPostName ="";
     $scope.changePostName ="";
 
-    $scope.$watch('fileName', function() {
-        $scope.changeName = $scope.fileName.substr(0, $scope.fileName.length - 3);
+    $scope.$watch('docStat.fileName', function() {
+        if( !$scope.docStat.fileName ) {return;}
+        $scope.changeName = $scope.docStat.fileName.substr(0, $scope.docStat.fileName.length - 3);
+
     });
+
     $scope.$watch('blogStat.title', function() {
         $scope.changePostName = $scope.blogStat.title;
     });
@@ -68,7 +71,7 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
     });
 
     $('#changeNameModal,#trashModal,#changePostName,#trashPostModal').on('hide.bs.modal', function () {
-        $scope.changeName = $scope.fileName.substr(0, $scope.fileName.length - 3);
+        $scope.changeName = $scope.docStat.fileName.substr(0, $scope.docStat.fileName.length - 3);
         $scope.trashName  = null;
         $scope.changePostName = null;
         $scope.trashPostName = null;
@@ -109,9 +112,9 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
                 method  : 'POST',
                 url     : '/article/rename',
                 data    : {
-                    dirName : $scope.dirName,
-                    subName : $scope.subName,
-                    fileName: $scope.fileName,
+                    dirName : $scope.docStat.dirName,
+                    subName : $scope.docStat.subName,
+                    fileName: $scope.docStat.fileName,
                     newName : $scope.changeName
                 },
                 headers : {'Content-Type': 'application/json'}
@@ -119,8 +122,8 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
                 var result = response.data;
                 if( result.result )
                 {
-                    var dirName    = $scope.dirName;
-                    var subName    = $scope.subName;
+                    var dirName    = $scope.docStat.dirName;
+                    var subName    = $scope.docStat.subName;
                     var changeName = $scope.changeName;
 
                     $scope.$changeNameModal.modal('hide');
@@ -142,9 +145,9 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
                 method  : 'POST',
                 url     : '/article/delete',
                 data    : {
-                    dirName   : $scope.dirName,
-                    subName   : $scope.subName,
-                    fileName  : $scope.fileName,
+                    dirName   : $scope.docStat.dirName,
+                    subName   : $scope.docStat.subName,
+                    fileName  : $scope.docStat.fileName,
                     trashName : $scope.trashName
                 },
                 headers : {'Content-Type': 'application/json'}
@@ -156,8 +159,7 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
                     $scope.trashName   = "";
 
                     $scope.getList(function() {
-                        $scope.initStat();
-                        $scope.setName();
+                        $scope.setDocStat();
                         $location.url('/#');
                     });
                 } else { alert(result.msg); }

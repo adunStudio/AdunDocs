@@ -5,8 +5,8 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
         return;
     }
 
-    $scope.setName(null, null, null);
-    $scope.initStat(null, null, null);
+    $scope.setDocStat();
+
 
     $scope.inputDirCategory = $routeParams.dirCategoryName;
     $scope.inputSubCategory = $routeParams.subCategoryName || Object.keys($scope.blogCategory[$scope.inputDirCategory])[0];

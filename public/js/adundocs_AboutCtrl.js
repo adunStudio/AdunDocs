@@ -1,7 +1,7 @@
 
 AdunDocs.controller('AboutCtrl', ['$scope', function AboutCtrl($scope) {
-    $scope.initStat();
-    $scope.setName();
+    $scope.setDocStat();
+
 
     $('._toc-list li a').bind('click', function(event) {
         event.preventDefault ? event.preventDefault() : event.returnValue = false;

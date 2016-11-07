@@ -3,7 +3,7 @@ var converter = converter || new showdown.Converter();
 
 AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', '$cookies', function DocsCtrl($scope, $http, $routeParams, $location, $cookies) {
     moment.locale('ko');
-
+$scope.aa ="ddd";
     $scope.$navigation = $('#navigation');
     $scope.$app = $('#app');
     $scope.$body = $('body');
@@ -12,6 +12,13 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.theme = $('#theme').attr('href');
     $scope.$login = $("._login");
     $scope.isLogin = false;
+    $scope.docStat = {
+        dirName: '',
+        subName: '',
+        fileName: '',
+        btime: '',
+        mtime: ''
+    };
     $scope.blogName = $cookies.get('blogName') || 'Blog';
     $scope.blogCategory = null;
     $scope.blogStat = {
@@ -41,10 +48,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.dirTree = null;
         $scope.fileTree = null;
         $scope.trashs = null;
-        $scope.stat = {};
-        $scope.dirName = '';
-        $scope.subName = '';
-        $scope.fileName = '';
+        $scope.docStat = {};
         $scope.isToggleCheck  = false;// <- 임시방편 ... 수정해야함 toggle에서 쓰임
         $scope.blogStat = {};
         $scope.getList(fn);
@@ -70,11 +74,13 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.init();
 
 
-    $scope.setName = function(dirName, subName, fileName, isTrash) {
-        $scope.dirName  = dirName  || '';
-        $scope.subName  = subName  || '';
-        $scope.fileName = fileName || '';
-        $scope.isTrash  = isTrash  || false;
+    $scope.setDocStat = function(dirName, subName, fileName, btime, mtime, isTrash) {
+        $scope.docStat.dirName  = dirName || '';
+        $scope.docStat.subName  = subName || '';
+        $scope.docStat.fileName = fileName || '';
+        $scope.docStat.btime     = btime || '';
+        $scope.docStat.mtime     = mtime || '';
+        $scope.isTrash = isTrash || false;
         $scope.setBlogStat();
     };
 
@@ -116,7 +122,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         var element = el || angular.element(event.target);
         var $element = $(element);
 
-        if( !$element.is('a') ) {
+        if( $element.is('span') ) {
             $element = $element.parent();
         }
 
@@ -146,7 +152,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         var element = el || angular.element(event.target);
         var $element = $(element);
 
-        if( !$element.is('a') ) {
+        if( $element.is('span') ) {
             $element = $element.parent();
         }
 
@@ -244,16 +250,6 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
     $scope.toURL = function(str) {
         return encodeURI(str);
-    };
-
-    $scope.initStat = function(name, stat) {
-        $scope.stat.name = name || '';
-        if(!stat) {
-            $scope.stat = {};
-            return;
-        }
-        $scope.stat.btime = stat.birthtime;
-        $scope.stat.mtime = stat.mtime;
     };
 
     $scope.searchDoc = function() {

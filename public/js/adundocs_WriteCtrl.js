@@ -2,8 +2,8 @@ var converter = converter || new showdown.Converter();
 
 AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', function writeCtrl($scope, $http, $routeParams, $location, $cookies, $interval) {
 
-    $scope.initStat();
-    $scope.setName();
+    $scope.setDocStat();
+
 
     var dirName = $routeParams.dirName || Object.keys($scope.docs)[0];
     var subName = $routeParams.subName || Object.keys($scope.docs[dirName])[0] ;

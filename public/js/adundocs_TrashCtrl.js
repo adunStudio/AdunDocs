@@ -12,18 +12,13 @@ AdunDocs.controller('TrashCtrl', ['$scope', '$http', '$routeParams', '$timeout',
         $('#main').html(html);
     });
 
+    $scope.setDocStat('휴지통', subName, fileName, $scope.trashs['휴지통'][subName][fileName].stat.birthtime, '', true);
 
-    $scope.setName('휴지통', subName, fileName, true);
-
-    $scope.initStat(fileName, $scope.trashs['휴지통'][subName][fileName].stat);
-
-
-    var dirEl =  angular.element(document.getElementById('휴지통'));
+    var dirEl =  angular.element(document.getElementById('_휴지통'));
     var subEl =  angular.element(document.getElementById('_휴지통_' + subName));
     var fileEl = angular.element(document.getElementById('_휴지통_' + subName + "_" + fileName));
 
     if( $scope.isToggleCheck == false || check) {
         $scope.toggleCheck(dirEl, subEl, fileEl);
     }
-
 }]);

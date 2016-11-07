@@ -6,8 +6,9 @@ AdunDocs.controller('BlogSubCategoryCtrl', ['$scope', '$routeParams', '$location
         return;
     }
 
-    $scope.initStat();
-    $scope.setName();
+    $scope.setDocStat();
+
+
     var check  =  $routeParams.check;
 
     var blogDirCategoryName  =  $routeParams.dirCategoryName;

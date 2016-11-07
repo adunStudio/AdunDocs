@@ -4,9 +4,8 @@ AdunDocs.controller('dirCtrl', ['$scope', '$routeParams', function dirCtrl($scop
     var check  =  $routeParams.check;
 
 
-    $scope.initStat();
+    $scope.setDocStat(dirName);
 
-    $scope.setName(dirName);
 
     var dirEl =  angular.element(document.getElementById('_' + dirName));
 

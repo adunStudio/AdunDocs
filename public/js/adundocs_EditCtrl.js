@@ -5,8 +5,7 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
     var subName  = $routeParams.subName;
     var fileName = $routeParams.fileName;
 
-    $scope.setName(dirName, subName, fileName);
-    $scope.initStat(fileName, $scope.docs[dirName][subName][fileName].stat);
+    $scope.setDocStat(dirName, subName, fileName, $scope.docs[dirName][subName][fileName].stat.birthtime, $scope.docs[dirName][subName][fileName].stat.mtime);
 
     $scope.originDirName  = dirName;
     $scope.originSubName  = subName;

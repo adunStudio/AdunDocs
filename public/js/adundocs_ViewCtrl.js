@@ -13,9 +13,7 @@ AdunDocs.controller('viewCtrl', ['$scope', '$http', '$routeParams', '$timeout', 
         $('#main').html(html);
     });
 
-
-    $scope.setName(dirName, subName, fileName);
-    $scope.initStat(fileName, $scope.docs[dirName][subName][fileName].stat);
+    $scope.setDocStat(dirName, subName, fileName, $scope.docs[dirName][subName][fileName].stat.birthtime, $scope.docs[dirName][subName][fileName].stat.mtime);
 
 
     var dirEl =  angular.element(document.getElementById('_' + dirName));

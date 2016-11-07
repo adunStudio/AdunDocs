@@ -7,8 +7,8 @@ AdunDocs.controller('BlogViewCtrl', ['$scope', '$http', '$routeParams', '$timeou
         return;
     }
 
-    $scope.setName();
-    $scope.initStat();
+    $scope.setDocStat();
+
     var check  =  $routeParams.check;
     var blogDirCategoryName  =  $routeParams.dirCategoryName;
     var blogSubCategoryName  =  $routeParams.subCategoryName;

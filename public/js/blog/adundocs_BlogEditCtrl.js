@@ -9,8 +9,8 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
 
     var postid  = $routeParams.postid;
 
-    $scope.setName(null, null, null);
-    $scope.initStat(null, null, null);
+    $scope.setDocStat();
+
 
     $scope.inputDirCateogry = "";
     $scope.inputSubCateogry = "";

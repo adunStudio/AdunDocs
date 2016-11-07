@@ -5,11 +5,9 @@ AdunDocs.controller('subCtrl', ['$scope', '$routeParams', function subCtrl($scop
     var check  =  $routeParams.check;
 
 
-    $scope.initStat();
+    $scope.setDocStat(dirName, subName);
 
-
-    $scope.setName(dirName, subName);
-
+    
     var dirEl =  angular.element(document.getElementById('_' + dirName));
     var subEl =  angular.element(document.getElementById('_' + dirName + "_" + subName));
 
