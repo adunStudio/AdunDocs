@@ -9,6 +9,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.$container = $('._container');
     $scope.$save_noti = $('#save_noti');
     $scope.theme = $('#theme').attr('href');
+    $scope.editorTheme = $cookies.get('editorTheme') || 'default';
     $scope.$login = $("._login");
     $scope.isLogin = false;
     $scope.docStat = {

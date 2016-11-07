@@ -9,6 +9,8 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
     $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
     $scope.dirRegExp  = /^[^\\/:.^\*\?"<>\|]+$/;
 
+    $scope.editorThemes =  ["default", "3024-day", "3024-night", "ambiance", "ambiance-mobile", "base16-light", "blackboard", "cobalt", "eclipse", "elegant", "erlang-dark", "lesser-dark", "mbo", "mdn-like", "midnight", "monokai", "neat", "neo", "night", "paraiso-dark", "paraiso-light", "pastel-on-dark", "rubyblue", "solarized", "the-matrix", "tomorrow-night-eighties", "twilight", "vibrant-ink", "xq-dark", "xq-light"];
+
     $scope.trashName   = "";
     $scope.changeName  = "";
     $scope.tranhPostName ="";
@@ -23,6 +25,7 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
     $scope.$watch('blogStat.title', function() {
         $scope.changePostName = $scope.blogStat.title;
     });
+
 
     $scope.settingButton = function() {
         $scope.settting($scope.settingMode ? false : true);
@@ -42,6 +45,12 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
         var mode = $scope.autoMode = ($scope.autoMode == true ? true : false);
         $scope.setAutoMode(mode);
         $cookies.put('automode', mode, {'expires': expireDate});
+    };
+
+    $scope.changeEditorTheme = function() {
+        var expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() + 300);
+        $cookies.put('editorTheme', $scope.editorTheme, {'expires': expireDate});
     };
 
     $.contextMenu({

@@ -165,6 +165,15 @@
                     <input ng-model="autoMode" ng-change="setting_autoButton()" type="checkbox" name="auto" class="_list-checkbox">
                     <span class="_list-text">AutoSave 기능 사용</span>
                 </label>
+                <label class="_list-item _icon-html">
+                    <select ng-model="editorTheme" ng-change="changeEditorTheme()" class="_list-select">
+                        <option ng-repeat="theme in editorThemes" value="[[theme]]">[[theme]]</option>
+                    </select>
+<!--
+                    <input ng-model="autoMode" ng-change="setting_autoButton()" type="checkbox" name="auto" class="_list-checkbox">
+-->
+                    <span class="_list-text">Editor Theme</span>
+                </label>
                 <div class="_list-note">Tip: 설정을 완료한 후에는 새로고침을 해주시기 바랍니다.</div>
                 <a href="" ng-click="settingButton()" class="_list-link" target="_blank" >확인</a>
             </div>

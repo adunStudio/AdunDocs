@@ -64,7 +64,7 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
         flowChart: true,
         placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
         theme: $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
-        editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
+        editorTheme : ($scope.editorTheme != "default") ? $scope.editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
         previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
         imageUpload    : true,
         imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
@@ -98,7 +98,7 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     $scope.$watch('theme', function() {
         editor.setTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
-        editor.setEditorTheme($scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark');
+        editor.setEditorTheme(($scope.editorTheme != "default") ? $scope.editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark');
         editor.setPreviewTheme($scope.theme == '/css/style_white.css' ? 'default' : 'dark');
     });
 
