@@ -1461,10 +1461,13 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     margin: .5rem 0 0;
     padding-left: 2.25rem;
     line-height: 2rem;
-    font-size: .75rem;
     color: #666;
     text-transform: uppercase;
-    cursor: default
+    cursor: default;
+    /** custom **/
+    box-shadow: none !important;
+    font-size: .75rem !important;
+
 }
 
 ._list-item {

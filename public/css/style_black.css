@@ -1431,10 +1431,13 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     margin: .5rem 0 0;
     padding-left: 2.25rem;
     line-height: 2rem;
-    font-size: .75rem;
     color: #9da5ad;
     text-transform: uppercase;
-    cursor: default
+    cursor: default;
+    /** custom **/
+    box-shadow: none !important;
+    font-size: .75rem !important;
+
 }
 
 ._list-item {
@@ -1464,6 +1467,9 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     background: #007acc;
     box-shadow: inset -1px 0 #000
 }
+
+
+
 
 ._list-item:before {
     float: left;

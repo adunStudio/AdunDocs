@@ -7,6 +7,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.$app = $('#app');
     $scope.$body = $('body');
     $scope.$container = $('._container');
+    $scope.$content = $('._content');
     $scope.$save_noti = $('#save_noti');
     $scope.theme = $('#theme').attr('href');
     $scope.editorTheme = $cookies.get('editorTheme') || 'default';
@@ -130,19 +131,22 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.focus.removeClass('focus');
         $scope.active.removeClass('active');
         $element.addClass('active');
+        $element.addClass('focus');
         $scope.active = $element;
+        $scope.focus = $element;
 
         if($element.hasClass('open')) {
             $element.removeClass('open');
             $element.removeClass('open-title');
             $element.next().slideUp();
-            $element.next().find('a').each(function(idx, el){ $(el).removeClass('open') });
+            $element.next().find('a').each(function(idx, el){ $(el).removeClass('open'); $(el).removeClass('isdir'); });
             $element.next().find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
         }
         else {
             $element.addClass('open');
             $element.addClass('open-title');
             $element.next().slideDown();
+            $element.next().find('.issub').each(function(idx, el){ $(el).addClass('isdir') });
         }
     };
 
@@ -159,15 +163,20 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.focus.removeClass('focus');
         $scope.active.removeClass('active');
         $element.addClass('active');
+        $element.addClass('focus');
         $scope.active = $element;
+        $scope.focus = $element;
 
         if($element.hasClass('open')) {
             $element.removeClass('open');
             $element.next().slideUp();
+            $element.next().find('a').each(function(idx, el){  $(el).removeClass('isdir'); });
+
         }
         else {
             $element.addClass('open');
             $element.next().slideDown();
+            $element.next().find('.isfile').each(function(idx, el){ $(el).addClass('isdir') });
         }
 
 
@@ -187,8 +196,12 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         }
 
         $scope.active.removeClass('active');
+        $scope.focus.removeClass('focus');
+        $element.addClass('focus');
         $element.addClass('active');
         $scope.active = $element;
+        $scope.focus = $element;
+
     };
 
 
@@ -203,7 +216,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
         if( dirEl && !dirEl.hasClass('open') ) {
             dirEl.addClass('open');
-            $(dirEl).next().slideDown();
+            $dirEl.next().slideDown();
+            $dirEl.next().find('.issub').each(function(idx, el){ $(el).addClass('isdir') });
         }
 
         if(!subEl) {
@@ -212,12 +226,15 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
             $scope.focus.removeClass('focus');
             $scope.active.removeClass('active');
             $scope.active = $dirElement;
+            $scope.focus = $dirElement;
             return;
         }
 
         if( subEl && !subEl.hasClass('open') ) {
             subEl.addClass('open');
-            $(subEl).next().slideDown();
+            $subEl.next().slideDown();
+            $subEl.next().find('.isfile').each(function(idx, el){ $(el).addClass('isdir') });
+
         }
 
         if(!fileEl) {
@@ -225,17 +242,21 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
             $scope.active.removeClass('active');
             $subEl.addClass('active');
             $scope.active = $subEl;
+            $scope.focus = $subEl;
             return;
         }
 
         if( fileEl && !fileEl.hasClass('active') ) {
+            $scope.focus.removeClass('focus');
             $fileEl.addClass('focus');
-            $scope.focus = $fileEl;
 
             $scope.active.removeClass('active');
             $fileEl.addClass('active');
             $scope.active = $fileEl;
+            $scope.focus = $fileEl;
+
         }
+
     };
 
 
@@ -285,8 +306,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.init();
         $scope.settingMode = false;
         $location.url('/');
-        $('#list').find('a').each(function(idx, el){ $(el).removeClass('open'); $(el).removeClass('active'); });
-        $('#list').find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
+        $('#list').find('a').each(function(idx, el){ $(el).removeClass('open'); $(el).removeClass('active'); $(el).removeClass('focus');});
+        $('#list').find('._list-sub').each(function(idx, el){ $(el).slideUp(); $(el).removeClass('isdir'); });
 
         if($scope.blogName !== 'Blog') {
             $scope.setBlog();
@@ -455,7 +476,8 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     };
     $scope.historyBack = function() {
         window.history.back();
-    }
+    };
+
 
 
 }]);

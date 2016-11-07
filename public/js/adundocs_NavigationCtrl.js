@@ -241,28 +241,148 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
     });
 
 
-    $(window).on('keydown', function(e) {
-        
-        if ($(e.target).is('input, textarea')) {
-            return;
+    $scope.$on('$locationChangeSuccess', function(event) {
+        $scope.onKey = ($location.path().indexOf('write') > -1 || $location.path().indexOf('edit') > - 1) ? false : true;
+        // dirEq =  $scope.$parent.focus.length != 0 ? $('.isdir').index($scope.$parent.focus) : -1;
+    });
+
+    var dirEq = -1;
+
+    Mousetrap.bind('up', function(e) {
+        if(!$scope.onKey) { return; }
+        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+
+        if( $scope.$parent.focus.length != 0 )
+        {
+            dirEq = $('.isdir').index($scope.$parent.focus);
+        } else {dirEq = -1;}
+
+        dirEq--;
+        if($('.isdir').length == -1) {
+            dirEq = $('.isdir').length;
         }
-        var keyCode = e.which;
+        $scope.$parent.focus.removeClass('focus');
+        $scope.$parent.focus = $('.isdir').eq(dirEq);
+        $scope.$parent.focus.addClass('focus');
+    });
 
-        switch(keyCode) {
-            case 37: // ←
+    Mousetrap.bind('down', function(e) {
+        if(!$scope.onKey) { return; }
+        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
 
-                break;
-            case 38: // ↑
-
-                break;
-            case 39: // →
-
-                break;
-            case 40: // ↓
-                $('._list-item ').eq(1).addClass('focus')//[0].addClass('active');
-                break;
+        if( $scope.$parent.focus.length != 0 )
+        {
+            dirEq = $('.isdir').index($scope.$parent.focus);
+        } else {dirEq = -1;}
+        dirEq++;
+        if($('.isdir').length == dirEq) {
+            dirEq = 0;
         }
-    })
+        $scope.$parent.focus.removeClass('focus');
+        $scope.$parent.focus = $('.isdir').eq(dirEq);
+        $scope.$parent.focus.addClass('focus');
+    });
 
+    Mousetrap.bind('left', function() {
+        if(!$scope.onKey) { return; }
 
+        if( $scope.$parent.focus.hasClass('open') )
+        {
+            $scope.$parent.focus.removeClass('open');
+            $scope.$parent.focus.removeClass('open-title');
+            $scope.$parent.focus.next().slideUp();
+            $scope.$parent.focus.next().find('a').each(function(idx, el){ $(el).removeClass('open');  $(el).removeClass('isdir'); });
+            $scope.$parent.focus.next().find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
+        }
+    });
+
+    Mousetrap.bind('right', function() {
+        if(!$scope.onKey) { return; }
+
+        if( !$scope.$parent.focus.hasClass('open') )
+        {
+            $scope.$parent.focus.addClass('open');
+            $scope.$parent.focus.addClass('open-title');
+            $scope.$parent.focus.next().slideDown();
+            $scope.$parent.focus.next().find('.issub').each(function(idx, el){ $(el).addClass('isdir') });
+            if( $scope.$parent.focus.hasClass('issub') )
+            {
+                $scope.$parent.focus.next().find('.isfile').each(function(idx, el){ $(el).addClass('isdir') });
+            }
+        }
+    });
+    Mousetrap.bind('ctrl+up', function() {
+        if(!$scope.onKey) { return; }
+        $scope.$content.stop().animate({
+            scrollTop: $scope.$content.scrollTop() - 130
+        }, 'fast');
+    });
+    Mousetrap.bind('ctrl+down', function() {
+        if(!$scope.onKey) { return; }
+        $scope.$content.stop().animate({
+            scrollTop: $scope.$content.scrollTop() + 130
+        }, 'fast');
+    });
+
+    Mousetrap.bind('enter', function(e) {
+        if(!$scope.onKey) { return; }
+        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+        $scope.focus.trigger('click');
+    });
+    Mousetrap.bind('esc', function(e) {
+        if(!$scope.onKey) { return; }
+
+        $scope.initialize();
+    });
+    Mousetrap.bind('shift+enter', function(e) {
+        if(!$scope.onKey) { return; }
+
+        var url = $scope.$parent.focus.attr('href');
+        window.open(url,'_blank');
+    });
+    Mousetrap.bind('shift+left', function(e) {
+        if(!$scope.onKey) { return; }
+
+        $scope.historyBack();
+    });
+    Mousetrap.bind('shift+right', function(e) {
+        if(!$scope.onKey) { return; }
+
+        $scope.historyForward();
+    });
+
+    Mousetrap.bind('shift+up', function() {
+        if(!$scope.onKey) { return; }
+        $scope.$content.stop().animate({
+            scrollTop: 0
+        });
+    });
+    Mousetrap.bind('shift+down', function() {
+        if(!$scope.onKey) { return; }
+        $scope.$content.stop().animate({
+            scrollTop: $scope.$content[0].scrollHeight
+        });
+    });
+
+    Mousetrap.bind('ctrl+s', function(e) {
+        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+        $('#write_btn').trigger('click');
+    });
+
+    Mousetrap.bind('ctrl+e', function(e) {
+        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+        if(!$scope.onKey) { return; }
+
+        if($scope.docStat.fileName) {
+            // 포스트 수정 이동
+        } else if($scope.blogStat.postid) {
+            // 블로그 수정 이동
+        }
+
+    });
+
+    $('body').on('keydown', 'input, select', 'ctrl+s', function(e) {
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+        $('#write_btn').trigger('click');
+    });
 }]);

@@ -53,6 +53,8 @@
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.4.3/dist/showdown.min.js"></script>
     <!-- md -->
     <script src="/js/lib/md.min.js"></script>
+    <!-- MouseTrap -->
+    <script src="/js/lib/mousetrap.min.js"></script>
     <!-- MathJax -->
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     <!-- editor.md -->
@@ -60,6 +62,7 @@
     <script src="/editor.md/languages/en.js"></script>
     <!-- summernote -->
     <script src="/summernote/summernote.js"></script>
+    <script src="/js/lib/jquery-hotkeys.js"></script>
 
 
 
@@ -86,7 +89,7 @@
         <a ng-show="docStat.dirName && !isTrash" href="#/[[docStat.dirName]]?check=1" class="_path-item _icon-[[docStat.dirName | lowercase]]">[[docStat.dirName]]</a>
         <a ng-show="docStat.subName && !isTrash" href="#/[[docStat.dirName]]/[[docStat.subName]]?check=1" class="_path-item">[[docStat.subName]]</a>
         <span ng-show="docStat.fileName" class="_path-item">[[docStat.fileName]]</span>
-        <span ng-show="isLogin && docStat.dirName && docStat.subName && docStat.fileName && !isTrash" style="float: right;" class="_path-item"><a href="#/edit/[[docStat.dirName]]/[[docStat.subName]]/[[docStat.fileName]]" class=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
+        <span ng-show="isLogin && docStat.dirName && docStat.subName && docStat.fileName && !isTrash" style="float: right;" class="_path-item"><a href="#/edit/[[docStat.dirName]]/[[docStat.subName]]/[[docStat.fileName]]" class="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
         <span ng-show="docStat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: [[docStat.mtime | date: "y-MM-dd"]] </span>
         <span ng-show="docStat.btime" style="float: right;" class="_path-item">작성 날짜: [[docStat.btime | date: "y-MM-dd"]] </span>
     </div>
@@ -102,7 +105,7 @@
         <a ng-show="blogStat.dirCategory" href="#blog/[[blogStat.dirCategory]]?check=1" class="_path-item _icon-tistory">[[blogStat.dirCategory]]</a>
         <a ng-show="blogStat.subCategory" href="#blog/[[blogStat.dirCategory]]/[[blogStat.subCategory]]?check=1" class="_path-item">[[blogStat.subCategory]]</a>
         <span ng-show="blogStat.title" class="_path-item">[[blogStat.title]]</span>
-        <span ng-show="blogStat.title" style="float: right;" class="_path-item"><a href="#/blog/edit/[[blogStat.postid]]" class=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
+        <span ng-show="blogStat.title" style="float: right;" class="_path-item"><a href="#/blog/edit/[[blogStat.postid]]" class="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
         <span ng-show="!blogStat.title && blogStat.dirCategory && blogStat.dirCategory != '분류없음'" style="float: right;" class="_path-item"><a href="#/blog/write/[[blogStat.dirCategory]]/[[blogStat.subCategory]]" ><i class="fa fa-pencil" aria-hidden="true"></i> New Post</a></span>
         <span ng-show="blogStat.dateCreated" style="float: right;" class="_path-item">작성 날짜: [[blogStat.dateCreated | date: "y-MM-dd hh:mm"]] </span>
     </div>
@@ -174,36 +177,36 @@
                 <div class="_list-note">Tip: 설정을 완료한 후에는 새로고침을 해주시기 바랍니다.</div>
                 <a href="" ng-click="settingButton()" class="_list-link" target="_blank" >확인</a>
             </div>
-            <div ng-show="!settingMode" role="navigation" class="_list" id="list">
+            <div ng-show="!settingMode" role="navigation" class="_list dir" id="list">
                 <div ng-show="search" class="_list" >
                     <a ng-repeat="s in searchResult" ng-click="searchToggle($event);" href="/#/search/[[s.dirName]]/[[s.subName]]/[[s.name]]" class="_list-item _list-hover _list-result _icon-[[s.dirName | lowercase]]" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/[[s.dirName]]/[[s.subName]]/[[s.name]]" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">[[s.name]]</span></a>
                 </div>
 
-                <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"   id="_[[dir]]" href="/#/[[dir]]"  class="_list-item _icon-[[dir | lowercase]] _list-dir _-dir-_"  data-write="/#/write/[[dir]]" title="[[dir]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getDeepLength(dirValue)]]</span><span class="_list-text">[[dir]]</span></a>
+                <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"   id="_[[dir]]" href="/#/[[dir]]"  class="_list-item _icon-[[dir | lowercase]] _list-dir _-dir-_ isdir"  data-write="/#/write/[[dir]]" title="[[dir]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getDeepLength(dirValue)]]</span><span class="_list-text">[[dir]]</span></a>
                 <div ng-repeat-end="" class="_list _list-sub" >
-                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_[[dir]]_[[sub]]" href="/#/[[dir]]/[[sub]]" class="_list-item _list-dir _-sub-_" data-write="/#/write/[[dir]]/[[sub]]" title="[[sub]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getLength(subValue)]]</span><span class="_list-text">[[sub]]</span></a>
+                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in docs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_[[dir]]_[[sub]]" href="/#/[[dir]]/[[sub]]" class="_list-item _list-dir _-sub-_ issub" data-write="/#/write/[[dir]]/[[sub]]" title="[[sub]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getLength(subValue)]]</span><span class="_list-text">[[sub]]</span></a>
                     <div ng-repeat-end="" class="_list _list-sub">
-                        <a ng-show="!search" ng-repeat="(name, file) in docs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_[[dir]]_[[sub]]_[[name]]" href="/#/[[dir]]/[[sub]]/[[name]]" class="_list-item _list-hover _-file-_" data-edit="/#/edit/[[dir]]/[[sub]]/[[name]]" title="[[name]]" tabindex="-1">[[name]]</a>
+                        <a ng-show="!search" ng-repeat="(name, file) in docs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_[[dir]]_[[sub]]_[[name]]" href="/#/[[dir]]/[[sub]]/[[name]]" class="_list-item _list-hover _-file-_ isfile" data-edit="/#/edit/[[dir]]/[[sub]]/[[name]]" title="[[name]]" tabindex="-1">[[name]]</a>
                     </div>
                 </div>
 
                 <!-- Tistory -->
                 <h6 ng-show="blogCategory" class="_list-title"> Tistory</h6>
-                <a ng-show="blogCategory" ng-repeat-start="(dir, dirValue) in blogCategory" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"      id="blog_[[dir]]" href="/#/blog/[[dir]]"  class="_list-item _icon-tistory _list-dir _-blog_dir-_"  data-newpost="/#/blog/write/[[dir]]" title="[[dir]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getDeepLength(dirValue)]]</span><span class="_list-text">[[dir]]</span></a>
+                <a ng-show="blogCategory" ng-repeat-start="(dir, dirValue) in blogCategory" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"      id="blog_[[dir]]" href="/#/blog/[[dir]]"  class="_list-item _icon-tistory _list-dir _-blog_dir-_ isdir"  data-newpost="/#/blog/write/[[dir]]" title="[[dir]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getDeepLength(dirValue)]]</span><span class="_list-text">[[dir]]</span></a>
                 <div ng-repeat-end="" class="_list _list-sub" >
-                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in blogCategory[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="blog_[[dir]]_[[sub]]" href="/#/blog/[[dir]]/[[sub]]" class="_list-item _list-dir _-blog_sub-_"  data-newpost="/#/blog/write/[[dir]]/[[sub]]" title="[[sub]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getLength(subValue)]]</span><span class="_list-text">[[sub]]</span></a>
+                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in blogCategory[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="blog_[[dir]]_[[sub]]" href="/#/blog/[[dir]]/[[sub]]" class="_list-item _list-dir _-blog_sub-_ issub"  data-newpost="/#/blog/write/[[dir]]/[[sub]]" title="[[sub]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getLength(subValue)]]</span><span class="_list-text">[[sub]]</span></a>
                     <div ng-repeat-end="" class="_list _list-sub">
-                        <a ng-show="!search" ng-repeat="(name, file) in blogCategory[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="blog_[[dir]]_[[sub]]_[[name]]" href="#/blog/[[dir]]/[[sub]]/[[name]]" class="_list-item _list-hover _-blog-_" data-edit="/#/blog/edit/[[file.postid]]" title="[[name]]" tabindex="-1">[[name]]</a>
+                        <a ng-show="!search" ng-repeat="(name, file) in blogCategory[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="blog_[[dir]]_[[sub]]_[[name]]" href="#/blog/[[dir]]/[[sub]]/[[name]]" class="_list-item _list-hover _-blog-_ isfile" data-edit="/#/blog/edit/[[file.postid]]" title="[[name]]" tabindex="-1">[[name]]</a>
                     </div>
                 </div>
                 <!-- Tistory -->
 
                 <!-- 휴지통 -->
-                <h6 ng-show="trashs" ng-repeat-start="(dir, dirValue) in trashs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)" id="_휴지통" class="_list-title "><span class="_list-arrow"></span>휴지통 ([[getDeepLength(dirValue)]])</h6>
+                <h6 ng-show="trashs" ng-repeat-start="(dir, dirValue) in trashs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)" id="_휴지통" class="_list-item _list-title isdir"><span class="_list-arrow"></span>휴지통 ([[getDeepLength(dirValue)]])</h6>
                 <div ng-repeat-end="" class="_list _list-sub" >
-                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in trashs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_휴지통_[[sub]]"  class="_list-item _list-dir " title="[[sub]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getLength(subValue)]]</span><span class="_list-text">[[sub]]</span></a>
+                    <a ng-show="!search" ng-repeat-start="(sub, subValue) in trashs[dir]" ng-click="toggleSub($event)" ng-right-click="toggleSub($event)" id="_휴지통_[[sub]]"  class="_list-item _list-dir issub" title="[[sub]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getLength(subValue)]]</span><span class="_list-text">[[sub]]</span></a>
                     <div ng-repeat-end="" class="_list _list-sub">
-                        <a ng-show="!search" ng-repeat="(name, file) in trashs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_휴지통_[[sub]]_[[name]]" href="/#/trash/[[sub]]/[[name]]" class="_list-item _list-hover" title="[[name]]" tabindex="-1">[[name]]</a>
+                        <a ng-show="!search" ng-repeat="(name, file) in trashs[dir][sub]" ng-click="toggleFile($event)" ng-right-click="toggleFile($event)" id="_휴지통_[[sub]]_[[name]]" href="/#/trash/[[sub]]/[[name]]" class="_list-item _list-hover isfile" title="[[name]]" tabindex="-1">[[name]]</a>
                     </div>
                 </div>
                 <!-- 휴지통 -->

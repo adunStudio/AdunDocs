@@ -76,6 +76,20 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
             $scope.$container.css('z-index', '1');
         },
         onload: function() {
+
+            var keyMap = {
+                "Ctrl-S": function(cm) {
+                    $('#write_btn').trigger('click');
+
+                },
+                "Ctrl-A": function(cm) { // default Ctrl-A selectAll
+                    // custom
+                    alert("Ctrl+A");
+                    cm.execCommand("selectAll");
+                }
+            };
+
+            this.addKeyMap(keyMap)
             if( $scope.autoMode && $scope.isLocalStorage )
             {
                 var contents = editor.getMarkdown();
@@ -94,6 +108,8 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
             }
         }
     });
+
+
 
 
     $scope.$watch('theme', function() {
@@ -129,7 +145,9 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
 
                 } else { alert(result.msg); }
             });
-        } else { alert('꽉꽉 채우자'); }
+        } else {
+            $scope.$container.effect('shake');
+        }
     };
 
     // MODAL
