@@ -116,21 +116,26 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         var element = el || angular.element(event.target);
         var $element = $(element);
 
+        if( !$element.is('a') ) {
+            $element = $element.parent();
+        }
+
+
         $scope.focus.removeClass('focus');
         $scope.active.removeClass('active');
         $element.addClass('active');
         $scope.active = $element;
 
-        if(element.hasClass('open')) {
-            element.removeClass('open');
-            element.removeClass('open-title');
+        if($element.hasClass('open')) {
+            $element.removeClass('open');
+            $element.removeClass('open-title');
             $element.next().slideUp();
             $element.next().find('a').each(function(idx, el){ $(el).removeClass('open') });
             $element.next().find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
         }
         else {
-            element.addClass('open');
-            element.addClass('open-title');
+            $element.addClass('open');
+            $element.addClass('open-title');
             $element.next().slideDown();
         }
     };
@@ -141,19 +146,26 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         var element = el || angular.element(event.target);
         var $element = $(element);
 
+        if( !$element.is('a') ) {
+            $element = $element.parent();
+        }
+
         $scope.focus.removeClass('focus');
         $scope.active.removeClass('active');
         $element.addClass('active');
         $scope.active = $element;
 
-        if(element.hasClass('open')) {
-            element.removeClass('open');
+        if($element.hasClass('open')) {
+            $element.removeClass('open');
             $element.next().slideUp();
         }
         else {
-            element.addClass('open');
+            $element.addClass('open');
             $element.next().slideDown();
         }
+
+
+
     };
 
     $scope.toggleFile = function(event, el) {
