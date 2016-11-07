@@ -3,7 +3,6 @@ var converter = converter || new showdown.Converter();
 
 AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', '$cookies', function DocsCtrl($scope, $http, $routeParams, $location, $cookies) {
     moment.locale('ko');
-$scope.aa ="ddd";
     $scope.$navigation = $('#navigation');
     $scope.$app = $('#app');
     $scope.$body = $('body');
