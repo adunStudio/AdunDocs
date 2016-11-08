@@ -13,6 +13,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.editorTheme = $cookies.get('editorTheme') || 'default';
     $scope.$login = $("._login");
     $scope.isLogin = false;
+    $scope.save = false;
     $scope.docStat = {
         dirName: '',
         subName: '',
@@ -478,6 +479,9 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         window.history.back();
     };
 
+    $scope.$on('beforeunload', function() {
+        $scope.$broadcast('before');
+    });
 
 
 }]);

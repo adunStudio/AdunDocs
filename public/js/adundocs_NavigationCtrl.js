@@ -1,5 +1,5 @@
 
-AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', function navigationCtrl($scope, $http, $routeParams, $location, $cookies) {
+AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeParams', '$location', '$cookies', function navigationCtrl($rootScope, $scope, $http, $routeParams, $location, $cookies) {
 
     $scope.$changeNameModal = $('#changeNameModal');
     $scope.$trashModal      = $('#trashModal');
@@ -199,7 +199,7 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
                 }
                 else
                 {
-                    alert('¼öÁ¤ ½ÇÆĞ');
+                    alert('ìˆ˜ì • ì‹¤íŒ¨');
                 }
             });
 
@@ -242,14 +242,13 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
 
 
     $scope.$on('$locationChangeSuccess', function(event) {
-        $scope.onKey = ($location.path().indexOf('write') > -1 || $location.path().indexOf('edit') > - 1) ? false : true;
+        $scope.editMode = ($location.path().indexOf('write') > -1 || $location.path().indexOf('edit') > - 1) ? true : false;
         // dirEq =  $scope.$parent.focus.length != 0 ? $('.isdir').index($scope.$parent.focus) : -1;
     });
 
     var dirEq = -1;
 
-    Mousetrap.bind('up', function(e) {
-        if(!$scope.onKey) { return; }
+    Mousetrap.bind(['up', 'w'], function(e) {
         e.preventDefault() ? r.preventDefault() : e.returnValue = false;
 
         if( $scope.$parent.focus.length != 0 )
@@ -266,8 +265,7 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
         $scope.$parent.focus.addClass('focus');
     });
 
-    Mousetrap.bind('down', function(e) {
-        if(!$scope.onKey) { return; }
+    Mousetrap.bind(['down', 's'], function(e) {
         e.preventDefault() ? r.preventDefault() : e.returnValue = false;
 
         if( $scope.$parent.focus.length != 0 )
@@ -283,8 +281,7 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
         $scope.$parent.focus.addClass('focus');
     });
 
-    Mousetrap.bind('left', function() {
-        if(!$scope.onKey) { return; }
+    Mousetrap.bind(['left', 'a'], function() {
 
         if( $scope.$parent.focus.hasClass('open') )
         {
@@ -296,8 +293,7 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
         }
     });
 
-    Mousetrap.bind('right', function() {
-        if(!$scope.onKey) { return; }
+    Mousetrap.bind(['right', 'd'], function() {
 
         if( !$scope.$parent.focus.hasClass('open') )
         {
@@ -311,78 +307,148 @@ AdunDocs.controller('navigationCtrl', ['$scope', '$http', '$routeParams', '$loca
             }
         }
     });
-    Mousetrap.bind('ctrl+up', function() {
-        if(!$scope.onKey) { return; }
+    Mousetrap.bind(['ctrl+up', 'r'], function() {
         $scope.$content.stop().animate({
             scrollTop: $scope.$content.scrollTop() - 130
         }, 'fast');
     });
-    Mousetrap.bind('ctrl+down', function() {
-        if(!$scope.onKey) { return; }
+    Mousetrap.bind(['ctrl+down' , 'f'], function() {
         $scope.$content.stop().animate({
             scrollTop: $scope.$content.scrollTop() + 130
         }, 'fast');
     });
 
-    Mousetrap.bind('enter', function(e) {
-        if(!$scope.onKey) { return; }
+    Mousetrap.bind(['enter', 'space'], function(e) {
         e.preventDefault() ? r.preventDefault() : e.returnValue = false;
         $scope.focus.trigger('click');
     });
     Mousetrap.bind('esc', function(e) {
-        if(!$scope.onKey) { return; }
-
         $scope.initialize();
+
     });
     Mousetrap.bind('shift+enter', function(e) {
-        if(!$scope.onKey) { return; }
 
         var url = $scope.$parent.focus.attr('href');
         window.open(url,'_blank');
     });
-    Mousetrap.bind('shift+left', function(e) {
-        if(!$scope.onKey) { return; }
 
-        $scope.historyBack();
-    });
-    Mousetrap.bind('shift+right', function(e) {
-        if(!$scope.onKey) { return; }
 
-        $scope.historyForward();
-    });
-
-    Mousetrap.bind('shift+up', function() {
-        if(!$scope.onKey) { return; }
+    Mousetrap.bind(['shift+up', 'shift+r'], function() {
         $scope.$content.stop().animate({
             scrollTop: 0
         });
     });
-    Mousetrap.bind('shift+down', function() {
-        if(!$scope.onKey) { return; }
+    Mousetrap.bind(['shift+down', 'shift+f'], function() {
         $scope.$content.stop().animate({
             scrollTop: $scope.$content[0].scrollHeight
         });
     });
 
     Mousetrap.bind('ctrl+s', function(e) {
-        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
-        $('#write_btn').trigger('click');
+        e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+        if($scope.editMode)
+        {
+            $('#write_btn').trigger('click');
+        }
     });
 
-    Mousetrap.bind('ctrl+e', function(e) {
-        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
-        if(!$scope.onKey) { return; }
+    Mousetrap.bind('ctrl+1', function(e) {
+        e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+        $location.path('/blog');
+        if (!$rootScope.$$phase) $rootScope.$apply();
+    });
+    Mousetrap.bind('ctrl+2', function(e) {
+        e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+        $location.path('/about');
+        if (!$rootScope.$$phase) $rootScope.$apply();
+    });
+    Mousetrap.bind('ctrl+3', function(e) {
+        e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+        $location.path('/news');
+        if (!$rootScope.$$phase) $rootScope.$apply();
+    });
+    Mousetrap.bind('ctrl+4', function(e) {
+        e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+        $location.path('/tips');
+        if (!$rootScope.$$phase) $rootScope.$apply();
+    });
+    Mousetrap.bind('ctrl+5', function(e) {
+        e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+        if($scope.editMode) { return; }
 
-        if($scope.docStat.fileName) {
-            // Æ÷½ºÆ® ¼öÁ¤ ÀÌµ¿
+        if( $scope.isLogin )
+        {
+            $location.path('/write');
+            if (!$rootScope.$$phase) $rootScope.$apply();
+        }
+    });
+    Mousetrap.bind('f3', function(e) {
+        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+        if($scope.editMode) { return; }
+
+        if( $scope.isLogin && $scope.docStat.fileName) {
+            $location.path('/edit/' + $scope.docStat.dirName + '/' + $scope.docStat.subName + '/' + $scope.docStat.fileName);
+            if (!$rootScope.$$phase) $rootScope.$apply();
         } else if($scope.blogStat.postid) {
-            // ºí·Î±× ¼öÁ¤ ÀÌµ¿
+            $location.path('/blog/edit/' + $scope.blogStat.postid);
+            if (!$rootScope.$$phase) $rootScope.$apply();
+        }
+    });
+    Mousetrap.bind('f2', function(e) {
+        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+        if($scope.editMode) { return; }
+
+        if( $scope.isLogin && $scope.docStat.dirName ) {
+            $location.path(makeWritePage($scope.docStat.dirName, $scope.docStat.subName, false));
+            if (!$rootScope.$$phase) $rootScope.$apply();
+        } else if( $scope.blogStat.dirCategory ) {
+            $location.path(makeWritePage($scope.blogStat.dirCategory, $scope.blogStat.subCategory, true));
+            if (!$rootScope.$$phase) $rootScope.$apply();
+        }
+    });
+    Mousetrap.bind('alt+left', function(e) {
+        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+        $scope.historyBack();
+
+    });
+    Mousetrap.bind('alt+right', function(e) {
+        e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+        $scope.historyForward();
+
+    });
+
+
+    function makeWritePage(dirName, subName, isBlog) {
+        var str = isBlog ? '/blog/write' : '/write';
+
+        if(dirName) {
+            str += '/' + dirName;
+        }
+        if(subName) {
+            str += '/' + subName;
         }
 
+        return str;
+    }
+
+    $(window).on('beforeunload', function(e) {
+        if(($location.path().indexOf('write') > -1 || $location.path().indexOf('edit') > - 1))
+        {
+
+            $scope.$emit('beforeunload');
+            return 'ë³€ê²½ì‚¬í•­ì´ ì €ì¥ë˜ì§€ ì•Šì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤.';
+        }
     });
 
-    $('body').on('keydown', 'input, select', 'ctrl+s', function(e) {
-        e.preventDefault ? e.preventDefault() : e.returnValue = false;
-        $('#write_btn').trigger('click');
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+        if($('#write_btn').length != 0 && !$scope.$parent.save)
+        {
+            if(!confirm('ë³€ê²½ì‚¬í•­ì´ ì €ì¥ë˜ì§€ ì•Šì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤. \në‚˜ê°€ì‹œê² ìŠµë‹ˆê¹Œ?')) {
+                event.preventDefault();
+            } else {
+                $scope.$emit('beforeunload');
+            }
+        }
+        $scope.$parent.save = false;
     });
 }]);

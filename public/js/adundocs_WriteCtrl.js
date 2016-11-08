@@ -55,19 +55,9 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
 
 
     var editor = $scope.editor = editormd("contents", {
-        path : "/editor.md/lib/",
-        width: '100%',
-        height: '36rem',
-        tex: true,
-        sequenceDiagram: true,
-        watch: false,
-        flowChart: true,
-        placeholder: 'AdunDocs는 MarkDown을 지원합니다...',
         theme: $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
         editorTheme : ($scope.editorTheme != "default") ? $scope.editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
         previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
-        imageUpload    : true,
-        imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
         imageUploadURL : "/article/upload",
         onfullscreen : function() {
             $scope.$container.css('z-index', '100');
@@ -76,20 +66,12 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
             $scope.$container.css('z-index', '1');
         },
         onload: function() {
-
             var keyMap = {
                 "Ctrl-S": function(cm) {
                     $('#write_btn').trigger('click');
-
-                },
-                "Ctrl-A": function(cm) { // default Ctrl-A selectAll
-                    // custom
-                    alert("Ctrl+A");
-                    cm.execCommand("selectAll");
                 }
             };
-
-            this.addKeyMap(keyMap)
+            this.addKeyMap(keyMap);
             if( $scope.autoMode && $scope.isLocalStorage )
             {
                 var contents = editor.getMarkdown();
@@ -139,6 +121,7 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
                 var result = response.data;
                 if( result.result )
                 {
+                    $scope.$parent.save = true;
                     $scope.getList(function() {
                         $location.url($scope.inputDir +'/' + $scope.inputSub + '/' + $scope.inputName + '.md?check=1');
                     });
@@ -212,6 +195,14 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
         }
     };
 
-
+    $scope.$on('before', function() {
+        var text = editor.getMarkdown();
+        if(text != '' && $scope.autoMode && $scope.isLocalStorage)
+        {
+            window.localStorage.setItem(moment().unix(), text);
+            console.log('autosave');
+            $scope.$save_noti.show(500).delay(1000).fadeOut('slow');
+        }
+    });
 
 }]);

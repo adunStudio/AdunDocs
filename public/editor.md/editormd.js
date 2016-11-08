@@ -97,17 +97,17 @@
         markdown             : "",             // Markdown source code
         appendMarkdown       : "",             // if in init textarea value not empty, append markdown to textarea
         width                : "100%",
-        height               : "100%",
-        path                 : "./lib/",       // Dependents module file directory
+        height               : "36rem",
+        path                 : "/editor.md/lib/",       // Dependents module file directory
         pluginPath           : "",             // If this empty, default use settings.path + "../plugins/"
         delay                : 300,            // Delay parse markdown to html, Uint : ms
         autoLoadModules      : true,           // Automatic load dependent module files
-        watch                : true,
-        placeholder          : "Enjoy Markdown! coding now...",
+        watch                : false,
+        placeholder          : "AdunDocs는 MarkDown을 지원합니다...",
         gotoLine             : true,
         codeFold             : false,
         autoHeight           : false,
-		autoFocus            : true,
+		autoFocus            : false,
         autoCloseTags        : true,
         searchReplace        : true,
         syncScrolling        : true,           // true | false | "single", default true
@@ -144,8 +144,8 @@
         onscroll             : function() {},
         onpreviewscroll      : function() {},
         
-        imageUpload          : false,
-        imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        imageUpload          : true,
+        imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp", "PNG"],
         imageUploadURL       : "",
         crossDomainUpload    : false,
         uploadCallbackURL    : "",
@@ -164,9 +164,9 @@
         emoji                : false,          // :emoji: , Support Github emoji, Twitter Emoji (Twemoji);
                                                // Support FontAwesome icon emoji :fa-xxx: > Using fontAwesome icon web fonts;
                                                // Support Editor.md logo icon emoji :editormd-logo: :editormd-logo-1x: > 1~8x;
-        tex                  : false,          // TeX(LaTeX), based on KaTeX
-        flowChart            : false,          // flowChart.js only support IE9+
-        sequenceDiagram      : false,          // sequenceDiagram.js only support IE9+
+        tex                  : true,          // TeX(LaTeX), based on KaTeX
+        flowChart            : true,          // flowChart.js only support IE9+
+        sequenceDiagram      : true,          // sequenceDiagram.js only support IE9+
         previewCodeHighlight : true,
                 
         toolbar              : true,           // show/hide toolbar

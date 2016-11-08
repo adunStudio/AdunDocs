@@ -13,8 +13,8 @@ AdunDocs.config(['$routeProvider', function($routeProvider) {
         .when('/about',   {templateUrl: 'views/about.html',    controller: 'AboutCtrl'})
         .when('/aboutkor',{templateUrl: 'views/aboutkor.html', controller: 'AboutCtrl'})
         .when('/news',    {templateUrl: 'views/news.html',    controller: 'newsCtrl'})
-        .when('/tips',    {templateUrl: 'views/tips.html'})
-        /*          ºí·Î±×             */
+        .when('/tips',    {templateUrl: 'views/tips.html', controller: 'AboutCtrl'})
+        /*          ë¸”ë¡œê·¸             */
         .when('/blog',                                          {templateUrl: 'views/blog.html',                    controller: 'blogCtrl'})
         .when('/blog/write/:dirCategoryName/',  {templateUrl: 'views/blog/blog_write.html',         controller: 'BlogWriteCtrl'})
         .when('/blog/write/:dirCategoryName/:subCategoryName',  {templateUrl: 'views/blog/blog_write.html',         controller: 'BlogWriteCtrl'})
@@ -23,7 +23,7 @@ AdunDocs.config(['$routeProvider', function($routeProvider) {
         .when('/blog/:dirCategoryName/:subCategoryName',        {templateUrl: 'views/blog/blog_subCategory.html',   controller: 'BlogSubCategoryCtrl'})
         .when('/blog/:dirCategoryName/:subCategoryName/:title', {templateUrl: 'views/blog/blog_view.html',          controller: 'BlogViewCtrl'})
 
-        /*         ·ÎÄÃ                */
+        /*         ë¡œì»¬                */
         .when('/write',                                  {templateUrl: 'views/write.html',   controller: 'writeCtrl'})
         .when('/write/:dirName',                                  {templateUrl: 'views/write.html',   controller: 'writeCtrl'})
         .when('/write/:dirName/:subName',                                  {templateUrl: 'views/write.html',   controller: 'writeCtrl'})
