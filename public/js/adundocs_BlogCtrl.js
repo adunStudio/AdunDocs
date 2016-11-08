@@ -40,4 +40,16 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
         }
     };
 
+    $scope.tistoryLogout = function() {
+        $cookies.remove("blogName");
+        $scope.setBlogName('Blog');
+        $scope.$parent.blogCategory = null;
+
+        $http({
+            method  : 'GET',
+            url     : '/tistory/logout',
+            headers : {'Content-Type': 'application/json'}
+        });
+    };
+
 }]);

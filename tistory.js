@@ -19,6 +19,17 @@ module.exports = function(app) {
         secret: secret.cookieSecret
     }));
 
+
+    app.get('/tistory/logout', function(req, res) {
+
+        req.session.tistoryADDR = '';
+        req.session.tistoryID   = '';
+        req.session.tistoryNAME = '';
+        req.session.tistoryKEY  = '';
+
+        res.send(JSON.stringify({result: true}));
+    });
+
     // 로그인
     app.post('/tistory/login', function(req, res) {
 

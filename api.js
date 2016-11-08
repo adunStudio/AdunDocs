@@ -95,8 +95,8 @@ module.exports = function(app) {
 
     // 로그아웃 (LOG-OUT)
     app.get('/article/logout', function(req, res) {
-        req.session.destroy();
-        res.clearCookie('sid');
+        req.session.admin = '';
+
         res.send(RESULT_TRUE);
     });
 
