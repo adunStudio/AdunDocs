@@ -2,10 +2,10 @@
 AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', function blogCtrl($scope, $cookies, $http, $location) {
     $scope.setDocStat();
 
-    $scope.tistoryNAME ="adunstudio@daum.net";
-    $scope.tistoryADDR ="http://adunstudio.tistory.com/api";
-    $scope.tistoryID   ="2441858";
-    $scope.tistoryKEY  ="U2FV5P2Q";
+    $scope.tistoryNAME ="";
+    $scope.tistoryADDR ="";
+    $scope.tistoryID   ="";
+    $scope.tistoryKEY  ="";
     $scope.addrPattern = /^http:/;
 
     $scope.tistoryLogin = function() {
