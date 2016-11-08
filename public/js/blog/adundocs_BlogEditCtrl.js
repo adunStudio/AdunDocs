@@ -3,6 +3,7 @@ var converter = converter || new showdown.Converter();
 AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$location', function blogEditCtrl($scope, $http, $routeParams, $timeout, $location) {
     if( !$scope.blogReady)
     {
+        $scope.$parent.save = true;
         $location.url('/');
         return;
     }
@@ -176,6 +177,7 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
                 var result = response.data;
                 if( result )
                 {
+                    $scope.$parent.save = true;
                     $scope.setBlog(function() {
                         $location.url('blog/' + $scope.inputDirCategory +'/' + $scope.inputSubCategory + '/' + $scope.inputTitle + '?check=1');
                     });

@@ -76,8 +76,35 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
             "trash": {name: "Trash", icon: "fa-trash"},
             "sep3": "---------",
             "quit": {name: "Quit", icon: "fa-times"}
+        },
+        events:{
+            show: function() {
+                return  $scope.$parent.isLogin;
+            }
         }
     });
+    $.contextMenu({
+        selector: '._-dir-_, ._-sub-_',
+        callback: function(key, options) {
+
+            switch(key) {
+                case 'write':
+                    location.href = $(this).data('write');
+                    break;
+            }
+        },
+        items: {
+            "write": {name: "Write", icon: "fa-pencil"},
+            "sep1": "---------",
+            "quit": {name: "Quit", icon: "fa-times"}
+        },
+        events:{
+            show: function() {
+                return  $scope.$parent.isLogin;
+            }
+        }
+    });
+
 
     $('#changeNameModal,#trashModal,#changePostName,#trashPostModal').on('hide.bs.modal', function () {
         $scope.changeName = $scope.docStat.fileName.substr(0, $scope.docStat.fileName.length - 3);
@@ -208,21 +235,7 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
         }
     };
 
-    $.contextMenu({
-        selector: '._-dir-_, ._-sub-_',
-        callback: function(key, options) {
-            switch(key) {
-                case 'write':
-                    location.href = $(this).data('write');
-                    break;
-            }
-        },
-        items: {
-            "write": {name: "Write", icon: "fa-pencil"},
-            "sep1": "---------",
-            "quit": {name: "Quit", icon: "fa-times"}
-        }
-    });
+
 
     $.contextMenu({
         selector: '._-blog_dir-_, ._-blog_sub-_',

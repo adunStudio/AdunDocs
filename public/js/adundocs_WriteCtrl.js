@@ -1,6 +1,12 @@
 var converter = converter || new showdown.Converter();
 
 AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location', '$cookies', '$interval', function writeCtrl($scope, $http, $routeParams, $location, $cookies, $interval) {
+    if( !$scope.isLogin)
+    {
+        $scope.$parent.save = true;
+        $location.url('/');
+        return;
+    }
 
     $scope.setDocStat();
 
@@ -29,7 +35,7 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
 
             for(i = len -1; i >= 0; --i) {
                 key = localStorage.key(i);
-                if( len > 30 && i  == 0)
+                if( len > 50 && i  == 0)
                 {
                     window.localStorage.removeItem(key);
                 }
@@ -194,6 +200,10 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
             $('#subModal').effect('shake');
         }
     };
+
+
+
+
 
     $scope.$on('before', function() {
         var text = editor.getMarkdown();

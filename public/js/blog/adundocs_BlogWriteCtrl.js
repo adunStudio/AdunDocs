@@ -1,6 +1,7 @@
 AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$location', function BlogWriteCtrl($scope, $http, $routeParams, $timeout, $location) {
     if( !$scope.blogReady)
     {
+        $scope.$parent.save = true;
         $location.url('/');
         return;
     }
@@ -130,6 +131,7 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
                var result = response.data;
                if( result )
                {
+                   $scope.$parent.save = true;
                    $scope.setBlog(function() {
                        $location.url('blog/' + $scope.inputDirCategory +'/' + $scope.inputSubCategory + '/' + $scope.inputTitle + '?check=1');
                    });

@@ -1,5 +1,6 @@
 
 AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', function blogCtrl($scope, $cookies, $http, $location) {
+    $scope.setDocStat();
 
     $scope.tistoryNAME ="adunstudio@daum.net";
     $scope.tistoryADDR ="http://adunstudio.tistory.com/api";
