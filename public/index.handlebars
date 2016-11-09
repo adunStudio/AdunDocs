@@ -179,7 +179,7 @@
             </div>
             <div ng-show="!settingMode" role="navigation" class="_list dir" id="list">
                 <div ng-show="search" class="_list" >
-                    <a ng-repeat="s in searchResult" ng-click="searchToggle($event);" href="/#/search/[[s.dirName]]/[[s.subName]]/[[s.name]]" class="_list-item _list-hover _list-result _icon-[[s.dirName | lowercase]]" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/[[s.dirName]]/[[s.subName]]/[[s.name]]" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">[[s.name]]</span></a>
+                    <a ng-repeat="s in searchResult" ng-click="searchToggle($event);" href="/#/search/[[s.dirName]]/[[s.subName]]/[[s.fileName]]" class="_list-item _list-hover _list-result _icon-[[s.dirName | lowercase]]" tabindex="-1"><span ng-click="toLocation($event);" data-link="/#/[[s.dirName]]/[[s.subName]]/[[s.fileName]]" class="_list-reveal"  title="Reveal in list"></span><span class="_list-text">[[s.fileName]]</span></a>
                 </div>
 
                 <a ng-show="!search" ng-repeat-start="(dir, dirValue) in docs" ng-click="toggleDir($event)" ng-right-click="toggleDir($event)"   id="_[[dir]]" href="/#/[[dir]]"  class="_list-item _icon-[[dir | lowercase]] _list-dir _-dir-_ isdir"  data-write="/#/write/[[dir]]" title="[[dir]]" tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[getDeepLength(dirValue)]]</span><span class="_list-text">[[dir]]</span></a>

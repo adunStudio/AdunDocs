@@ -3,7 +3,7 @@ AdunDocs.controller('newsCtrl', ['$scope', function newsCtrl($scope) {
     $scope.setDocStat();
 
     function date_sort(a, b) {
-        return new Date(b.stat.birthtime).getTime() - new Date(a.stat.birthtime).getTime();
+        return new Date(b.btime).getTime() - new Date(a.btime).getTime();
     }
 
     $scope.sortedFileArray = [];
@@ -11,7 +11,6 @@ AdunDocs.controller('newsCtrl', ['$scope', function newsCtrl($scope) {
 
     if( $scope.fileTree ) {
         $scope.sortedFileArray = $scope.fileTree.slice();
-
         $scope.sortedFileArray.sort(date_sort);
     }
 }]);

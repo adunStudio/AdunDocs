@@ -17,10 +17,10 @@ app.set('port', 80);
 app.use(cookieParser());
 
 // API
-require("./api")(app);
+require("./server/api")(app);
 
 // TISTORY
-require("./tistory")(app);
+require("./server/tistory")(app);
 
 app.get('/', function(req, res) {
     var theme = req.cookies.theme || '/css/style_black.css';

@@ -9,7 +9,8 @@ AdunDocs.controller('searchCtrl', ['$scope', '$http', '$routeParams', '$timeout'
     var url = $scope.toURL('/' + dirName + '/' + subName + '/' + fileName);
 
     $http.get('/article' + url).then(function (response) {
-        var html = converter.makeHtml(response.data);
+        var html = markdown = converter.makeHtml(response.data.fileData);
+
         $('#main').html(html);
     });
 

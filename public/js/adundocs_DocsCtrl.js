@@ -59,15 +59,18 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     $scope.getList = function(fn) {
 
         $http.get('/article/list').then(function(response) {
-            var article = response.data.article;
+            var article = response.data;
+
 
             $scope.docs = article.docs;
             $scope.dirTree = article.dirTree;
+            console.log($scope.docs);
             $scope.fileTree = article.fileTree;
+            console.log($scope.fileTree);
             if( typeof fn === 'function') {
                 fn();
             }
-            $scope.trashs = {'휴지통': response.data.trash};
+            //$scope.trashs = {'휴지통': response.data.trash};
 
             $scope.$body.removeClass('_booting _loading');
         });
@@ -295,7 +298,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         for(i = 0; i < len; ++i) {
             var file = $scope.fileTree[i];
 
-            if( file.name.toLowerCase().indexOf(text.toLowerCase()) >= 0 ) {
+            if( file.fileName.toLowerCase().indexOf(text.toLowerCase()) >= 0 ) {
                 result.push(file);
             }
         }

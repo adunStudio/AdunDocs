@@ -7,63 +7,62 @@ var formidable = require('formidable');
 var bodyParser = require('body-parser');
 var secret = require('./secret.js');
 var _ = require('underscore');
-/**
-secret = {
-    pattern     : '...',
 
-    admin       : '...',
+//https://github.com/louischatriot/nedb
 
-    cookieSecret: '...'
+var Datastore = require('nedb');
+var db = {};
+db.directory = new Datastore({filename: './directory.db', autoload: true});
+db.docs      = new Datastore({filename: './docs.db',      autoload: true});
+
+/*var doc = {
+    dirName: 'codesafer',
+    subName: [
+        'C++ 에서 전역변수 사용의 득과 실',
+        'C++ 초보를 위한 강좌',
+        '개념글',
+        '개소리',
+        '댓글',
+        '뻘소리',
+        '알아보자',
+        '초보를 위한 강좌',
+        '코딩 모범에 관한 코멘터리',
+        '헛소리'
+    ]
 };
-**/
 
-const ARTICLE_PATH = path.normalize('./article');
-const ARTICLE_JSON = path.normalize('./public/article.json');
-const TRASH_PATH = path.normalize('./trash');
-const TRASH_JSON = path.normalize('./public/trash.json');
+var doc2 = {
+    dirName: 'AdunDocs',
+    subName: [
+        'About'
+    ]
+};
+
+
+
+db.directory.insert(doc, function (err, newDoc) {   // Callback is optional
+
+});
+db.directory.insert(doc2, function (err, newDoc) {   // Callback is optional
+
+});*/
+
+/*var date = new Date();
+var doc = {
+    dirName : 'codesafer',
+    subName : '댓글',
+    fileName: 'test',
+    fileData: '## 안녕',
+    btime   : date,
+    mtime   : date
+};
+
+db.docs.insert(doc, function (err, newDoc) {   // Callback is optional
+
+});*/
+
 const RESULT_TRUE  = JSON.stringify({result: true});
 const RESULT_FALSE = JSON.stringify({result: false});
-
-
-function makeList() {
-    try
-    {
-        var articleTree = fsFileTree.sync(ARTICLE_PATH);
-        articleTree = naturalSortByKey(articleTree);
-
-        var article = {
-            docs: articleTree,
-            dirTree: {},
-            fileTree: []
-        };
-
-        _.each(articleTree, function(dirValue, dirName) {
-            article.dirTree[dirName] = [];
-
-            _.each(dirValue, function(subValue, subName) {
-                article.dirTree[dirName].push(subName);
-
-                _.each(subValue, function(fileValue, fileName) {
-                    fileValue.dirName = dirName;
-                    fileValue.subName = subName;
-                    fileValue.name = fileName;
-
-                    article.fileTree.push(fileValue);
-                });
-            });
-        });
-
-        var trashTree = fsFileTree.sync(TRASH_PATH);
-        trashTree = naturalSortByKey(trashTree);
-
-        return {article: article, trash: trashTree};
-    }
-    catch(e)
-    {
-        console.log("파일 리스트에서 오류 발생, message: " + e.message);
-        return {article: {}, trash: {}};
-    }
-}
 
 
 module.exports = function(app) {
@@ -78,7 +77,33 @@ module.exports = function(app) {
     }));
 
     app.get('/article/list', function(req, res) {
-        res.send(makeList());
+        var article = {
+            docs    : {},
+            dirTree : {},
+            fileTree: []
+        };
+
+        db.directory.find({}).sort({dirName: 1, subName: 1}).exec(function(err, directorys) {
+            _.each(directorys, function(directory) {
+                article.docs[directory.dirName] = {};
+                article.dirTree[directory.dirName] = [];
+                _.each(directory.subName, function(subName) {
+                    article.docs[directory.dirName][subName] = {};
+                    article.dirTree[directory.dirName].push(subName);
+                });
+            });
+
+            db.docs.find({}).sort({fileName: 1}).exec(function(err, docs) {
+                _.each(docs, function(doc) {
+                    article.docs[doc.dirName][doc.subName][doc.fileName] = doc;
+                });
+
+                article.fileTree = docs;
+
+                res.send(article);
+            });
+        });
+
     });
 
     // 로그인 (LOG-IN)
@@ -109,6 +134,8 @@ module.exports = function(app) {
         var dirName  = req.body.dirName;
         var subName  = req.body.subName;
 
+
+
         if( dirName )
         {
             try
@@ -136,31 +163,6 @@ module.exports = function(app) {
         return res.send(JSON.stringify({result: false, msg: '디렉토리명이 없습니다.'}));
     });
 
-    // 갱신 (RENEW)
-    app.get('/article/renew', function(req, res) {
-            try
-            {
-                var tree = fsFileTree.sync(ARTICLE_PATH);
-                tree = naturalSortByKey(tree);
-                var fd = fs.openSync(ARTICLE_JSON, 'w');
-                fs.writeSync(fd, JSON.stringify(tree));
-                fs.closeSync(fd);
-
-                var tree2 = fsFileTree.sync(TRASH_PATH);
-                tree2 = naturalSortByKey(tree2);
-                var TREE = {};
-                TREE['휴지통'] = tree2;
-                var fd2 = fs.openSync(TRASH_JSON, 'w');
-                fs.writeSync(fd2, JSON.stringify(TREE));
-                fs.closeSync(fd2);
-
-               res.send(JSON.stringify({result: true}));
-            }
-            catch(e)
-            {
-                res.send(JSON.stringify({result: false, msg: e.message}));
-            }
-    });
 
     // 이미지 업로드 (IMAGE UPLOAD) // editormd
     app.post('/article/upload', function(req, res) {
@@ -265,24 +267,25 @@ module.exports = function(app) {
 
         if( dirName && subName && fileName && fileData )
         {
-            var path = makeFilePath(dirName, subName, fileName) + '.md';
+            var date = new Date();
+            var doc = {
+                dirName : dirName,
+                subName : subName,
+                fileName: fileName,
+                fileData: fileData,
+                btime   : date,
+                mtime   : date
+            };
 
-            try
-            {
-                if( fs.existsSync(path) ) {
-                    return res.send(JSON.stringify({result: false, msg: '존재하는 파일명입니다.'}));
+            db.docs.insert(doc, function (err, newDoc) {
+                console.log(newDoc);
+                if( err )
+                {
+                    res.send(JSON.stringify({result: false, msg: err}));
+
                 }
-
-                var fd = fs.openSync(path, 'w');
-                fs.writeSync(fd, fileData);
-                fs.closeSync(fd);
-
                 res.send(JSON.stringify({result: true}));
-            }
-            catch(e)
-            {
-                res.send(JSON.stringify({result: false, msg: e.message}));
-            }
+            });
         }
         else
         {
@@ -384,6 +387,8 @@ module.exports = function(app) {
 
         if( dirName && subName && fileName && fileName == trashName )
         {
+
+
             var path      = makeFilePath(dirName, subName, fileName);
             var subPath   = makeTrashSubPath(yyyymmdd());
             fs.existsSync(subPath) || fs.mkdirSync(subPath);
@@ -409,20 +414,9 @@ module.exports = function(app) {
 
     // 글 읽기 (READ)
     app.get('/article/:dir/:sub/:file', function(req, res) {
-        var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
-
-        try
-        {
-            if( fs.statSync(path).isFile() )
-            {
-                res.sendFile(path);
-            }
-        }
-        catch(e)
-        {
-            res.status(404);
-            res.send(RESULT_TRUE);
-        }
+        db.docs.findOne({dirName: req.params.dir, subName: req.params.sub, fileName: req.params.file}, function(err, doc) {
+            res.send(doc);
+        });
     });
 
     // 휴지통 읽기 (READ)

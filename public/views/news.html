@@ -8,8 +8,8 @@
     <div class="_news">
         <h4>2016</h4>
         <div ng-repeat="file in sortedFileArray" class="_news-row" >
-            <span class="_news-date">[[file.stat.birthtime | date: "MM.dd  hh:mm"]]</span>
-            <span class="_news-title">New documentations: <a href="#/[[file.dirName]]/[[file.subName]]/[[file.name]]?check=1">[[file.name]]</a></span>
+            <span class="_news-date">[[file.btime | date: "MM.dd  hh:mm"]]</span>
+            <span class="_news-title">New documentations: <a href="#/[[file.dirName]]/[[file.subName]]/[[file.fileName]]?check=1">[[file.fileName]]</a></span>
         </div>
 
         <!--<div class="_news-row"><span class="_news-date">June 18</span> <span class="_news-title">Initial release</span>-->
