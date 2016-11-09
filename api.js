@@ -191,7 +191,7 @@ module.exports = function(app) {
                 var bf = fs.readFileSync(tmpPath);
                 fs.writeFileSync(dest, bf);
 
-                res.send(JSON.stringify({success: 1, message: 'success', url: "http://localhost:3311/upload/" +  now + '_' + fileName}));
+                res.send(JSON.stringify({success: 1, message: 'success', url: "/upload/" +  now + '_' + fileName}));
             }
             catch(e)
             {
@@ -211,7 +211,7 @@ module.exports = function(app) {
         var dest, fileName, tmpPath;
 
         var now = new Date();
-        var dateDir =  "public/uploads/";
+        var dateDir =  "public/upload/";
         var date = "/" +  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" +  now.getDate() +"/";
         var uploadDir = dateDir + date;
         fs.existsSync(dateDir) || fs.mkdirSync(dateDir);

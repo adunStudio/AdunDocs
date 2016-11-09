@@ -13,10 +13,9 @@ var cookieParser = require('cookie-parser');
 app.set('views', __dirname + '/public/');
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 7711);
+app.set('port', 80);
 app.use(cookieParser());
 
-const MOBILE =
 // API
 require("./api")(app);
 
