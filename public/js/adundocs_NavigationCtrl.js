@@ -337,9 +337,11 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
 
     Mousetrap.bind(['enter', 'space'], function(e) {
         e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+        $('.modal').modal("hide");
         $scope.focus.trigger('click');
     });
     Mousetrap.bind('esc', function(e) {
+        $('.modal').modal("hide");
         $scope.initialize();
 
     });
@@ -365,27 +367,32 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
         e.preventDefault() ? e.preventDefault() : e.returnValue = false;
         if($scope.editMode)
         {
+            $('.modal').modal("hide");
             $('#write_btn').trigger('click');
         }
     });
 
     Mousetrap.bind('ctrl+1', function(e) {
         e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+        $('.modal').modal("hide");
         $location.path('/blog');
         if (!$rootScope.$$phase) $rootScope.$apply();
     });
     Mousetrap.bind('ctrl+2', function(e) {
         e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+        $('.modal').modal("hide");
         $location.path('/about');
         if (!$rootScope.$$phase) $rootScope.$apply();
     });
     Mousetrap.bind('ctrl+3', function(e) {
         e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+        $('.modal').modal("hide");
         $location.path('/news');
         if (!$rootScope.$$phase) $rootScope.$apply();
     });
     Mousetrap.bind('ctrl+4', function(e) {
         e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+        $('.modal').modal("hide");
         $location.path('ㄹ/tips');
         if (!$rootScope.$$phase) $rootScope.$apply();
     });
@@ -395,6 +402,7 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
 
         if( $scope.isLogin )
         {
+            $('.modal').modal("hide");
             $location.path('/write');
             if (!$rootScope.$$phase) $rootScope.$apply();
         }
@@ -402,6 +410,7 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
     Mousetrap.bind('f3', function(e) {
         e.preventDefault() ? r.preventDefault() : e.returnValue = false;
         if($scope.editMode) { return; }
+        $('.modal').modal("hide");
 
         if( $scope.isLogin && $scope.docStat.fileName) {
             $location.path('/edit/' + $scope.docStat.dirName + '/' + $scope.docStat.subName + '/' + $scope.docStat.fileName);
@@ -414,6 +423,7 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
     Mousetrap.bind('f2', function(e) {
         e.preventDefault() ? r.preventDefault() : e.returnValue = false;
         if($scope.editMode) { return; }
+        $('.modal').modal("hide");
 
         if( $scope.isLogin && $scope.docStat.dirName ) {
             $location.path(makeWritePage($scope.docStat.dirName, $scope.docStat.subName, false));
@@ -425,11 +435,13 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
     });
     Mousetrap.bind('alt+left', function(e) {
         e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+        $('.modal').modal("hide");
         $scope.historyBack();
         $scope.$parent.bf = true;
     });
     Mousetrap.bind('alt+right', function(e) {
         e.preventDefault() ? r.preventDefault() : e.returnValue = false;
+        $('.modal').modal("hide");
         $scope.historyForward();
         $scope.$parent.bf = true;
     });
@@ -451,7 +463,6 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
     $(window).on('beforeunload', function(e) {
         if(($location.path().indexOf('write') > -1 || $location.path().indexOf('edit') > - 1))
         {
-
             $scope.$emit('beforeunload');
             return '변경사항이 저장되지 않을 수 있습니다.';
         }
