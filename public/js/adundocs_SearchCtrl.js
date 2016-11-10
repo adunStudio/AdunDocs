@@ -14,5 +14,6 @@ AdunDocs.controller('searchCtrl', ['$scope', '$http', '$routeParams', '$timeout'
         $('#main').html(html);
     });
 
-    $scope.setName(dirName, subName, fileName);
+    $scope.setDocStat(dirName, subName, fileName, $scope.docs[dirName][subName][fileName].btime, $scope.docs[dirName][subName][fileName].mtime);
+
 }]);
