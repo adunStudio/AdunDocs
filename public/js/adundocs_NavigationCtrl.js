@@ -426,12 +426,12 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
     Mousetrap.bind('alt+left', function(e) {
         e.preventDefault() ? r.preventDefault() : e.returnValue = false;
         $scope.historyBack();
-
+        $scope.$parent.bf = true;
     });
     Mousetrap.bind('alt+right', function(e) {
         e.preventDefault() ? r.preventDefault() : e.returnValue = false;
         $scope.historyForward();
-
+        $scope.$parent.bf = true;
     });
 
 

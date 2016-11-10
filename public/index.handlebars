@@ -69,7 +69,6 @@
 
 </head>
 <body class="_booting _loading" ng-keypress="key();">
-
 <div role="alert" class="_notif _in" id="save_noti" style="display: none;" >
     <h5 class="_notif-title"> 글이 임시저장 되었습니다. </h5>
 
@@ -84,7 +83,11 @@
     <div role="alert" class="_notice _top">
         <p class="_notice-text"><strong> AdunDocs는 현재 개발중 입니다. 메뉴에서 우클릭을 하시면 다양한 ..</strong></p>
     </div>
-
+    <script>
+        $('._notice-text').click(function() {
+            $('#sli').toggleClass('closed')
+        })
+    </script>
     <div  ng-show="!isTrash" role="complementary" class="_path" >
         <a ng-show="docStat.dirName && !isTrash" href="#/[[docStat.dirName]]?check=1" class="_path-item _icon-[[docStat.dirName | lowercase]]">[[docStat.dirName]]</a>
         <a ng-show="docStat.subName && !isTrash" href="#/[[docStat.dirName]]/[[docStat.subName]]?check=1" class="_path-item">[[docStat.subName]]</a>

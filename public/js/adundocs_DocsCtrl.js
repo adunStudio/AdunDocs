@@ -1,8 +1,10 @@
 var converter = converter || new showdown.Converter();
 
 
-AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', '$cookies', function DocsCtrl($scope, $http, $routeParams, $location, $cookies) {
+AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams','$location', '$cookies', function DocsCtrl($rootScope, $scope, $http, $routeParams, $location, $cookies) {
     moment.locale('ko');
+    $scope.historyB = [];
+    $scope.historyF = [];
     $scope.$navigation = $('#navigation');
     $scope.$app = $('#app');
     $scope.$body = $('body');
@@ -123,62 +125,61 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.isToggleCheck = true;
 
         var element = el || angular.element(event.target);
-        var $element = $(element);
 
-        if( $element.is('span') ) {
-            $element = $element.parent();
+        if( element.is('span') ) {
+            element = element.parent();
         }
 
 
         $scope.focus.removeClass('focus');
         $scope.active.removeClass('active');
-        $element.addClass('active');
-        $element.addClass('focus');
-        $scope.active = $element;
-        $scope.focus = $element;
+        element.addClass('active');
+        element.addClass('focus');
+        $scope.active = element;
+        $scope.focus = element;
 
-        if($element.hasClass('open')) {
-            $element.removeClass('open');
-            $element.removeClass('open-title');
-            $element.next().slideUp();
-            $element.next().find('a').each(function(idx, el){ $(el).removeClass('open'); $(el).removeClass('isdir'); });
-            $element.next().find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
+        if(element.hasClass('open')) {
+            element.removeClass('open');
+            element.removeClass('open-title');
+            element.next().slideUp();
+            element.next().find('a').each(function(idx, el){ $(el).removeClass('open'); $(el).removeClass('isdir'); });
+            element.next().find('._list-sub').each(function(idx, el){ $(el).slideUp(); });
         }
         else {
-            $element.addClass('open');
-            $element.addClass('open-title');
-            $element.next().slideDown();
-            $element.next().find('.issub').each(function(idx, el){ $(el).addClass('isdir') });
+            element.addClass('open');
+            element.addClass('open-title');
+            element.next().slideDown();
+            element.next().find('.issub').each(function(idx, el){ $(el).addClass('isdir') });
         }
     };
+
 
     $scope.toggleSub = function(event, el) {
         $scope.isToggleCheck = true;
 
         var element = el || angular.element(event.target);
-        var $element = $(element);
 
-        if( $element.is('span') ) {
-            $element = $element.parent();
+        if( element.is('span') ) {
+            element = element.parent();
         }
 
         $scope.focus.removeClass('focus');
         $scope.active.removeClass('active');
-        $element.addClass('active');
-        $element.addClass('focus');
-        $scope.active = $element;
-        $scope.focus = $element;
+        element.addClass('active');
+        element.addClass('focus');
+        $scope.active = element;
+        $scope.focus = element;
 
-        if($element.hasClass('open')) {
-            $element.removeClass('open');
-            $element.next().slideUp();
-            $element.next().find('a').each(function(idx, el){  $(el).removeClass('isdir'); });
+        if(element.hasClass('open')) {
+            element.removeClass('open');
+            element.next().slideUp();
+            element.next().find('a').each(function(idx, el){  $(el).removeClass('isdir'); });
 
         }
         else {
-            $element.addClass('open');
-            $element.next().slideDown();
-            $element.next().find('.isfile').each(function(idx, el){ $(el).addClass('isdir') });
+            element.addClass('open');
+            element.next().slideDown();
+            element.next().find('.isfile').each(function(idx, el){ $(el).addClass('isdir') });
         }
 
 
@@ -189,20 +190,20 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
         $scope.isToggleCheck = true;
 
         var element = el || angular.element(event.target);
-        var $element = $(element);
 
+;
         if(!$scope.search) {
             $scope.focus.removeClass('focus');
-            $element.addClass('focus');
-            $scope.focus = $element;
+            element.addClass('focus');
+            $scope.focus = element;
         }
 
         $scope.active.removeClass('active');
         $scope.focus.removeClass('focus');
-        $element.addClass('focus');
-        $element.addClass('active');
-        $scope.active = $element;
-        $scope.focus = $element;
+        element.addClass('focus');
+        element.addClass('active');
+        $scope.active = element;
+        $scope.focus = element;
 
     };
 
@@ -211,9 +212,9 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
         $scope.search = "";
 
-        var $dirEl  = $(dirEl);
-        var $subEl  = $(subEl);
-        var $fileEl = $(fileEl);
+        var $dirEl  = (dirEl);
+        var $subEl  = (subEl);
+        var $fileEl = (fileEl);
 
 
         if( dirEl && !dirEl.hasClass('open') ) {
@@ -474,15 +475,46 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
     };
 
     $scope.historyForward = function() {
-        window.history.forward();
+        if( $scope.historyF.length > 0) {
+            var nextUrl = $scope.historyF.pop();
+            $location.path(nextUrl);
+            if (!$rootScope.$$phase) $rootScope.$apply();
+        }
     };
+
+
+
     $scope.historyBack = function() {
-        window.history.back();
+        var arr, prevUrl = '/';
+
+        if( $scope.historyB.length > 1) {
+            arr = $scope.historyB.splice(-2);
+            prevUrl = arr[0];
+            $scope.historyF.push(arr[1]);
+        }
+
+        $location.path(prevUrl);
+
+        if (!$rootScope.$$phase) $rootScope.$apply();
     };
+
+    $scope.$on('$routeChangeSuccess', function() {
+        $scope.historyB.push($location.$$path);
+
+    });
 
     $scope.$on('beforeunload', function() {
         $scope.$broadcast('before');
     });
 
-
+    $scope.bf =false;
+    $scope.$watch('bf', function() {
+        if($scope.bf == true) {
+            var dirEl = $scope.docStat.dirName   ?  angular.element(document.getElementById('_' + $scope.docStat.dirName)) : null;
+            var subEl = $scope.docStat.subName   ?  angular.element(document.getElementById('_' + $scope.docStat.dirName + "_" + $scope.docStat.subName)) : null;
+            var fileEl = $scope.docStat.fileName ?  angular.element(document.getElementById('_' + $scope.docStat.dirName + "_" +$scope.docStat. subName + "_" + $scope.docStat.fileName)) : null;
+            $scope.toggleCheck(dirEl, subEl, fileEl);
+            $scope.bf = false;
+        }
+    });
 }]);

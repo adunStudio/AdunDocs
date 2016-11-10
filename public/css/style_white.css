@@ -1588,15 +1588,33 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
     transform: rotate(90deg)
 }
 
+
+
+
+
+
 ._list-sub {
-    display: none
+    display: none;
 }
 
-/* custom
-.open + ._list-sub {
-    display: block
-}
-*/
+
+/*.open + ._list-sub {
+
+
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ._list-sub > ._list-item {
     padding-left: 2.375rem
