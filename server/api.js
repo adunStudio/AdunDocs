@@ -2,64 +2,17 @@
 
 var fs = require('fs');
 var path = require('path');
-var fsFileTree = require("fs-file-tree");
 var formidable = require('formidable');
 var bodyParser = require('body-parser');
 var secret = require('./secret.js');
 var _ = require('underscore');
 
-//https://github.com/louischatriot/nedb
-
 var Datastore = require('nedb');
 var db = {};
-db.directory = new Datastore({filename: './directory.db', autoload: true});
-db.docs      = new Datastore({filename: './docs.db',      autoload: true});
+db.directorys  = new Datastore({filename: './db/directorys.db', autoload: true});
+db.docs         = new Datastore({filename: './db/docs.db',      autoload: true});
+db.trashs       = new Datastore({filename: './db/trashs.db',      autoload: true});
 
-/*var doc = {
-    dirName: 'codesafer',
-    subName: [
-        'C++ 에서 전역변수 사용의 득과 실',
-        'C++ 초보를 위한 강좌',
-        '개념글',
-        '개소리',
-        '댓글',
-        '뻘소리',
-        '알아보자',
-        '초보를 위한 강좌',
-        '코딩 모범에 관한 코멘터리',
-        '헛소리'
-    ]
-};
-
-var doc2 = {
-    dirName: 'AdunDocs',
-    subName: [
-        'About'
-    ]
-};
-
-
-
-db.directory.insert(doc, function (err, newDoc) {   // Callback is optional
-
-});
-db.directory.insert(doc2, function (err, newDoc) {   // Callback is optional
-
-});*/
-
-/*var date = new Date();
-var doc = {
-    dirName : 'codesafer',
-    subName : '댓글',
-    fileName: 'test',
-    fileData: '## 안녕',
-    btime   : date,
-    mtime   : date
-};
-
-db.docs.insert(doc, function (err, newDoc) {   // Callback is optional
-
-});*/
 
 const RESULT_TRUE  = JSON.stringify({result: true});
 const RESULT_FALSE = JSON.stringify({result: false});
@@ -76,6 +29,7 @@ module.exports = function(app) {
         secret: secret.cookieSecret
     }));
 
+    // 리스트 (LIST)
     app.get('/article/list', function(req, res) {
         var article = {
             docs    : {},
@@ -83,7 +37,7 @@ module.exports = function(app) {
             fileTree: []
         };
 
-        db.directory.find({}).sort({dirName: 1, subName: 1}).exec(function(err, directorys) {
+        db.directorys.find({}).sort({dirName: 1, subName: 1}).exec(function(err, directorys) {
             _.each(directorys, function(directory) {
                 article.docs[directory.dirName] = {};
                 article.dirTree[directory.dirName] = [];
@@ -127,40 +81,37 @@ module.exports = function(app) {
 
     // 디렉토리 생성 (MAKE DIRECTORY)
     app.post('/article/directory', function(req, res) {
-        if( req.session.admin != secret.admin ) {
-            return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
-        }
-
         var dirName  = req.body.dirName;
         var subName  = req.body.subName;
 
-
-
-        if( dirName )
-        {
-            try
-            {
-                var dirPath = makeDirPath(dirName);
-
-                fs.existsSync(dirPath) || fs.mkdirSync(dirPath);
-
-                if( subName ) {
-
-                    var subPath = makeDirPath(dirName, subName);
-
-                    fs.existsSync(subPath) || fs.mkdirSync(subPath);
-
-                    return res.send(JSON.stringify({result: true, msg: subName}));
-                }
-                return res.send(JSON.stringify({result: true, msg: dirName}));
-            }
-            catch (e)
-            {
-                return res.send(JSON.stringify({result: true, msg: e.message}));
-            }
+        if( req.session.admin != secret.admin || !dirName ) {
+            return res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족하거나 관리자가 아닙니다.'}));
         }
 
-        return res.send(JSON.stringify({result: false, msg: '디렉토리명이 없습니다.'}));
+        if( dirName && !subName )
+        {
+            db.directorys.find({dirName: dirName}, function(err, directory) {
+                if( directory.length == 0 ) {
+                    var directory = {
+                        dirName: dirName,
+                        subName: []
+                    };
+                    db.directorys.insert(directory, function(err, result) {
+                        return res.send(JSON.stringify({result: true, msg: dirName}));
+                    })
+                }
+                else
+                {
+                    return res.send(JSON.stringify({result: false, msg: '중복된 디렉토리 명입니다.'}));
+                }
+            });
+        }
+        else if( dirName && subName )
+        {
+            db.directorys.update({dirName: dirName},  {$push: { subName: subName}}, function(err, result) {
+                return res.send(JSON.stringify({result: true, msg: subName}));
+            });
+        }
     });
 
 
@@ -254,51 +205,42 @@ module.exports = function(app) {
 
     });
 
+
     // 글 쓰기 (CREATE)
     app.post('/article/write', function(req, res) {
-        if( req.session.admin != secret.admin ) {
-            return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
-        }
-
         var dirName  = req.body.dirName,
             subName  = req.body.subName,
             fileName = req.body.fileName,
             fileData = req.body.fileData;
 
-        if( dirName && subName && fileName && fileData )
-        {
-            var date = new Date();
-            var doc = {
-                dirName : dirName,
-                subName : subName,
-                fileName: fileName,
-                fileData: fileData,
-                btime   : date,
-                mtime   : date
-            };
+        if( req.session.admin != secret.admin || !dirName || !subName || !fileName || !fileData ) {
+            return res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족하거나 관리자가 아닙니다.'}));
+        }
+
+        var date = new Date();
+        var doc = {
+            dirName : dirName,
+            subName : subName,
+            fileName: fileName,
+            fileData: fileData,
+            btime   : date,
+            mtime   : date
+        };
+
+        db.docs.findOne({dirName: dirName, subName: subName, fileName: fileName}, function(err, result) {
+            if( result ) {
+                return res.send(JSON.stringify({result: false, msg: '존재하는 파일명입니다.'}));
+            }
 
             db.docs.insert(doc, function (err, newDoc) {
-                console.log(newDoc);
-                if( err )
-                {
-                    res.send(JSON.stringify({result: false, msg: err}));
-
-                }
                 res.send(JSON.stringify({result: true}));
-            });
-        }
-        else
-        {
-            res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
-        }
+            })
+        })
+        ;
     });
 
     // 글 수정 (EDIT)
     app.post('/article/edit', function(req, res) {
-        if( req.session.admin != secret.admin ) {
-            return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
-        }
-
         var dirName        = req.body.dirName,
             subName        = req.body.subName,
             fileName       = req.body.fileName,
@@ -307,108 +249,66 @@ module.exports = function(app) {
             originSubName  = req.body.originSubName,
             originFileName = req.body.originFileName;
 
-        if( dirName && subName && fileName && fileData && originDirName && originFileName && originFileName )
-        {
-            var oldPath = makeFilePath(originDirName, originSubName, originFileName);
-            var newPath = makeFilePath(dirName, subName, fileName) + ".md";
+        if( req.session.admin != secret.admin || !dirName || !subName || !fileName || !fileData || !originDirName || !fileName || !originFileName) {
+            return res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족하거나 관리자가 아닙니다.'}));
+        }
 
-            try
-            {
-                if( oldPath != newPath && fs.existsSync(newPath) ) {
-                    return res.send(JSON.stringify({result: false, msg: '존재하는 파일명입니다.'}));
-                }
+        db.docs.findOne({dirName: dirName, subName: subName, fileName: fileName}, function(err, result) {
+            if( result && fileName != originFileName) {
+                return res.send(JSON.stringify({result: false, msg: '존재하는 파일명입니다.'}));
+            }
 
-                fs.renameSync(oldPath, newPath);
-                var fd = fs.openSync(newPath, 'w');
-                fs.writeSync(fd, fileData);
-                fs.closeSync(fd);
 
+            var date = new Date();
+            var editDocs = {dirName: dirName, subName: subName, fileName: fileName, fileData: fileData, mtime: date};
+
+            db.docs.update({dirName: originDirName, subName: originSubName, fileName: originFileName}, {$set: editDocs},  function (err, newDoc) {
                 res.send(JSON.stringify({result: true}));
-            }
-            catch(e)
-            {
-                res.send(JSON.stringify({result: false, msg: e.message}));
-            }
-        }
-        else
-        {
-            res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
-        }
-
+            });
+        });
     });
 
     // 글 이름 수정(RE NAME)
     app.post('/article/rename', function(req, res) {
-        if( req.session.admin != secret.admin ) {
-            return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
-        }
-
         var dirName        = req.body.dirName,
             subName        = req.body.subName,
             fileName       = req.body.fileName,
             newName        = req.body.newName;
 
-        if( dirName && subName && fileName && newName )
-        {
-            var oldPath = makeFilePath(dirName, subName, fileName);
-            var newPath = makeFilePath(dirName, subName, newName) + ".md";
+        if( req.session.admin != secret.admin || !dirName || !subName || !fileName || !newName ) {
+            return res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족하거나 관리자가 아닙니다.'}));
+        }
 
-            try
-            {
-                if( oldPath != newPath && fs.existsSync(newPath) ) {
-                    return res.send(JSON.stringify({result: false, msg: '존재하는 파일명입니다.'}));
-                }
+        db.docs.findOne({dirName: dirName, subName: subName, fileName: newName}, function(err, result) {
+            if( result ) {
+                return res.send(JSON.stringify({result: false, msg: '존재하는 파일명입니다.'}));
+            }
 
-                fs.renameSync(oldPath, newPath);
+            var date = new Date();
 
+            db.docs.update({dirName: dirName, subName: subName, fileName:fileName}, {$set: {fileName: newName, mtime: date}},  function (err, newDoc) {
                 res.send(JSON.stringify({result: true}));
-            }
-            catch(e)
-            {
-                res.send(JSON.stringify({result: false, msg: e.message}));
-            }
-        }
-        else
-        {
-            res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
-        }
+            });
+        });
     });
 
     // 글 삭제 (DELETE)
     app.post('/article/delete', function(req, res) {
-        if( req.session.admin != secret.admin ) {
-            return res.send(JSON.stringify({result: false, msg: '관리자가 아닙니다.'}));
-        }
-
         var dirName        = req.body.dirName,
             subName        = req.body.subName,
             fileName       = req.body.fileName,
             trashName      = req.body.trashName;
 
-        if( dirName && subName && fileName && fileName == trashName )
-        {
 
-
-            var path      = makeFilePath(dirName, subName, fileName);
-            var subPath   = makeTrashSubPath(yyyymmdd());
-            fs.existsSync(subPath) || fs.mkdirSync(subPath);
-            var trashPath = subPath + "/" + String(Date.now()).slice(-6) + "_" + fileName;
-
-            try
-            {
-                fs.renameSync(path, trashPath);
-
-                res.send(JSON.stringify({result: true}));
-            }
-            catch(e)
-            {
-                res.send(JSON.stringify({result: false, msg: e.message}));
-            }
+        if( req.session.admin != secret.admin || !dirName || !subName || !fileName || fileName != trashName ) {
+            return res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족하거나 관리자가 아닙니다.'}));
         }
-        else
-        {
-            res.send(JSON.stringify({result: false, msg: '파라미터 값이 부족합니다.'}));
-        }
+
+        db.docs.remove({dirName: dirName, subName: subName, fileName: fileName}, function(err, removed) {
+            console.log(removed);
+            res.send(JSON.stringify({result: true}));
+        });
+
     });
 
 
@@ -436,50 +336,7 @@ module.exports = function(app) {
         }
     });
 
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // DELETE
-    app.delete('/article/:dir/:sub/:file', function() {
-        var path = makeFilePath(req.params.dir, req.params.sub, req.params.file);
-
-    });
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-
-
-
-
-
 };
-
-
-function makeFilePath(dir, sub, file) {
-    return __dirname + '/article/' + dir + '/' + sub + '/' + file;
-}
-
-function makeDirPath(dir, sub) {
-    if(dir && !sub) {
-        return __dirname + '/article/' + dir;
-    }
-    if(dir && sub) {
-        return __dirname + '/article/' + dir + '/' + sub;
-    }
-}
-
-function makeTrashPath(sub, file) {
-    return __dirname + '/trash/' + sub + '/' + file;
-}
-
-function makeTrashSubPath(name) {
-    return __dirname + '/trash/' + name;
-}
-
 
 function naturalSortByKey(obj) {
     var sortedObj = {};
@@ -544,11 +401,4 @@ function naturalSort (a, b) {
         if (oFxNcL > oFyNcL) { return 1; }
     }
     return 0;
-}
-function yyyymmdd() {
-    var dateIn = new Date();
-    var yyyy = dateIn.getFullYear();
-    var mm = dateIn.getMonth()+1   ;
-    var dd  = dateIn.getDate()< 10 ? '0' + dateIn.getDate() : dateIn.getDate();
-    return String(yyyy +"-" +  mm + "-" +dd);
 }

@@ -11,7 +11,7 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
     var subName  = $routeParams.subName;
     var fileName = $routeParams.fileName;
 
-    $scope.setDocStat(dirName, subName, fileName, $scope.docs[dirName][subName][fileName].stat.birthtime, $scope.docs[dirName][subName][fileName].stat.mtime);
+    $scope.setDocStat(dirName, subName, fileName, $scope.docs[dirName][subName][fileName].btime, $scope.docs[dirName][subName][fileName].mtime);
 
     $scope.originDirName  = dirName;
     $scope.originSubName  = subName;
@@ -19,7 +19,7 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
 
     $scope.inputDir    = dirName;
     $scope.inputSub    = subName;
-    $scope.inputName   = fileName.substr(0, fileName.length -3);
+    $scope.inputName   = fileName;
     $scope.makeDirName = null;
     $scope.makeSubName = null;
 
@@ -75,7 +75,7 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
         },
         onload: function() {
             $http.get('/article' + url).then(function (response) {
-                $scope.editor.insertValue(response.data);
+                $scope.editor.insertValue(response.data.fileData);
             });
 
             var keyMap = {
@@ -136,7 +136,7 @@ AdunDocs.controller('editCtrl', ['$scope', '$http', '$routeParams', '$location',
                 {
                     $scope.$parent.save = true;
                     $scope.getList(function() {
-                        $location.url($scope.inputDir +'/' + $scope.inputSub + '/' + $scope.inputName + '.md?check=1');
+                        $location.url($scope.inputDir +'/' + $scope.inputSub + '/' + $scope.inputName + '?check=1');
                     });
                 } else { alert(result.msg); }
             });

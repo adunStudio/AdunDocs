@@ -74,6 +74,6 @@
 ._mobile ._sidebar-footer {
     z-index: 100;
 }
-#main li {
+#main li, #main ul, #main p {
     white-space: pre;
 }

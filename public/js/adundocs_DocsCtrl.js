@@ -64,9 +64,7 @@ AdunDocs.controller('DocsCtrl', ['$scope', '$http', '$routeParams','$location', 
 
             $scope.docs = article.docs;
             $scope.dirTree = article.dirTree;
-            console.log($scope.docs);
             $scope.fileTree = article.fileTree;
-            console.log($scope.fileTree);
             if( typeof fn === 'function') {
                 fn();
             }

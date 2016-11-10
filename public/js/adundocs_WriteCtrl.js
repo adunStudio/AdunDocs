@@ -129,7 +129,7 @@ AdunDocs.controller('writeCtrl', ['$scope', '$http', '$routeParams', '$location'
                 {
                     $scope.$parent.save = true;
                     $scope.getList(function() {
-                        $location.url($scope.inputDir +'/' + $scope.inputSub + '/' + $scope.inputName + '.md?check=1');
+                        $location.url($scope.inputDir +'/' + $scope.inputSub + '/' + $scope.inputName + '?check=1');
                     });
 
                 } else { alert(result.msg); }

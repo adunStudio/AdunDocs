@@ -18,7 +18,7 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
 
     $scope.$watch('docStat.fileName', function() {
         if( !$scope.docStat.fileName ) {return;}
-        $scope.changeName = $scope.docStat.fileName.substr(0, $scope.docStat.fileName.length - 3);
+        $scope.changeName = $scope.docStat.fileName;
 
     });
 
@@ -107,7 +107,7 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
 
 
     $('#changeNameModal,#trashModal,#changePostName,#trashPostModal').on('hide.bs.modal', function () {
-        $scope.changeName = $scope.docStat.fileName.substr(0, $scope.docStat.fileName.length - 3);
+        $scope.changeName = $scope.docStat.fileName;
         $scope.trashName  = null;
         $scope.changePostName = null;
         $scope.trashPostName = null;
@@ -176,7 +176,7 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
 
 
     $scope.trash = function() {
-        if( $scope.trashForm.$valid && $scope.fileName == $scope.trashName ) {
+        if( $scope.trashForm.$valid && $scope.docStat.fileName == $scope.trashName ) {
             $http({
                 method  : 'POST',
                 url     : '/article/delete',
