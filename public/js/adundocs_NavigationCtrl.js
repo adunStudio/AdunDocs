@@ -320,12 +320,16 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
             }
         }
     });
-    Mousetrap.bind(['ctrl+up', 'r'], function() {
+    Mousetrap.bind(['ctrl+up', 'r'], function(e) {
+        e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+
         $scope.$content.stop().animate({
             scrollTop: $scope.$content.scrollTop() - 130
         }, 'fast');
     });
-    Mousetrap.bind(['ctrl+down' , 'f'], function() {
+    Mousetrap.bind(['ctrl+down' , 'f'], function(e) {
+        e.preventDefault() ? e.preventDefault() : e.returnValue = false;
+
         $scope.$content.stop().animate({
             scrollTop: $scope.$content.scrollTop() + 130
         }, 'fast');
@@ -382,7 +386,7 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
     });
     Mousetrap.bind('ctrl+4', function(e) {
         e.preventDefault() ? e.preventDefault() : e.returnValue = false;
-        $location.path('/tips');
+        $location.path('ㄹ/tips');
         if (!$rootScope.$$phase) $rootScope.$apply();
     });
     Mousetrap.bind('ctrl+5', function(e) {
