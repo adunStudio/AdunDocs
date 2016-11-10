@@ -485,22 +485,20 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
 
 
     $scope.historyBack = function() {
-        var arr, prevUrl = '/';
+        var arr, prevUrl;
 
         if( $scope.historyB.length > 1) {
             arr = $scope.historyB.splice(-2);
             prevUrl = arr[0];
             $scope.historyF.push(arr[1]);
+            $location.path(prevUrl);
+
+            if (!$rootScope.$$phase) $rootScope.$apply();
         }
-
-        $location.path(prevUrl);
-
-        if (!$rootScope.$$phase) $rootScope.$apply();
     };
 
     $scope.$on('$routeChangeSuccess', function() {
         $scope.historyB.push($location.$$path);
-
     });
 
     $scope.$on('beforeunload', function() {
