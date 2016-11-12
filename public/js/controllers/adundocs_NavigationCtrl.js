@@ -3,7 +3,6 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
 
     $scope.$changeNameModal = $('#changeNameModal');
     $scope.$trashModal      = $('#trashModal');
-    $scope.$changePostNameModal = $('#changePostNameModal');
     $scope.$trashPostModal      = $('#trashPostModal');
 
     $scope.nameRegExp = /^[^\\/:^\*\?"<>\|]+$/;
@@ -14,7 +13,6 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
     $scope.trashName   = "";
     $scope.changeName  = "";
     $scope.tranhPostName ="";
-    $scope.changePostName ="";
 
     $scope.$watch('docStat.fileName', function() {
         if( !$scope.docStat.fileName ) {return;}
@@ -125,16 +123,11 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
                 case 'trash':
                     $scope.$trashPostModal.modal();
                     break;
-                case 'name':
-                    $scope.$changePostNameModal.modal();
-                    break;
             }
         },
         items: {
             "edit": {name: "Edit", icon: "fa-edit"},
             "sep1": "---------",
-            "name": {name: 'Name', icon: "fa-tags"},
-            "sep2": "---------",
             "trash": {name: "Trash", icon: "fa-trash"},
             "sep3": "---------",
             "quit": {name: "Quit", icon: "fa-times"}
@@ -202,36 +195,6 @@ AdunDocs.controller('navigationCtrl', ['$rootScope', '$scope', '$http', '$routeP
             });
         } else {
             $scope.$trashModal.effect('shake');
-        }
-    };
-
-    $scope.reNamePost = function() {
-        if( $scope.changePostNameForm.$valid ) {
-            $http({
-                method  : 'POST',
-                url     : '/tistory/rename',
-                data    : {
-                    postid: $scope.blogStat.postid,
-                    title: $scope.changePostName
-                },
-                headers : {'Content-Type': 'application/json'}
-            }).then(function(response) {
-                var result = response.data;
-                if( result )
-                {
-                    $scope.$changePostNameModal.modal('hide');
-                    $scope.setBlog(function() {
-                        $location.url('blog/' + $scope.blogStat.dirCategory +'/' + $scope.blogStat.subCategory + '/' + $scope.changePostName + '?check=1');
-                    });
-                }
-                else
-                {
-                    alert('수정 실패');
-                }
-            });
-
-        } else {
-            $scope.$changePostNameModal.effect('shake');
         }
     };
 

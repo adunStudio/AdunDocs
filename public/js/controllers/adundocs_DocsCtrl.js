@@ -23,6 +23,11 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
         btime: '',
         mtime: ''
     };
+    $scope.tistoryNAME ="adunstudio@daum.net";
+    $scope.tistoryADDR ="http://adunstudio.tistory.com/api";
+    $scope.tistoryID   ="2441858";
+    $scope.tistoryKEY  ="U2FV5P2Q";
+    $scope.addrPattern = /^http:/;
     $scope.blogName = $cookies.get('blogName') || 'Blog';
     $scope.blogCategory = null;
     $scope.blogStat = {
@@ -376,15 +381,21 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
 
     // 블로그 카테고리 가져온 후 -> set
     $scope.getBlogCategory = function(fn) {
-        $http({
+        $.ajax({
             method  : 'POST',
-            url     : '/tistory/category',
-            headers : {'Content-Type': 'application/json'}
-        }).then(function(response) {
-            var result = response.data;
-            if( result.result )
+            url     : 'http://www.oppacoding.com/adundocs',
+            dataType: 'json',
+            data    : {
+                name: $scope.tistoryNAME,
+                addr: $scope.tistoryADDR,
+                id  : $scope.tistoryID,
+                key : $scope.tistoryKEY,
+                method: 'metaWeblog.getCategories'
+            }
+        }).done(function(response) {
+            if( response.result && response.data )
             {
-                var data = result.data;
+                var data = response.data;
                 var categorys = {};
                 var name = '';
                 angular.forEach(data, function(category) {
@@ -416,15 +427,21 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
 
     // 블로그 최신글 가져온 후 -> set
     $scope.getPosts = function(fn) {
-        $http({
+        $.ajax({
             method  : 'POST',
-            url     : '/tistory/recentposts',
-            headers : {'Content-Type': 'application/json'}
-        }).then(function(response) {
-            var result = response.data;
-            if( result.result )
+            url     : 'http://www.oppacoding.com/adundocs',
+            dataType: 'json',
+            data    : {
+                name: $scope.tistoryNAME,
+                addr: $scope.tistoryADDR,
+                id  : $scope.tistoryID,
+                key : $scope.tistoryKEY,
+                method: 'metaWeblog.getRecentPosts'
+            }
+        }).done(function(response) {
+            if( response.result && response.data )
             {
-                var data = result.data;
+                var data = response.data;
                 var categoryName = '';
                 angular.forEach(data, function(post) {
                     categoryName = post.categories[0];
@@ -454,9 +471,14 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                 if(typeof fn == 'function') {
                     fn();
                 }
+                if (!$rootScope.$$phase) $rootScope.$apply();
+
             }
         });
     };
+
+
+
 
     if($scope.blogName !== 'Blog') {
         $scope.setBlog();

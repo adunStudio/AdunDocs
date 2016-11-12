@@ -2,34 +2,32 @@
 AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', function blogCtrl($scope, $cookies, $http, $location) {
     $scope.setDocStat();
 
-    $scope.tistoryNAME ="";
-    $scope.tistoryADDR ="";
-    $scope.tistoryID   ="";
-    $scope.tistoryKEY  ="";
-    $scope.addrPattern = /^http:/;
+
 
     $scope.tistoryLogin = function() {
         if( $scope.tistoryForm.$valid ) {
-            $http({
+            $.ajax({
                 method  : 'POST',
-                url     : '/tistory/login',
+                url     : 'http://www.oppacoding.com/adundocs',
+                dataType: 'json',
                 data    : {
-                    tistoryNAME: $scope.tistoryNAME,
-                    tistoryADDR: $scope.tistoryADDR,
-                    tistoryID  : $scope.tistoryID,
-                    tistoryKEY : $scope.tistoryKEY
+                    name: $scope.tistoryNAME,
+                    addr: $scope.tistoryADDR,
+                    id  : $scope.tistoryID,
+                    key : $scope.tistoryKEY,
+                    method: 'blogger.getUsersBlogs'
                 },
-                headers : {'Content-Type': 'application/json'}
-            }).then(function(response) {
-                var result = response.data;
-                if( result.result )
+            }).done(function(response) {
+                if( response.result && response.data )
                 {
-                    var data = result.data;
+                    var data = response.data[0];
                     $cookies.put('blogName', data.blogName);
+                    $cookies.put('blog_addr', $scope.tistoryADDR);
+                    $cookies.put('blog_id',   $scope.tistoryID);
+                    $cookies.put('blog_name', $scope.tistoryNAME);
+                    $cookies.put('blog_key',  $scope.tistoryKEY);
                     $scope.setBlogName(data.blogName);
                     $scope.setBlog();
-
-
                 }
                 else {
                     alert('로그인 실패');

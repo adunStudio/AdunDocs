@@ -1,6 +1,6 @@
 var converter = converter || new showdown.Converter();
 
-AdunDocs.controller('BlogViewCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$location', function BlogViewCtrl($scope, $http, $routeParams, $timeout, $location) {
+AdunDocs.controller('BlogViewCtrl', ['$rootScope', '$scope', '$http', '$routeParams', '$timeout', '$location', function BlogViewCtrl($rootScope, $scope, $http, $routeParams, $timeout, $location) {
     if( !$scope.blogReady)
     {
         $location.url('/');
@@ -16,13 +16,23 @@ AdunDocs.controller('BlogViewCtrl', ['$scope', '$http', '$routeParams', '$timeou
 
     var postid  = $scope.blogCategory[blogDirCategoryName][blogSubCategoryName][blogTitle]['postid'];
 
-    $http.post('/tistory/post/' + postid).then(function (response) {
-
-        var result = response.data;
-
-        if( result.result )
+    $.ajax({
+        method  : 'POST',
+        url     : 'http://www.oppacoding.com/adundocs',
+        dataType: 'json',
+        data    : {
+            postid: postid,
+            name: $scope.tistoryNAME,
+            addr: $scope.tistoryADDR,
+            id  : $scope.tistoryID,
+            key : $scope.tistoryKEY,
+            method: 'metaWeblog.getPost'
+        }
+    }).done(function(response) {
+        if( response.result && response.data )
         {
-            var data = result.data;
+            var data = response.data;
+            console.dir(data);
             $('#main').html(data.description);
 
             $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, blogDirCategoryName, blogSubCategoryName, data.title, postid);
@@ -30,6 +40,8 @@ AdunDocs.controller('BlogViewCtrl', ['$scope', '$http', '$routeParams', '$timeou
             $('img').on('error', function() {
                 $(this).attr('src', "/img/tistory_404.png");
             });
+
+            if (!$rootScope.$$phase) $rootScope.$apply();
         }
     });
 

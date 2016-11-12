@@ -47,7 +47,7 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
             previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
             imageUpload    : true,
             imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
-            imageUploadURL : "/tistory/media",
+            imageUploadURL : "http://www.oppacoding.com/adundocs/media",
             onfullscreen : function() {
                 $scope.$container.css('z-index', '100');
             },
@@ -94,10 +94,15 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
         console.dir(file);
         data = new FormData();
         data.append("editormd-image-file", file);
+
+            data.append('name', $scope.tistoryNAME);
+            data.append('addr', $scope.tistoryADDR);
+            data.append('id',   $scope.tistoryID);
+            data.append('key',  $scope.tistoryKEY);
         $.ajax({
             data: data,
             type: "POST",
-            url: "/tistory/media",
+            url: "http://www.oppacoding.com/adundocs/media",
             cache: false,
             contentType: false,
             processData: false,
@@ -117,30 +122,41 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
 
        if( $scope.blogWriteForm.$valid && contents)
        {
-           $http({
+
+           $.ajax({
                method  : 'POST',
-               url     : '/tistory/write',
+               url     : 'http://www.oppacoding.com/adundocs',
+               dataType: 'json',
                data    : {
+                   name: $scope.tistoryNAME,
+                   addr: $scope.tistoryADDR,
+                   id  : $scope.tistoryID,
+                   key : $scope.tistoryKEY,
                    dirCategory: $scope.inputDirCategory,
                    subCategory: $scope.inputSubCategory,
                    title: $scope.inputTitle,
-                   contents: contents
-               },
-               headers : {'Content-Type': 'application/json'}
-           }).then(function(response) {
-               var result = response.data;
-               if( result )
-               {
-                   $scope.$parent.save = true;
-                   $scope.setBlog(function() {
-                       $location.url('blog/' + $scope.inputDirCategory +'/' + $scope.inputSubCategory + '/' + $scope.inputTitle + '?check=1');
-                   });
+                   contents: contents,
+                   method: 'metaWeblog.newPost'
                }
-               else
-               {
-                   alert('글쓰기 실패');
+           }).done(function(response) {
+               if (response.result) {
+                   var result = response.data;
+                   if( result )
+                   {
+                       $scope.$parent.save = true;
+                       $scope.setBlog(function() {
+                           $location.url('blog/' + $scope.inputDirCategory +'/' + $scope.inputSubCategory + '/' + $scope.inputTitle + '?check=1');
+                       });
+                   }
+                   else
+                   {
+                       alert('글쓰기 실패');
+                   }
+
                }
+
            });
+
        }
        else
        {

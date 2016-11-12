@@ -282,35 +282,6 @@
         </div>
         <!-- trash Modal -->
 
-        <!-- changePostName Modal -->
-        <div id="changePostNameModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Change Name</h4>
-                    </div>
-                    <div class="modal-body">
-                        <label for="changeName">
-                            <i class="fa fa-folder" aria-hidden="true"></i> Name
-                        </label>
-                        <form name="changePostNameForm">
-                            <input ng-model="changePostName" ng-required="true" ng-pattern="nameRegExp" type="text"  name="changePostName" id="changePostName" class="form-control" maxlength="50">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <div ng-messages="changePostNameForm.changePostName.$error" class="pull-left text-danger" style="font-weight: bold" role="alert">
-                            <p ng-message="required"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 파일 이름을 적어주세요.</p>
-                            <p ng-message="pattern"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> \ / : * ? " < > | 같은 문자를 사용할 수 없습니다. </p>
-                        </div>
-                        <button ng-click="reNamePost()" type="button" class="btn btn-primary">Change</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- changePostName Modal -->
-
         <!-- trashPost Modal -->
         <div id="trashPostModal" class="modal fade" role="dialog">
             <div class="modal-dialog">

@@ -1,6 +1,6 @@
 var converter = converter || new showdown.Converter();
 
-AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$location', function blogEditCtrl($scope, $http, $routeParams, $timeout, $location) {
+AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routeParams', '$timeout', '$location', function blogEditCtrl($rootScope, $scope, $http, $routeParams, $timeout, $location) {
     if( !$scope.blogReady)
     {
         $scope.$parent.save = true;
@@ -26,6 +26,8 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
         $scope.inputSubCategory = Object.keys($scope.blogCategory[$scope.inputDirCategory])[0];
 
     };
+
+
     $scope.mode = ($scope.htmlMode == true ? "HTML" : "MarkDown");
     var editor = null;
 
@@ -102,10 +104,15 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
         console.dir(file);
         data = new FormData();
         data.append("editormd-image-file", file);
+
+        data.append('name', $scope.tistoryNAME);
+        data.append('addr', $scope.tistoryADDR);
+        data.append('id',   $scope.tistoryID);
+        data.append('key',  $scope.tistoryKEY);
         $.ajax({
             data: data,
             type: "POST",
-            url: "/tistory/media",
+            url: "http://www.oppacoding.com/adundocs/media",
             cache: false,
             contentType: false,
             processData: false,
@@ -124,9 +131,25 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
 
         var result = response.data;
 
-        if( result.result )
+
+    });
+
+    $.ajax({
+        method  : 'POST',
+        url     : 'http://www.oppacoding.com/adundocs',
+        dataType: 'json',
+        data    : {
+            postid: postid,
+            name: $scope.tistoryNAME,
+            addr: $scope.tistoryADDR,
+            id  : $scope.tistoryID,
+            key : $scope.tistoryKEY,
+            method: 'metaWeblog.getPost'
+        }
+    }).done(function(response) {
+        if( response.result )
         {
-            var data = result.data;
+            var data = response.data;
 
             if( !data.categories[0] )
             {
@@ -151,6 +174,8 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
             $scope.inputTitle       = data.title;
 
             $scope.setEditor(data.description);
+            if (!$rootScope.$$phase) $rootScope.$apply();
+
         }
     });
 
@@ -162,31 +187,42 @@ AdunDocs.controller('blogEditCtrl', ['$scope', '$http', '$routeParams', '$timeou
 
         if( $scope.blogEditForm.$valid && contents )
         {
-            $http({
+
+            $.ajax({
                 method  : 'POST',
-                url     : '/tistory/edit',
+                url     : 'http://www.oppacoding.com/adundocs',
+                dataType: 'json',
                 data    : {
                     postid: postid,
+                    name: $scope.tistoryNAME,
+                    addr: $scope.tistoryADDR,
+                    id  : $scope.tistoryID,
+                    key : $scope.tistoryKEY,
                     dirCategory: $scope.inputDirCategory,
                     subCategory: $scope.inputSubCategory,
                     title: $scope.inputTitle,
-                    contents: contents
-                },
-                headers : {'Content-Type': 'application/json'}
-            }).then(function(response) {
-                var result = response.data;
-                if( result )
-                {
-                    $scope.$parent.save = true;
-                    $scope.setBlog(function() {
-                        $location.url('blog/' + $scope.inputDirCategory +'/' + $scope.inputSubCategory + '/' + $scope.inputTitle + '?check=1');
-                    });
+                    contents: contents,
+                    method: 'metaWeblog.editPost'
                 }
-                else
-                {
-                    alert('수정 실패');
+            }).done(function(response) {
+                if (response.result) {
+                    var result = response.data;
+                    if( result )
+                    {
+                        $scope.$parent.save = true;
+                        $scope.setBlog(function() {
+                            $location.url('blog/' + $scope.inputDirCategory +'/' + $scope.inputSubCategory + '/' + $scope.inputTitle + '?check=1');
+                        });
+                    }
+                    else
+                    {
+                        alert('수정 실패');
+                    }
+
                 }
+
             });
+
         }
         else
         {
