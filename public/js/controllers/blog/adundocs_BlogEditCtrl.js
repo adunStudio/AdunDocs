@@ -50,7 +50,7 @@ AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routePar
                 editorTheme : ($scope.editorTheme != "default") ? $scope.editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
                 previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
                 imageUpload    : true,
-                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
+                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG", 'JPG'],
                 imageUploadURL : "/tistory/media",
                 onfullscreen : function() {
                     $scope.$container.css('z-index', '100');
@@ -65,7 +65,33 @@ AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routePar
                 },
                 onload: function() {
                     editor.insertValue(md(description));
-                }
+                },
+                blog: function(file, dialog, loading) {
+                    var data = new FormData();
+                    data.append("editormd-image-file", file);
+                    data.append('name', $scope.tistoryNAME);
+                    data.append('addr', $scope.tistoryADDR);
+                    data.append('id',   $scope.tistoryID);
+                    data.append('key',  $scope.tistoryKEY);
+                    $.ajax({
+                        data: data,
+                        type: "POST",
+                        url: "http://www.oppacoding.com/adundocs/media",
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        dataType: "json",
+                        success: function(result) {
+                            if(result.success) {
+                                loading(false);
+                                dialog.find("[data-url]").val(result.url);
+                            } else {
+                                alert(result.message);
+                                loading(false);
+                            }
+                        }
+                    });
+                },
             });
 
             $scope.$watch('theme', function() {

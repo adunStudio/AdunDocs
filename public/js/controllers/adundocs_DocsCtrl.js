@@ -23,10 +23,10 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
         btime: '',
         mtime: ''
     };
-    $scope.tistoryNAME ="adunstudio@daum.net";
-    $scope.tistoryADDR ="http://adunstudio.tistory.com/api";
-    $scope.tistoryID   ="2441858";
-    $scope.tistoryKEY  ="U2FV5P2Q";
+    $scope.tistoryNAME = $cookies.get('blog_name');
+    $scope.tistoryADDR = $cookies.get('blog_addr');
+    $scope.tistoryID   = $cookies.get('blog_id');
+    $scope.tistoryKEY  = $cookies.get('blog_key');
     $scope.addrPattern = /^http:/;
     $scope.blogName = $cookies.get('blogName') || 'Blog';
     $scope.blogCategory = null;
@@ -355,6 +355,13 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
         $scope.blogName = name;
     };
 
+    $scope.setBlogInfo = function(addr, id, name, key) {
+        $scope.tistoryADDR = addr;
+        $scope.tistoryID   = id;
+        $scope.tistoryNAME = name;
+        $scope.tistoryKEY  = key;
+    };
+
     $scope.setBlogCategory = function(category) {
         $scope.blogCategory = category;
     };
@@ -362,6 +369,7 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
     $scope.setPost = function(dir, sub, title, post) {
       $scope.blogCategory[dir][sub][title] = post;
     };
+
     $scope.setBlogStat = function(dateCreated , keywords, link, dirCategory, subCategory, title, postid) {
         $scope.blogStat.dateCreated = dateCreated || null;
         $scope.blogStat.mt_keywords = keywords    || null;
@@ -420,6 +428,8 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                 if( typeof fn == 'function') {
                     fn();
                 }
+            } else {
+                alert('카테고리 로드 실패');
             }
         });
     };

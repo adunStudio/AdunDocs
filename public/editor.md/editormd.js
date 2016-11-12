@@ -143,6 +143,8 @@
         onfullscreenExit     : function() {},
         onscroll             : function() {},
         onpreviewscroll      : function() {},
+
+        blog                 : false,
         
         imageUpload          : true,
         imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp", "PNG"],

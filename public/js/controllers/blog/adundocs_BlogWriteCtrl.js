@@ -46,8 +46,9 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
             editorTheme : ($scope.editorTheme != "default") ? $scope.editorTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'base16-dark',
             previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
             imageUpload    : true,
-            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG"],
-            imageUploadURL : "http://www.oppacoding.com/adundocs/media",
+            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG", "JPG"],
+
+            imageUploadURL : "http://www.oppacoding.com/adundocs/media?test=dfdf",
             onfullscreen : function() {
                 $scope.$container.css('z-index', '100');
             },
@@ -58,7 +59,33 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
                 $('img').on('error', function() {
                     $(this).attr('src', "/img/tistory_404.png");
                 });
-            }
+            },
+            blog: function(file, dialog, loading) {
+                var data = new FormData();
+                data.append("editormd-image-file", file);
+                data.append('name', $scope.tistoryNAME);
+                data.append('addr', $scope.tistoryADDR);
+                data.append('id',   $scope.tistoryID);
+                data.append('key',  $scope.tistoryKEY);
+                $.ajax({
+                    data: data,
+                    type: "POST",
+                    url: "http://www.oppacoding.com/adundocs/media",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function(result) {
+                        if(result.success) {
+                            loading(false);
+                            dialog.find("[data-url]").val(result.url);
+                        } else {
+                            alert(result.message);
+                            loading(false);
+                        }
+                    }
+                });
+            },
         });
 
         $scope.$watch('theme', function() {
@@ -91,7 +118,6 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
     }
 
     function sendFile(file) {
-        console.dir(file);
         data = new FormData();
         data.append("editormd-image-file", file);
 

@@ -6,15 +6,19 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
 
     $scope.tistoryLogin = function() {
         if( $scope.tistoryForm.$valid ) {
+            var name = $scope.tistoryNAME;
+            var addr = $scope.tistoryADDR;
+            var id = $scope.tistoryID;
+            var key = $scope.tistoryKEY;
             $.ajax({
                 method  : 'POST',
                 url     : 'http://www.oppacoding.com/adundocs',
                 dataType: 'json',
                 data    : {
-                    name: $scope.tistoryNAME,
-                    addr: $scope.tistoryADDR,
-                    id  : $scope.tistoryID,
-                    key : $scope.tistoryKEY,
+                    name: name,
+                    addr: addr,
+                    id  : id,
+                    key : key,
                     method: 'blogger.getUsersBlogs'
                 },
             }).done(function(response) {
@@ -22,11 +26,12 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
                 {
                     var data = response.data[0];
                     $cookies.put('blogName', data.blogName);
-                    $cookies.put('blog_addr', $scope.tistoryADDR);
-                    $cookies.put('blog_id',   $scope.tistoryID);
-                    $cookies.put('blog_name', $scope.tistoryNAME);
-                    $cookies.put('blog_key',  $scope.tistoryKEY);
+                    $cookies.put('blog_addr', addr);
+                    $cookies.put('blog_id',   id);
+                    $cookies.put('blog_name', name);
+                    $cookies.put('blog_key',  key);
                     $scope.setBlogName(data.blogName);
+                    $scope.setBlogInfo(addr, id, name, key);
                     $scope.setBlog();
                 }
                 else {
@@ -42,12 +47,8 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
         $cookies.remove("blogName");
         $scope.setBlogName('Blog');
         $scope.$parent.blogCategory = null;
-
-        $http({
-            method  : 'GET',
-            url     : '/tistory/logout',
-            headers : {'Content-Type': 'application/json'}
-        });
+        $scope.$parent.tistoryKEY = null;
+        $cookies.remove('blog_key');
     };
 
 }]);

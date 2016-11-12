@@ -145,14 +145,22 @@
                         return false;
 					}
 
+
                     loading(true);
+
+                    if(settings.blog)
+                    {
+
+                        settings.blog(fileInput[0].files[0] , dialog,  loading);
+                        return;
+                    }
 
                     var submitHandler = function() {
 
                         var uploadIframe = document.getElementById(iframeName);
 
                         uploadIframe.onload = function() {
-                            
+
                             loading(false);
 
                             var body = (uploadIframe.contentWindow ? uploadIframe.contentWindow : uploadIframe.contentDocument).document.body;
