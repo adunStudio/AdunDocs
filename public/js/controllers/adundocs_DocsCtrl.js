@@ -27,7 +27,7 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
     $scope.tistoryADDR = $cookies.get('blog_addr');
     $scope.tistoryID   = $cookies.get('blog_id');
     $scope.tistoryKEY  = $cookies.get('blog_key');
-    $scope.addrPattern = /^http:/;
+    $scope.addrPattern = /^https:/;
     $scope.blogName = $cookies.get('blogName') || 'Blog';
     $scope.blogCategory = null;
     $scope.blogStat = {
@@ -391,7 +391,7 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
     $scope.getBlogCategory = function(fn) {
         $.ajax({
             method  : 'POST',
-            url     : 'http://www.oppacoding.com/adundocs',
+            url     : 'http://www.oppacoding.com/adundocs/index.php',
             dataType: 'json',
             data    : {
                 name: $scope.tistoryNAME,
@@ -403,11 +403,12 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
         }).done(function(response) {
             if( response.result && response.data )
             {
+                console.dir(response.data)
                 var data = response.data;
                 var categorys = {};
                 var name = '';
                 angular.forEach(data, function(category) {
-                    name = category.categoryName;
+                    name = category.categoryName || category.description;
                     if( name.indexOf('/') > 0 )
                     {
                         var splitArr = name.split('/');
@@ -439,7 +440,7 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
     $scope.getPosts = function(fn) {
         $.ajax({
             method  : 'POST',
-            url     : 'http://www.oppacoding.com/adundocs',
+            url     : 'http://www.oppacoding.com/adundocs/index.php',
             dataType: 'json',
             data    : {
                 name: $scope.tistoryNAME,
@@ -454,6 +455,7 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                 var data = response.data;
                 var categoryName = '';
                 angular.forEach(data, function(post) {
+                    post.title = post.title.replace(new RegExp('/', 'g'), '.');
                     categoryName = post.categories[0];
                     if( !categoryName )
                     {

@@ -51,7 +51,7 @@ AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routePar
                 previewTheme : $scope.theme == '/css/style_white.css' ? 'default' : 'dark',
                 imageUpload    : true,
                 imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG", 'JPG'],
-                imageUploadURL : "/tistory/media",
+                imageUploadURL : "/tistory/media/index.php",
                 onfullscreen : function() {
                     $scope.$container.css('z-index', '100');
                 },
@@ -76,7 +76,7 @@ AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routePar
                     $.ajax({
                         data: data,
                         type: "POST",
-                        url: "http://www.oppacoding.com/adundocs/media",
+                        url: "http://www.oppacoding.com/adundocs/media/index.php",
                         cache: false,
                         contentType: false,
                         processData: false,
@@ -138,7 +138,7 @@ AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routePar
         $.ajax({
             data: data,
             type: "POST",
-            url: "http://www.oppacoding.com/adundocs/media",
+            url: "http://www.oppacoding.com/adundocs/media/index.php",
             cache: false,
             contentType: false,
             processData: false,
@@ -162,7 +162,7 @@ AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routePar
 
     $.ajax({
         method  : 'POST',
-        url     : 'http://www.oppacoding.com/adundocs',
+        url     : 'http://www.oppacoding.com/adundocs/index.php',
         dataType: 'json',
         data    : {
             postid: postid,
@@ -216,7 +216,7 @@ AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routePar
             $scope.contentShow(false);
             $.ajax({
                 method  : 'POST',
-                url     : 'http://www.oppacoding.com/adundocs',
+                url     : 'http://www.oppacoding.com/adundocs/index.php',
                 dataType: 'json',
                 data    : {
                     postid: postid,

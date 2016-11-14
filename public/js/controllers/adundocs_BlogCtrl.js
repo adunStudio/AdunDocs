@@ -13,7 +13,7 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
             $scope.contentShow(false);
             $.ajax({
                 method  : 'POST',
-                url     : 'http://www.oppacoding.com/adundocs',
+                url     : 'http://www.oppacoding.com/adundocs/index.php',
                 dataType: 'json',
                 data    : {
                     name: name,
@@ -54,7 +54,7 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
         $cookies.remove("blogName");
         $scope.setBlogName('Blog');
         $scope.$parent.blogCategory = null;
-        $scope.$parent.tistoryKEY = null;
+        $scope.$parent.tistoryKEY   = null;
         $cookies.remove('blog_key');
     };
 

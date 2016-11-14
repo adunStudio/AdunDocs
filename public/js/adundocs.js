@@ -7,6 +7,7 @@ AdunDocs.config(['$interpolateProvider', function($interpolateProvider) {
     $interpolateProvider.endSymbol(']]');
 }]);
 
+
 AdunDocs.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/',        {templateUrl: 'views/intro.html'})

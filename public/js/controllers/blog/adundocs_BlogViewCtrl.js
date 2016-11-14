@@ -18,7 +18,7 @@ AdunDocs.controller('BlogViewCtrl', ['$rootScope', '$scope', '$http', '$routePar
 
     $.ajax({
         method  : 'POST',
-        url     : 'http://www.oppacoding.com/adundocs',
+        url     : 'http://www.oppacoding.com/adundocs/index.php',
         dataType: 'json',
         data    : {
             postid: postid,
@@ -33,7 +33,9 @@ AdunDocs.controller('BlogViewCtrl', ['$rootScope', '$scope', '$http', '$routePar
         {
             var data = response.data;
             console.dir(data);
-            $('#main').html(data.description);
+            $('#main').html(data.description).find('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
 
             $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, blogDirCategoryName, blogSubCategoryName, data.title, postid);
 

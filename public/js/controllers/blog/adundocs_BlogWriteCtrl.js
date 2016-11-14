@@ -48,7 +48,6 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
             imageUpload    : true,
             imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "PNG", "JPG"],
 
-            imageUploadURL : "http://www.oppacoding.com/adundocs/media?test=dfdf",
             onfullscreen : function() {
                 $scope.$container.css('z-index', '100');
             },
@@ -70,7 +69,7 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
                 $.ajax({
                     data: data,
                     type: "POST",
-                    url: "http://www.oppacoding.com/adundocs/media",
+                    url: "http://www.oppacoding.com/adundocs/media/index.php",
                     cache: false,
                     contentType: false,
                     processData: false,
@@ -128,7 +127,7 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
         $.ajax({
             data: data,
             type: "POST",
-            url: "http://www.oppacoding.com/adundocs/media",
+            url: "http://www.oppacoding.com/adundocs/media/index.php",
             cache: false,
             contentType: false,
             processData: false,
@@ -152,7 +151,7 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
 
            $.ajax({
                method  : 'POST',
-               url     : 'http://www.oppacoding.com/adundocs',
+               url     : 'http://www.oppacoding.com/adundocs/index.php',
                dataType: 'json',
                data    : {
                    name: $scope.tistoryNAME,

@@ -12,7 +12,9 @@ AdunDocs.controller('viewCtrl', ['$scope', '$http', '$routeParams', '$timeout', 
 
         var html = markdown = converter.makeHtml(response.data.fileData);
 
-       $('#main').html(html);
+       $('#main').html(html).find('pre code').each(function(i, block) {
+           hljs.highlightBlock(block);
+       });
     });
 
     $scope.setDocStat(dirName, subName, fileName, $scope.docs[dirName][subName][fileName].btime, $scope.docs[dirName][subName][fileName].mtime);
