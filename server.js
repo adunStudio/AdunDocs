@@ -9,7 +9,7 @@ var handlebars = require('express-handlebars').create({
 });
 var cookieParser = require('cookie-parser');
 
-
+//app.all('*', require('./express-force-domain')('http://www.adundocs.xyz') );
 app.set('views', __dirname + '/public/');
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -18,9 +18,6 @@ app.use(cookieParser());
 
 // API
 require("./server/api")(app);
-
-// TISTORY
-require("./server/tistory")(app);
 
 app.get('/', function(req, res) {
     var theme = req.cookies.theme || '/css/style_black.css';

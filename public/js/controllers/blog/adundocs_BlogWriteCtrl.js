@@ -148,6 +148,7 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
 
        if( $scope.blogWriteForm.$valid && contents)
        {
+           $scope.contentShow(false);
 
            $.ajax({
                method  : 'POST',
@@ -172,16 +173,21 @@ AdunDocs.controller('BlogWriteCtrl', ['$scope', '$http', '$routeParams', '$timeo
                        $scope.$parent.save = true;
                        $scope.setBlog(function() {
                            $location.url('blog/' + $scope.inputDirCategory +'/' + $scope.inputSubCategory + '/' + $scope.inputTitle + '?check=1');
+                           $scope.contentShow(true);
                        });
                    }
                    else
                    {
                        alert('글쓰기 실패');
+                       $scope.contentShow(true);
                    }
 
                }
 
-           });
+           }).fail(function() {
+               alert('에러 발생 다시 시도해주세요.');
+               $scope.contentShow(true);
+           })
 
        }
        else

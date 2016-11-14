@@ -213,7 +213,7 @@ AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routePar
 
         if( $scope.blogEditForm.$valid && contents )
         {
-
+            $scope.contentShow(false);
             $.ajax({
                 method  : 'POST',
                 url     : 'http://www.oppacoding.com/adundocs',
@@ -238,15 +238,20 @@ AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routePar
                         $scope.$parent.save = true;
                         $scope.setBlog(function() {
                             $location.url('blog/' + $scope.inputDirCategory +'/' + $scope.inputSubCategory + '/' + $scope.inputTitle + '?check=1');
+                            $scope.contentShow(true);
                         });
                     }
                     else
                     {
                         alert('수정 실패');
+                        $scope.contentShow(true);
                     }
 
                 }
 
+            }).fail(function() {
+                alert('에러발생 다시 시도해주세요.');
+                $scope.contentShow(true);
             });
 
         }

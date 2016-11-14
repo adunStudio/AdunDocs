@@ -10,6 +10,7 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
             var addr = $scope.tistoryADDR;
             var id = $scope.tistoryID;
             var key = $scope.tistoryKEY;
+            $scope.contentShow(false);
             $.ajax({
                 method  : 'POST',
                 url     : 'http://www.oppacoding.com/adundocs',
@@ -32,11 +33,17 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
                     $cookies.put('blog_key',  key);
                     $scope.setBlogName(data.blogName);
                     $scope.setBlogInfo(addr, id, name, key);
-                    $scope.setBlog();
+                    $scope.setBlog(function() {
+                        $scope.contentShow(true);
+                    });
                 }
                 else {
                     alert('로그인 실패');
+                    $scope.contentShow(true);
                 }
+            }).fail(function() {
+                alert('에러발생 다시 시도해주세요.');
+                $scope.contentShow(true);
             });
         } else {
             $scope.$body.effect('shake');

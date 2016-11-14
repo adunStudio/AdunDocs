@@ -9,7 +9,7 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
     $scope.$app = $('#app');
     $scope.$body = $('body');
     $scope.$container = $('._container');
-    $scope.$content = $('._content');
+    $scope.$content = $('#content');
     $scope.$save_noti = $('#save_noti');
     $scope.theme = $('#theme').attr('href');
     $scope.editorTheme = $cookies.get('editorTheme') || 'default';
@@ -484,6 +484,8 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                 if (!$rootScope.$$phase) $rootScope.$apply();
 
             }
+        }).fail(function() {
+            $scope.contentShow(true);
         });
     };
 
@@ -547,4 +549,15 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
             $scope.bf = false;
         }
     });
+
+    $scope.contentShow = function(show) {
+        if( show ) {
+            $scope.$content.find('div').fadeIn();
+            $scope.$content.removeClass('_content-loading')
+        }
+        else {
+            $scope.$content.find('div').fadeOut();
+            $scope.$content.addClass('_content-loading');
+        }
+    };
 }]);
