@@ -170,18 +170,17 @@ AdunDocs.controller('blogEditCtrl', ['$rootScope', '$scope', '$http', '$routePar
         if( response.result )
         {
             var data = response.data;
-
-            if( !data.categories[0] )
-            {
-                $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, '분류없음', '분류없음', data.title, postid);
-                $scope.inputDirCategory = '분류없음';
-                $scope.inputSubCategory = '분류없음';
-            }
-            else if($scope.naver )
+            if($scope.naver )
             {
                 $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, data.categories[0], data.categories[0], data.title, postid);
                 $scope.inputDirCategory = data.categories[0];
                 $scope.inputSubCategory = data.categories[0];
+            }
+            else if( !data.categories[0] )
+            {
+                $scope.setBlogStat(data.dateCreated, data.mt_keywords, data.permaLink, '분류없음', '분류없음', data.title, postid);
+                $scope.inputDirCategory = '분류없음';
+                $scope.inputSubCategory = '분류없음';
             }
             else if( data.categories[0].indexOf('/') > 0 )
             {

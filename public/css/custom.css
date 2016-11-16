@@ -75,10 +75,6 @@
     z-index: 100;
 }
 
-#main li, #main p {
-    white-space: pre;
-}
-
 pre {
     padding: 0;
 }

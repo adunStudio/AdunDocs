@@ -14,7 +14,7 @@ AdunDocs.controller('BlogViewCtrl', ['$rootScope', '$scope', '$http', '$routePar
     var blogSubCategoryName  =  $routeParams.subCategoryName;
     var blogTitle            =  $routeParams.title;
 
-    var postid  = $scope.blogCategory[blogDirCategoryName][blogSubCategoryName][blogTitle]['postid'] || $scope.blogCategory['"' + blogDirCategoryName + '"']['"' + blogSubCategoryName + '"'][blogTitle]['postid'];
+    var postid  = $scope.blogCategory[blogDirCategoryName][blogSubCategoryName][blogTitle]['postid'];
 
     $.ajax({
         method  : 'POST',
@@ -32,7 +32,7 @@ AdunDocs.controller('BlogViewCtrl', ['$rootScope', '$scope', '$http', '$routePar
         if( response.result && response.data )
         {
             var data = response.data;
-            console.dir(data);
+
             $('#main').html(data.description).find('pre code').each(function(i, block) {
                 hljs.highlightBlock(block);
             });

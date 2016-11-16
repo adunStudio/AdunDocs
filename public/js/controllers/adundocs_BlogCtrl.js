@@ -25,6 +25,13 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
             }).done(function(response) {
                 if( response.result && response.data )
                 {
+                    if( typeof $scope.tistoryADDR =='string' && $scope.tistoryADDR.indexOf('naver') > 0 )
+                    {
+                        $scope.$parent.naver = true;
+                    } else {
+                        $scope.$parent.naver = false;
+                    }
+
                     var data = response.data[0];
                     $cookies.put('blogName', data.blogName);
                     $cookies.put('blog_addr', addr);

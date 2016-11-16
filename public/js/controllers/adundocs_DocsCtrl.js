@@ -1,6 +1,5 @@
 var converter = converter || new showdown.Converter();
 
-
 AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams','$location', '$cookies', function DocsCtrl($rootScope, $scope, $http, $routeParams, $location, $cookies) {
     moment.locale('ko');
     $scope.historyB = [];
@@ -26,15 +25,12 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
     $scope.naver = false;
     $scope.tistoryNAME = $cookies.get('blog_name');
     $scope.tistoryADDR = $cookies.get('blog_addr');
-    $scope.$watch('tistoryADDR', function() {
-        if( typeof $scope.tistoryADDR =='string' && $scope.tistoryADDR.indexOf('naver') > 0 )
-        {
-            $scope.naver = true;
-        }
-    });
-
     $scope.tistoryID   = $cookies.get('blog_id');
     $scope.tistoryKEY  = $cookies.get('blog_key');
+    if( typeof $scope.tistoryADDR =='string' && $scope.tistoryADDR.indexOf('naver') > 0 )
+    {
+        $scope.naver = true;
+    }
     $scope.addrPattern = /^https:/;
     $scope.blogName = $cookies.get('blogName') || 'Blog';
     $scope.blogCategory = null;
@@ -375,6 +371,8 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
     };
 
     $scope.setPost = function(dir, sub, title, post) {
+        console.log(dir)
+        console.log(sub)
       $scope.blogCategory[dir][sub][title] = post;
     };
 
@@ -411,20 +409,16 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
         }).done(function(response) {
             if( response.result && response.data )
             {
-                console.dir(response.data)
                 var data = response.data;
+                console.dir(data);
                 var categorys = {};
                 var name = '';
                 angular.forEach(data, function(category) {
-                    name = category.categoryName || category.description;
-                    name = name.replace(new RegExp('/', 'g'), '$');
-
+                    name = category.title;
                     if( $scope.naver )
                     {
                         categorys[name] = {};
-                        console.dir(categorys)
                         categorys[name][name] = {};
-
                     }
                     else
                     {
@@ -477,11 +471,10 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                 var categoryName = '';
                 angular.forEach(data, function(post) {
                     categoryName = post.categories[0];
-                    categoryName = categoryName.replace(new RegExp('/', 'g'), '$');
-
-                    post.title = post.title.replace(new RegExp('/', 'g'), '$');
-                    post.title = post.title.replace(new RegExp('[?]', 'g'), '^');
-                    if( !categoryName )
+                    if ( $scope.naver ) {
+                        $scope.setPost(categoryName, categoryName, post.title, post);
+                    }
+                    else if( !categoryName )
                     {
                         if( !$scope.blogCategory['분류없음'] )
                         {
@@ -489,9 +482,6 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                             $scope.blogCategory['분류없음']['분류없음'] = {};
                         }
                         $scope.setPost('분류없음', '분류없음', post.title, post);
-                    }
-                    else if ($scope.naver) {
-                        $scope.setPost(categoryName, categoryName, post.title, post);
                     }
                     else if( categoryName.indexOf('/') > 0 )
                     {
