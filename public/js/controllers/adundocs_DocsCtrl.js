@@ -43,6 +43,7 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
         title       : null,
         postid      : null
     };
+    $scope.blogPost = [];
     $scope.htmlMode = $cookies.get('htmlmode') == 'true' ? true : false;
     $scope.autoMode = $cookies.get('automode') == 'true' ? true : false;
     $scope.settingMode = false;
@@ -371,8 +372,6 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
     };
 
     $scope.setPost = function(dir, sub, title, post) {
-        console.log(dir)
-        console.log(sub)
       $scope.blogCategory[dir][sub][title] = post;
     };
 
@@ -410,7 +409,6 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
             if( response.result && response.data )
             {
                 var data = response.data;
-                console.dir(data);
                 var categorys = {};
                 var name = '';
                 angular.forEach(data, function(category) {
@@ -473,6 +471,8 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                     categoryName = post.categories[0];
                     if ( $scope.naver ) {
                         $scope.setPost(categoryName, categoryName, post.title, post);
+                        post.dirName = categoryName;
+                        post.subName = categoryName
                     }
                     else if( !categoryName )
                     {
@@ -481,12 +481,16 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                             $scope.blogCategory['분류없음'] = {};
                             $scope.blogCategory['분류없음']['분류없음'] = {};
                         }
+                        post.dirName = '분류없음';
+                        post.subName = '분류없음';
                         $scope.setPost('분류없음', '분류없음', post.title, post);
                     }
                     else if( categoryName.indexOf('/') > 0 )
                     {
                         var splitArr = categoryName.split('/');
                         $scope.setPost(splitArr[0], splitArr[1], post.title, post);
+                        post.dirName = splitArr[0];
+                        post.subName = splitArr[1]
                     }
                     else
                     {
@@ -494,13 +498,22 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                             $scope.blogCategory[categoryName]['분류없음'] = {};
                         }
                         $scope.setPost(categoryName, '분류없음', post.title, post);
+                        post.dirName = categoryName;
+                        post.subName = '분류없음';
                     }
+                    $scope.blogPost.push(post);
+
                 });
                 $scope.blogReady = true;
+
                 if(typeof fn == 'function') {
                     fn();
                 }
                 if (!$rootScope.$$phase) $rootScope.$apply();
+
+                $scope.blogPost.sort(function date_sort(a, b) {
+                    return new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime();
+                });
 
             }
         }).fail(function() {

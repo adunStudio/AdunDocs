@@ -61,6 +61,7 @@ AdunDocs.controller('blogCtrl', ['$scope', '$cookies', '$http', '$location', fun
         $cookies.remove("blogName");
         $scope.setBlogName('Blog');
         $scope.$parent.blogCategory = null;
+        $scope.$parent.blogPost = [];
         $scope.$parent.tistoryKEY   = null;
         $cookies.remove('blog_key');
     };

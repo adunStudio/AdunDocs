@@ -6,7 +6,7 @@
     <div ng-show="!blogCategory" id="write_page">
         <p>AdunDocs는 현재 <b>네이버</b>, <b>티스토리</b> 블로그 연동을 지원합니다.</p>
         <p class="_note">
-            <strong>2016-11-16:</strong> 현재 네이버 블로그 연동에 있어 카테고리문제로 인한 약간의 오류가있습니다. 곧 수정하도록 하겠습니다.
+            <strong>Warning:</strong> 티스토리 블로그에서 계정 아이디가 다음 아이디인 경우 @daum.net까지 써야합니다.
         </p>
 
         <form name="tistoryForm">
@@ -36,14 +36,23 @@
             </div>
             <div class="col-sm-6" style="padding: 10px;">
                 <button ng-click="tistoryLogin($event);" type="button" class="btn btn-default">Login</button>
-
             </div>
         </form>
     </div>
     <div ng-show="blogCategory" id="logout_page">
+
+
+        <div class="_news col-sm-8">
+            <h4>[[getLength(blogPost)]] Posts</h4>
+            <div ng-repeat="post in blogPost" class="_news-row" >
+                <span class="_news-date">[[post.dateCreated | date: "yyyy.MM.dd  hh:mm"]]</span>
+                <span class="_news-title">New Post : <a href="#/blog/[[post.dirName]]/[[post.subName]]/[[post.title]]?check=1">[[post.title]]</a></span>
+            </div>
+        </div>
+
         <form name="logoutForm">
 
-            <div class="col-sm-6" style="padding: 10px;">
+            <div class="col-sm-3" style="padding: 10px;">
                 <button ng-click="tistoryLogout($event);" type="button" class="btn btn-default">Logout</button>
             </div>
         </form>
