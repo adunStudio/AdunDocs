@@ -1,13 +1,18 @@
 
 <div class="_static">
 
-    <h2 class="_lined-heading">Tistory</h2>
+    <h2 class="_lined-heading">Blog</h2>
 
     <div ng-show="!blogCategory" id="write_page">
+        <p>AdunDocs는 현재 <b>네이버</b>, <b>티스토리</b> 블로그 연동을 지원합니다.</p>
+        <p class="_note">
+            <strong>2016-11-16:</strong> 현재 네이버 블로그 연동에 있어 카테고리문제로 인한 약간의 오류가있습니다. 곧 수정하도록 하겠습니다.
+        </p>
+
         <form name="tistoryForm">
             <div class="col-sm-5" style="padding: 10px;">
                 <div class="form-group">
-                    <label for="tistoryKey"><span>*</span> Tistory ID</label>
+                    <label for="tistoryKey"><span>*</span> 계정 ID</label>
                     <input ng-model="tistoryNAME" ng-required="true" name="tistoryNAME" placeholder="xyz@daum.net" id="tistoryNAME" type="text" class="form-control" autocomplete="off">
                 </div>
             </div>

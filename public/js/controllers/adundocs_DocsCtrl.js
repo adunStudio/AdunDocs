@@ -23,8 +23,16 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
         btime: '',
         mtime: ''
     };
+    $scope.naver = false;
     $scope.tistoryNAME = $cookies.get('blog_name');
     $scope.tistoryADDR = $cookies.get('blog_addr');
+    $scope.$watch('tistoryADDR', function() {
+        if( typeof $scope.tistoryADDR =='string' && $scope.tistoryADDR.indexOf('naver') > 0 )
+        {
+            $scope.naver = true;
+        }
+    });
+
     $scope.tistoryID   = $cookies.get('blog_id');
     $scope.tistoryKEY  = $cookies.get('blog_key');
     $scope.addrPattern = /^https:/;
@@ -409,19 +417,32 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                 var name = '';
                 angular.forEach(data, function(category) {
                     name = category.categoryName || category.description;
-                    if( name.indexOf('/') > 0 )
+                    name = name.replace(new RegExp('/', 'g'), '$');
+
+                    if( $scope.naver )
                     {
-                        var splitArr = name.split('/');
-                        if( !categorys[splitArr[0]] ) {
-                            categorys[splitArr[0]] = {};
-                        }
-                        categorys[splitArr[0]][splitArr[1]] = {};
-                    } else
+                        categorys[name] = {};
+                        console.dir(categorys)
+                        categorys[name][name] = {};
+
+                    }
+                    else
                     {
-                        if( !categorys[name] ) {
-                            categorys[name] = {};
+                        if( name.indexOf('/') > 0 )
+                        {
+                            var splitArr = name.split('/');
+                            if( !categorys[splitArr[0]] ) {
+                                categorys[splitArr[0]] = {};
+                            }
+                            categorys[splitArr[0]][splitArr[1]] = {};
+                        } else
+                        {
+                            if( !categorys[name] ) {
+                                categorys[name] = {};
+                            }
                         }
                     }
+
                 });
 
                 $scope.setBlogCategory(categorys);
@@ -455,8 +476,11 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                 var data = response.data;
                 var categoryName = '';
                 angular.forEach(data, function(post) {
-                    post.title = post.title.replace(new RegExp('/', 'g'), '.');
                     categoryName = post.categories[0];
+                    categoryName = categoryName.replace(new RegExp('/', 'g'), '$');
+
+                    post.title = post.title.replace(new RegExp('/', 'g'), '$');
+                    post.title = post.title.replace(new RegExp('[?]', 'g'), '^');
                     if( !categoryName )
                     {
                         if( !$scope.blogCategory['분류없음'] )
@@ -465,6 +489,9 @@ AdunDocs.controller('DocsCtrl', ['$rootScope', '$scope', '$http', '$routeParams'
                             $scope.blogCategory['분류없음']['분류없음'] = {};
                         }
                         $scope.setPost('분류없음', '분류없음', post.title, post);
+                    }
+                    else if ($scope.naver) {
+                        $scope.setPost(categoryName, categoryName, post.title, post);
                     }
                     else if( categoryName.indexOf('/') > 0 )
                     {

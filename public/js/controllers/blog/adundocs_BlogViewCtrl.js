@@ -14,7 +14,7 @@ AdunDocs.controller('BlogViewCtrl', ['$rootScope', '$scope', '$http', '$routePar
     var blogSubCategoryName  =  $routeParams.subCategoryName;
     var blogTitle            =  $routeParams.title;
 
-    var postid  = $scope.blogCategory[blogDirCategoryName][blogSubCategoryName][blogTitle]['postid'];
+    var postid  = $scope.blogCategory[blogDirCategoryName][blogSubCategoryName][blogTitle]['postid'] || $scope.blogCategory['"' + blogDirCategoryName + '"']['"' + blogSubCategoryName + '"'][blogTitle]['postid'];
 
     $.ajax({
         method  : 'POST',

@@ -710,8 +710,8 @@ body {
     overflow: auto;
     font: normal 1em/1.7 "Open Sans", Helvetica, Arial, sans-serif;
     color: #333;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-text-size-adjust: 100%;
