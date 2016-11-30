@@ -1,15 +1,65 @@
-## AdunDocs
+# AdunDocs
 
-![](http://oppacoding.com/img/modify.JPG)
-![](http://oppacoding.com/img/b.png)
+![](http://adundocs.xyz/upload/1480492899adundocslogo.png)
 
-AdunDocs는 에버노트를 대신하며, 티스토리와 연동할 수 있게 만들어지고 있습니다.
+**AdunDocs** : 블로그연동과 마크다운을 지원하며, DB가 필요 없는 오픈형 문서 노트  
 
-1.  이 App은 DB 필요 없이 쉽게 서비스 가능합니다.
-2.  [electron.js](http://electron.atom.io/)를 사용할 경우 서버도 필요없습니다.
-3.  **Tistory 블로그**와 연동 준비중에 있습니다.
-4.  글 쓰기시 [MarkDown](https://namu.wiki/w/%EB%A7%88%ED%81%AC%EB%8B%A4%EC%9A%B4) 문법을 지원 합니다.
-5.  AdunDocs는 자유롭게 사용 가능하고 [오픈 소스](https://github.com/adunStudio/AdunDocs)입니다.
-6.  만약 이 App이 마음에 드신다면, [AdunDocs](https://github.com/adunStudio/AdunDocs)에 기여해주시기 바랍니다. 감사합니다!
+Live demo: <http://adundocs.xyz>
 
-즐거운 코딩 하세요!
+### Features
+
+1. 복잡한 DB 설정이 필요없습니다.
+    - 모든 파일은 로컬 DB에 저장됩니다.(nedb)
+    - 그러므로 복잡한 DB세팅이 필요 없습니다.
+
+2. MarkDown을 지원합니다.
+    - Markdown은 HTML로 변환이 가능한 경량화된 마크업 언어입니다.
+    - 이를 이용해서 쉽게 문서들을 편집할 수 있습니다.
+    - 물론 HTML에디터도 사용 가능합니다.
+  
+3. 블로그와 연동 가능합니다.
+    - AdunDocs에서는 블로그의 포스트를 편집할 수 있습니다.
+    - MarkDown 문법을 이용한 편집기능도 제공합니다.
+  
+- 지원하는 블로그  
+
+|  Blog | Features   |
+| ------------ | ------------ |
+|Tistory   |getUsersBlogs, getRecentPosts, getCategories, getPost, editPost, newPost, deletePost, newMediaObject   |
+|  Naver | getUsersBlogs, getRecentPosts, getCategories, getPost, editPost, newPost, deletePost, newMediaObject  |
+
+------------
+![](http://adundocs.xyz/upload/1480492062adundocs.PNG)
+![](http://adundocs.xyz/upload/1480491977adundocs2.PNG)
+![](http://adundocs.xyz/upload/1480491990adundocs3.PNG)
+
+
+### getting started
+```
+https://github.com/adunStudio/AdunDocs.git
+npm install
+make js file --> adundocs/server/secret.js
+```
+
+```
+// secret.js
+module.exports = {
+    pattern     : '123',
+
+    admin       : 'string',
+
+    cookieSecret: 'string'
+};
+```
+
+```
+node server.js
+```
+
+
+
+### License
+
+The GPLv2 License.
+
+Copyright (c) 2016 AdunStudio
