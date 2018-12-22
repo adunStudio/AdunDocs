@@ -4,7 +4,7 @@
 
 **AdunDocs** : 블로그연동과 마크다운을 지원하며, DB가 필요 없는 오픈형 문서 노트  
 
-Live demo: <http://adundocs.xyz>
+Live demo: <http://oppacoding.dothome.co.kr/docs>
 
 ### Features
 
